@@ -9,4 +9,25 @@
  */
 
 
+///Constructores
+
+
+/**
+ * Constructor de DBController.
+ */
+DBController::DBController() {
+
+}
+
+
+///Metodos
+
+
+//-
+
+
+///Getters & Setters
+
+
+//-
 
