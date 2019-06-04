@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ruben/Desktop/Proyectos Git/MyInvincibleLibrary-MetaDataDB/DBController.cpp
+DBController.h
+/home/ruben/Desktop/Proyectos Git/MyInvincibleLibrary-MetaDataDB/DBController.h
+
+/home/ruben/Desktop/Proyectos Git/MyInvincibleLibrary-MetaDataDB/DBController.h
+
+/home/ruben/Desktop/Proyectos Git/MyInvincibleLibrary-MetaDataDB/main.cpp
+iostream
+-
+

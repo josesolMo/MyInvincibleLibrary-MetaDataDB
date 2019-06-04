@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/MyInvincibleLibrary-MetaDataDB.dir/main.cpp.o CMakeFiles/MyInvincibleLibrary-MetaDataDB.dir/DBController.cpp.o  -o MyInvincibleLibrary-MetaDataDB 
