@@ -20,6 +20,7 @@ public:
     int getSize();
     DBNode* getLast();
     void insertLast(string _data);
+    void reinsert(int index, string _data);
     string recorrer(int indice);
     string sacar(int indice);
     void swap(string *xp, string *yp);

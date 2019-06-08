@@ -36,7 +36,7 @@ void DataBase::addGalery(string _galeryName){
  * @param _size
  * @param _description
  */
-void DataBase::addMetadata(string _galeryName, string _imgId, string _imgName,string _autor, string _year,
+void DataBase::addMetadata(string _galeryName, string _imgId, string _imgName,string _author, string _year,
                            string _size, string _description) {
     bool galeryexist=0;
     bool imagexist=0;
@@ -54,7 +54,7 @@ void DataBase::addMetadata(string _galeryName, string _imgId, string _imgName,st
             }
             if (not imagexist) {
                 imagen *img = new imagen(_imgId);
-                img->setMetadata(_imgName, _autor, _year, _size, _description);
+                img->setMetadata(_imgName, _author, _year, _size, _description);
                 g->insertFirst(img);
                 cout<<"Metadata has been added successfully!"<<endl;
             }
@@ -115,4 +115,20 @@ void DataBase::deleteMetadata(string _galeryName, string _imgId) {
     cout<<"Error: The gallery "<<_galeryName<<" doesn't exist"<<endl;
 }
 
-void DataBase::modifyMetadata(string _galeryName, string _imgId, string _metadataId, string _data) {}
+void DataBase::modifyMetadata(string _galeryName, string _imgId, string _metadataId, string _data) {
+    for (Galery *g:galeries){
+        if (g->getName()==_galeryName){
+            for(int i=0; i<g->getSize();i++) {
+                //cout << g->recorrer(i)->getId() << endl;
+                if (g->recorrer(i)->getId() == _imgId) {
+                    g->recorrer(i)->setMetadata(_metadataId,_data);
+                    cout<<"The metadata "<<_metadataId<<" has been modified successfully!"<<endl;
+                    return;
+                }
+            }
+            cout<<"Error: The metadata for the image "<<_imgId<<" doesn't exist"<<endl;
+            return;
+        }
+    }
+    cout<<"Error: The gallery "<<_galeryName<<" doesn't exist"<<endl;
+}

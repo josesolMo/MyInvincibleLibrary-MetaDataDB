@@ -87,6 +87,15 @@ void DBList::insertLast(string _data) {
     }
 }
 
+void DBList::reinsert(int index, string _data) {
+    DBNode *current = getPointerHead();
+    while(index>0){
+        current = current->get_nxtPtr();
+        index--;
+    }
+    current->set_data(_data);
+}
+
 void DBList::swap(string *xp, string *yp)
 {
     string temp = *xp;

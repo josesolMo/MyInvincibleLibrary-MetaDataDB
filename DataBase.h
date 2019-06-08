@@ -21,7 +21,7 @@ public:
     void addGalery(string _galeryName);
 
     void addMetadata(string _galeryName, string _imgId, string _imgName,
-                                                        string _autor,
+                                                        string _author,
                                                         string _year,
                                                         string _size,
                                                         string _description);
