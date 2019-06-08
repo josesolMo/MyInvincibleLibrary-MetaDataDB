@@ -17,8 +17,11 @@ class User {
 
 public:
     User();
-    User(string id, string password);
-    void addGalery(string name);
+    User(string _id, string _password);
+    void addGalery(string _name);
+    vector<Galery>* getGalery();
+    string getId();
+    string getPassword();
 
 private:
     string id;

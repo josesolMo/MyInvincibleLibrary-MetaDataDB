@@ -15,9 +15,9 @@ class imagen {
 public:
     imagen();
     imagen(string _id);
-    void setMetadata(int index, string data);
-    string* getId();
-    string* getMetadata(int index);
+    void setMetadata(string data1, string data2, string data3, string data4, string data5);
+    string getId();
+    string getMetadata(int index);
 
 private:
     string id;

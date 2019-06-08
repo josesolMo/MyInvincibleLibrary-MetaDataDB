@@ -16,12 +16,12 @@ public:
 
     DBNode* getPointerHead();
     void setPointerHead(DBNode* head);
-    void insertFirst(string *gladiador);
+    void insertFirst(string _data);
     int getSize();
     DBNode* getLast();
-    void insertLast(string *gladiador);
-    string* recorrer(int indice);
-    string* sacar(int indice);
+    void insertLast(string _data);
+    string recorrer(int indice);
+    string sacar(int indice);
     void swap(string *xp, string *yp);
     void bubbleSort();
     void vaciar();

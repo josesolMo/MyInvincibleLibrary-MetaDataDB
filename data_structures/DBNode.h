@@ -13,13 +13,13 @@ class DBNode {
 
 public:
     DBNode();
-    DBNode(DBNode* _nxtPtr, string* _data);
-    void set_data(string* _data);
+    DBNode(DBNode* _nxtPtr, string _data);
+    void set_data(string _data);
     void set_nxtNd(DBNode* node);
-    string* get_data();
+    string get_data();
     DBNode* get_nxtPtr();
 private:
-    string* data;
+    string data;
     DBNode* nxtPtr;
 };
 

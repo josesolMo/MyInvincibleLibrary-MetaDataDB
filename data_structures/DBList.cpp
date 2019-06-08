@@ -12,8 +12,8 @@ DBNode* DBList::getPointerHead() {
 void DBList::setPointerHead(DBNode* head) {
     pointerHead = head;
 }
-void DBList::insertFirst(string* data) {
-    DBNode* pointeraux = new DBNode(pointerHead, data);
+void DBList::insertFirst(string _data) {
+    DBNode* pointeraux = new DBNode(pointerHead, _data);
     setPointerHead(pointeraux);
 }
 
@@ -27,7 +27,7 @@ int DBList::getSize() {
     return c;
 }
 
-string* DBList::recorrer(int indice){
+string DBList::recorrer(int indice){
     DBNode *current = getPointerHead();
     while(indice>0){
         current = current->get_nxtPtr();
@@ -36,8 +36,8 @@ string* DBList::recorrer(int indice){
     return current->get_data();
 }
 
-string* DBList::sacar(int indice){
-    string* res;
+string DBList::sacar(int indice){
+    string res;
     DBNode *current = getPointerHead();
     if (indice==0){
         current = current->get_nxtPtr();
@@ -73,8 +73,8 @@ DBNode* DBList::getLast() {
     return current;
 }
 
-void DBList::insertLast(string* gladiador) {
-    DBNode* aux = new DBNode(nullptr, gladiador);
+void DBList::insertLast(string _data) {
+    DBNode* aux = new DBNode(nullptr, _data);
     if(pointerHead==nullptr){
         setPointerHead(aux);
     }
