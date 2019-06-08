@@ -22,4 +22,6 @@ string imagen::getId() {
     return id;
 }
 
-string imagen::getMetadata(int index) {}
+DBList imagen::getMetadata() {
+    return metadata;
+}
