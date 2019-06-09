@@ -20,6 +20,8 @@ public:
 
     void addGalery(string _galeryName);
 
+    void addImage(string _galeryName, string _imgId);
+
     void addMetadata(string _galeryName, string _imgId, string _imgName,
                                                         string _author,
                                                         string _year,
