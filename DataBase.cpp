@@ -262,7 +262,7 @@ void DataBase::updateBackup() {
     fputs(updatebuff, file);
 }
 
-void DataBase::addGallery(string _galleryName) {
+bool DataBase::addGallery(string _galleryName) {
     FILE *fp;
 
     char readbuff[20000];
@@ -300,7 +300,7 @@ void DataBase::addGallery(string _galleryName) {
 
         if(evaluar==_galleryName){
             cerr<<"Error: The gallery "<<_galleryName<<" already exists"<<endl;
-            return;
+            return 0;
         }
     }
 
@@ -326,10 +326,10 @@ void DataBase::addGallery(string _galleryName) {
     fclose(fp);
 
     cout<<"The gallery has created successfully!"<<endl;
-    return;
+    return 1;
 }
 
-void DataBase::addImage(string _galleryName, string _imgId) {
+bool DataBase::addImage(string _galleryName, string _imgId) {
     FILE *fp;
 
     char readbuff[20000];
@@ -393,7 +393,7 @@ void DataBase::addImage(string _galleryName, string _imgId) {
 
                 if (evaluarImg==_imgId) {
                     cerr<<"Error: The image "<<_imgId<<" already exists"<<endl;
-                    return;
+                    return 0;
                 }
             }
 
@@ -434,13 +434,25 @@ void DataBase::addImage(string _galleryName, string _imgId) {
 
             cout<<"The image "<<_imgId<<" been added successfully!"<<endl;
 
-            return;
+            return 1;
 
         }
     }
     cerr<<"Error: The gallery "<<_galleryName<<" doesn't exist"<<endl;
+
+    return 0;
 }
 
+/**
+ * Metodo para agragar metadata a una imagen especifica en una galeria especifica
+ * @param _galeryName
+ * @param _imgId
+ * @param _imgName
+ * @param _autor
+ * @param _year
+ * @param _size
+ * @param _description
+ * */
 void DataBase::addMetadata(string _galleryName, string _imgId, string _imgName,string _author, int _year,
                            string _size, string _description) {
     FILE *fp;
@@ -750,22 +762,3 @@ void DataBase::modifyMetadata(string _galleryName, string _imgId, string _metada
     cerr << "Error: The gallery " << _galleryName << " doesn't exist" << endl;
 }
 
-
-
-    /*
-    for (Galery *g:galeries){
-        if (g->getName()==_galleryName){
-            for(int i=0; i<g->getSize();i++) {
-                //cout << g->recorrer(i)->getId() << endl;
-                if (g->recorrer(i)->getId() == _imgId) {
-                    g->recorrer(i)->setMetadata(_metadataId,_data);
-                    cout<<"The metadata "<<_metadataId<<" has been modified successfully!"<<endl;
-                    return;
-                }
-            }
-            cout<<"Error: The metadata for the image "<<_imgId<<" doesn't exist"<<endl;
-            return;
-        }
-    }
-    cout<<"Error: The gallery "<<_galleryName<<" doesn't exist"<<endl;
-    */

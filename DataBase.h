@@ -20,8 +20,8 @@ class DataBase {
 public:
     DataBase();
 
-    void addGallery(string _galleryName);
-    void addImage(string _galleryName, string _imgId);
+    bool addGallery(string _galleryName);
+    bool addImage(string _galleryName, string _imgId);
 
     void addMetadata(string _galleryName, string _imgId, string _imgName,
                                                         string _author,
