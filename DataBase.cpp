@@ -139,3 +139,105 @@ void DataBase::modifyMetadata(string _galeryName, string _imgId, string _metadat
     }
     cout<<"Error: The gallery "<<_galeryName<<" doesn't exist"<<endl;
 }
+
+void DataBase::readJson(){
+    FILE *fp;
+
+    char readbuff[20000];
+
+    struct json_object *parsed_json;
+    struct json_object *galleries;
+    struct json_object *gallery;
+    struct json_object *gallery_name;
+    struct json_object *images;
+    struct json_object *image;
+    struct json_object *image_filename;
+    struct json_object *image_name;
+    struct json_object *image_author;
+    struct json_object *image_year;
+    struct json_object *image_size;
+    struct json_object *image_desc;
+
+    struct json_object *test;
+
+    int n_galleries;
+    int n_images;
+
+    fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json","r");
+
+    fread(readbuff, 20000, 1, fp);
+
+    fclose(fp);
+
+    parsed_json = json_tokener_parse(readbuff);
+
+
+    ////////////////////////////////////////////////////////////
+    ///PRUEBA de correcta ejecucion
+    json_object_object_get_ex(parsed_json, "PRUEBA", &test);
+
+    cout<<json_object_get_string(test)<<endl;
+    ////////////////////////////////////////////////////////////
+
+
+    ///Ingresa a las GALERIAS
+    json_object_object_get_ex(parsed_json, "GALLERIES", &galleries);
+
+    ///Elige una GALERIA para evaluar
+    gallery = json_object_array_get_idx(galleries,0);
+
+    ///Obtiene NOMBRE de la GALERIA
+    json_object_object_get_ex(gallery, "NAME", &gallery_name);
+
+    ///Obtiene lista de IMAGENES
+    json_object_object_get_ex(gallery, "IMAGES", &images);
+
+    ///Elige una IMAGEN para evaluar
+    image = json_object_array_get_idx(images, 1);
+
+    ///Obtiene los elementos de la METADATA
+    json_object_object_get_ex(image, "FILENAME", &image_filename);
+    json_object_object_get_ex(image, "NAME", &image_name);
+    json_object_object_get_ex(image, "AUTHOR", &image_author);
+    json_object_object_get_ex(image, "YEAR", &image_year);
+    json_object_object_get_ex(image, "SIZE", &image_size);
+    json_object_object_get_ex(image, "DESCRIPTION", &image_desc);
+
+    ///Obtiene la cantidad de GALERIAS
+    n_galleries = json_object_array_length(galleries);
+    ///Obtiene la cantidad de IMAGENES
+    n_images = json_object_array_length(images);
+
+    cout<<"Cantidad de galerias: "<<n_galleries<<endl;
+    cout<<"Cantidad de imagenes: "<<n_images<<endl;
+
+    cout<<"Nombre de la galeria: "<<json_object_get_string(gallery_name)<<endl;
+
+    cout<<"Nombre del archivo: "<<json_object_get_string(image_filename)<<endl;
+    cout<<"Nombre de la imagen: "<<json_object_get_string(image_name)<<endl;
+    cout<<"Nombre del autor: "<<json_object_get_string(image_author)<<endl;
+    cout<<"Ano de la imagen: "<<json_object_get_string(image_year)<<endl;
+    cout<<"Tamano de la imagen: "<<json_object_get_string(image_size)<<endl;
+    cout<<"Descripcion de la imagen: "<<json_object_get_string(image_desc)<<endl;
+
+}
+
+void DataBase::writeJson(){
+    char buffer[20000];
+    FILE *file;
+    file = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json", "w");
+    if(file!=NULL){
+        cout<<"Se va a escribir"<<endl;
+
+        json_object *jobj = json_object_new_object();
+
+        json_object *jstring = json_object_new_string("fotocasa");
+
+        json_object_object_add(jobj,"imagen", jstring);
+
+
+        strcpy(buffer, json_object_to_json_string(jobj));
+
+        fputs(buffer,file);
+    }
+}

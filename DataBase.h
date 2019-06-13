@@ -9,6 +9,8 @@
 #include "data_structures/DBList.h"
 #include "data_structures/imagen.h"
 #include "User.h"
+#include <json-c/json.h>
+#include <string.h>
 #include <iostream>
 
 using namespace std;
@@ -31,6 +33,8 @@ public:
     DBList consultMetadata(string _galeryName, string _imgId);
     void deleteMetadata(string _galeryName, string _imgId);
     void modifyMetadata(string _galeryName, string _imgId, string _metadataId, string _data);
+    void readJson();
+    void writeJson();
 
     Galery* getGalery();
     vector<Galery>* getGaleries();

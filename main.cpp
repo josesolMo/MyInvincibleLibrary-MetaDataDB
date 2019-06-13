@@ -2,10 +2,39 @@
 // Created by jose on 05/06/19.
 //
 
+#include <iostream>
 #include "DataBase.h"
+#include <fstream>
+#include "json-c/json.h"
+#include <string.h>
+
+
+void writeJson(){
+    char buffer[1024];
+    FILE *file;
+    file = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json", "w");
+    if(file!=NULL){
+        cout<<"Se va a escribir"<<endl;
+
+        json_object *jobj = json_object_new_object();
+
+        json_object *jstring = json_object_new_string("fotocasa");
+
+        json_object_object_add(jobj,"imagen", jstring);
+
+
+        strcpy(buffer, json_object_to_json_string(jobj));
+
+        fputs(buffer,file);
+    }
+}
+
 
 int main(){
+
     DataBase *db1 = new DataBase();
+    db1->readJson();
+    /*
     db1->addGalery("Viajes");
 
     db1->addImage("Viajes","DMCI1290193");
@@ -32,4 +61,9 @@ int main(){
 
     //db1->consultMetadata("Viajes", "DMCI1290193");
     return 0;
+     */
+
+    //writeJson();
 }
+
+
