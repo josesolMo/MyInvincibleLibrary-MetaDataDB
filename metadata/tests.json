@@ -1,1 +1,47 @@
-{}
+{
+  "PRUEBA": "test",
+  "GALLERIES": [
+    {
+      "NAME": "Mi galeria gay",
+      "IMAGES": [
+        {
+          "FILENAME": "DCMI123",
+          "NAME": "fotocasas",
+          "AUTHOR": "Ruben",
+          "YEAR": 2018,
+          "SIZE": "1200x780",
+          "DESCRIPTION": "Foto de casas"
+        },
+        {
+          "FILENAME": "DCMI456",
+          "NAME": "fotohoteles",
+          "AUTHOR": "Jose",
+          "YEAR": 2019,
+          "SIZE": "1200x780",
+          "DESCRIPTION": "Foto de hoteles"
+        }
+      ]
+    },
+    {
+      "NAME": "Mi galeria linda",
+      "IMAGES": [
+        {
+          "FILENAME": "DCMI789",
+          "NAME": "fotoperritos",
+          "AUTHOR": "Edgar",
+          "YEAR": 2017,
+          "SIZE": "1200x780",
+          "DESCRIPTION": "Fotos de perritos"
+        },
+        {
+          "FILENAME": "DCMI321",
+          "NAME": "fotogatitos",
+          "AUTHOR": "Andrey",
+          "YEAR": 2016,
+          "SIZE": "1200x780",
+          "DESCRIPTION": "Foto de gatitos"
+        }
+      ]
+    }
+  ]
+}

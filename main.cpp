@@ -12,7 +12,8 @@ int main(){
 
     DataBase *db1 = new DataBase();
     //db1->restartDataBase();
-    db1->updateBackup();
+    //db1->updateBackup();
+    db1->addGallery("Carros");
     /*
     db1->addGalery("Viajes");
 

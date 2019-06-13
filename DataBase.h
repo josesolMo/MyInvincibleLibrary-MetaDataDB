@@ -20,8 +20,6 @@ class DataBase {
 public:
     DataBase();
 
-    void addGalery(string _galeryName);
-
     void addImage(string _galeryName, string _imgId);
 
     void addMetadata(string _galeryName, string _imgId, string _imgName,
@@ -36,6 +34,7 @@ public:
     void readJson();
     void restartDataBase();
     void updateBackup();
+    void addGallery(string _galleryName);
 
     Galery* getGalery();
     vector<Galery>* getGaleries();
