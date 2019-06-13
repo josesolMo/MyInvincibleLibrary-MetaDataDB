@@ -222,22 +222,35 @@ void DataBase::readJson(){
 
 }
 
-void DataBase::writeJson(){
-    char buffer[20000];
+void DataBase::restartDataBase(){
+    char writebuff[1024];
+
     FILE *file;
-    file = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json", "w");
-    if(file!=NULL){
-        cout<<"Se va a escribir"<<endl;
 
-        json_object *jobj = json_object_new_object();
+    file = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata_backup.json", "w");
 
-        json_object *jstring = json_object_new_string("fotocasa");
+    json_object *jobj = json_object_new_object();
+    json_object *jGalleries = json_object_new_array();
 
-        json_object_object_add(jobj,"imagen", jstring);
+    json_object_object_add(jobj,"GALLERIES", jGalleries);
 
+    strcpy(writebuff, json_object_to_json_string(jobj));
 
-        strcpy(buffer, json_object_to_json_string(jobj));
+    fputs(writebuff, file);
+}
 
-        fputs(buffer,file);
-    }
+void DataBase::updateBackup() {
+    char updatebuff[20000];
+
+    FILE *file;
+
+    file = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json", "r");
+
+    fread(updatebuff, 20000, 1, file);
+
+    fclose(file);
+
+    file = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata_backup.json", "w");
+
+    fputs(updatebuff, file);
 }

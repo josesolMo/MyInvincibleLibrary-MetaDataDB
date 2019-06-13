@@ -34,7 +34,8 @@ public:
     void deleteMetadata(string _galeryName, string _imgId);
     void modifyMetadata(string _galeryName, string _imgId, string _metadataId, string _data);
     void readJson();
-    void writeJson();
+    void restartDataBase();
+    void updateBackup();
 
     Galery* getGalery();
     vector<Galery>* getGaleries();
