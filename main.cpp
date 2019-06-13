@@ -13,7 +13,7 @@ int main(){
     DataBase *db1 = new DataBase();
     //db1->restartDataBase();
     //db1->updateBackup();
-    db1->addGallery("Carros");
+    db1->addMetadata("Carros", "DCMI123","Ferrari", "Edgitar", 2010,"1080x720", "Un auto deportivo rojo");
     /*
     db1->addGalery("Viajes");
 

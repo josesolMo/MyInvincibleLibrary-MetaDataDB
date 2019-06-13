@@ -20,25 +20,25 @@ class DataBase {
 public:
     DataBase();
 
-    void addImage(string _galeryName, string _imgId);
+    void addGallery(string _galleryName);
+    void addImage(string _galleryName, string _imgId);
 
-    void addMetadata(string _galeryName, string _imgId, string _imgName,
+    void addMetadata(string _galleryName, string _imgId, string _imgName,
                                                         string _author,
-                                                        string _year,
+                                                        int _year,
                                                         string _size,
                                                         string _description);
 
-    DBList consultMetadata(string _galeryName, string _imgId);
-    void deleteMetadata(string _galeryName, string _imgId);
-    void modifyMetadata(string _galeryName, string _imgId, string _metadataId, string _data);
+    DBList consultMetadata(string _galleryName, string _imgId);
+    void deleteMetadata(string _galleryName, string _imgId);
+    void modifyMetadata(string _galleryName, string _imgId, string _metadataId, string _data);
     void readJson();
     void restartDataBase();
     void updateBackup();
-    void addGallery(string _galleryName);
 
     Galery* getGalery();
     vector<Galery>* getGaleries();
-    imagen getImage(string _galeryName, string _imgId);
+    imagen getImage(string _galleryName, string _imgId);
 
 
 private:

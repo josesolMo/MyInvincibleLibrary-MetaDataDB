@@ -28,6 +28,8 @@ void DataBase::addGalery(string _galeryName){
 }
 */
 
+/*
+
 void DataBase::addImage(string _galeryName, string _imgId) {
     for (Galery *g:galeries){
         if (g->getName()==_galeryName){
@@ -45,7 +47,9 @@ void DataBase::addImage(string _galeryName, string _imgId) {
     }
     cout<<"Error: The gallery "<<_galeryName<<" doesn't exist"<<endl;
 }
+*/
 
+/*
 /**
  * Metodo para agragar metadata a una imagen especifica en una galeria especifica
  * @param _galeryName
@@ -55,7 +59,7 @@ void DataBase::addImage(string _galeryName, string _imgId) {
  * @param _year
  * @param _size
  * @param _description
- */
+
 void DataBase::addMetadata(string _galeryName, string _imgId, string _imgName,string _author, string _year,
                            string _size, string _description) {
     for (Galery *g:galeries){
@@ -75,7 +79,7 @@ void DataBase::addMetadata(string _galeryName, string _imgId, string _imgName,st
     }
     cout<<"Error: The gallery "<<_galeryName<<" doesn't exist"<<endl;
 }
-
+*/
 /**
  * Metodo que permite consultar la metadata de una imagen especifica en una galeria especifica
  * @param _galeryName
@@ -299,28 +303,244 @@ void DataBase::addGallery(string _galleryName) {
             return;
         }
     }
+
+    ///Crea los objetos JSON para agregar una nueva GALERIA
     json_object *jGallery = json_object_new_object();
     json_object *jGalleryName = json_object_new_string(_galleryName.c_str());
     json_object *jImages = json_object_new_array();
 
+    ///Se asignan las KEYS correspondientes
     json_object_object_add(jGallery, "NAME", jGalleryName);
     json_object_object_add(jGallery, "IMAGES", jImages);
 
+    ///Se agrega la nueva GALERIA al arreglo de GALERIAS
     json_object_array_add(galleries,jGallery);
 
-    //json_object_object_add(parsed_json, "GALLERIES", galleries);
-
+    ///Se copia el nuevo contenido en el Buffer de escritura
     strcpy(writebuff, json_object_to_json_string(parsed_json));
 
-    cout<<json_object_to_json_string(parsed_json)<<endl;
+    //cout<<json_object_to_json_string(parsed_json)<<endl;
 
     fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json","w");
-
     fputs(writebuff, fp);
-
     fclose(fp);
 
     cout<<"The gallery has created successfully!"<<endl;
-
     return;
+}
+
+void DataBase::addImage(string _galleryName, string _imgId) {
+    FILE *fp;
+
+    char readbuff[20000];
+    char writebuff[20000];
+
+    struct json_object *parsed_json;
+    struct json_object *galleries;
+    struct  json_object *gallery;
+    struct  json_object *galleryName;
+    struct  json_object *images;
+    struct  json_object *image;
+    struct  json_object *image_filename;
+
+    int n_galleries;
+    int n_images;
+
+    string evaluarGal;
+    string evaluarImg;
+
+    fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json","r");
+
+    fread(readbuff, 20000, 1, fp);
+
+    fclose(fp);
+
+    parsed_json = json_tokener_parse(readbuff);
+
+    ///Ingresa a las GALERIAS
+    json_object_object_get_ex(parsed_json, "GALLERIES", &galleries);
+
+    ///Obtiene la cantidad de GALERIAS
+    n_galleries = json_object_array_length(galleries);
+
+
+    for (int i=0;i<n_galleries;i++){
+
+        ///Elige una GALERIA para evaluar
+        gallery = json_object_array_get_idx(galleries,i);
+        ///Obtiene NOMBRE de la GALERIA
+        json_object_object_get_ex(gallery, "NAME", &galleryName);
+
+        evaluarGal = json_object_get_string(galleryName);
+
+        if (evaluarGal==_galleryName){
+
+
+            json_object_object_get_ex(gallery, "IMAGES", &images);
+
+            ///Obtiene la cantidad de IMAGENES
+            n_images = json_object_array_length(images);
+
+
+            for(int j=0; j<n_images;j++) {
+
+                image = json_object_array_get_idx(images, j);
+
+                json_object_object_get_ex(image, "FILENAME", &image_filename);
+
+                evaluarImg = json_object_get_string(image_filename);
+
+
+                if (evaluarImg==_imgId) {
+                    cerr<<"Error: The image "<<_imgId<<" already exists"<<endl;
+                    return;
+                }
+            }
+
+            ///Crea los objetos JSON para agregar una nueva IMAGEN
+            json_object *jImage = json_object_new_object();
+            json_object *jImageFilename = json_object_new_string(_imgId.c_str());
+            json_object *jImageName = json_object_new_string("NULL");
+            json_object *jImageAuthor= json_object_new_string("NULL");
+            json_object *jImageYear = json_object_new_int(0);
+            json_object *jImageSize = json_object_new_string("NULL");
+            json_object *jImageDescription = json_object_new_string("NULL");
+
+
+            ///Se asignan las KEYS correspondientes
+            json_object_object_add(jImage, "FILENAME", jImageFilename);
+            json_object_object_add(jImage, "NAME", jImageName);
+            json_object_object_add(jImage, "AUTHOR", jImageAuthor);
+            json_object_object_add(jImage, "YEAR", jImageYear);
+            json_object_object_add(jImage, "SIZE", jImageSize);
+            json_object_object_add(jImage, "DESCRIPTION", jImageDescription);
+
+
+            json_object_array_add(images, jImage);
+
+
+            //imagen *img = new imagen(_imgId);
+            //g->insertFirst(img);
+
+
+            ///Se copia el nuevo contenido en el Buffer de escritura
+            strcpy(writebuff, json_object_to_json_string(parsed_json));
+
+            //cout<<json_object_to_json_string(parsed_json)<<endl;
+
+            fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json","w");
+            fputs(writebuff, fp);
+            fclose(fp);
+
+            cout<<"The image "<<_imgId<<" been added successfully!"<<endl;
+
+            return;
+
+        }
+    }
+    cerr<<"Error: The gallery "<<_galleryName<<" doesn't exist"<<endl;
+}
+
+void DataBase::addMetadata(string _galleryName, string _imgId, string _imgName,string _author, int _year,
+                           string _size, string _description) {
+    FILE *fp;
+
+    char readbuff[20000];
+    char writebuff[20000];
+
+    struct json_object *parsed_json;
+    struct json_object *galleries;
+    struct  json_object *gallery;
+    struct  json_object *galleryName;
+    struct  json_object *images;
+    struct  json_object *image;
+    struct  json_object *image_filename;
+
+    int n_galleries;
+    int n_images;
+
+    string evaluarGal;
+    string evaluarImg;
+
+    fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json","r");
+
+    fread(readbuff, 20000, 1, fp);
+
+    fclose(fp);
+
+    parsed_json = json_tokener_parse(readbuff);
+
+    ///Ingresa a las GALERIAS
+    json_object_object_get_ex(parsed_json, "GALLERIES", &galleries);
+
+    ///Obtiene la cantidad de GALERIAS
+    n_galleries = json_object_array_length(galleries);
+
+
+    for (int i=0;i<n_galleries;i++) {
+
+        ///Elige una GALERIA para evaluar
+        gallery = json_object_array_get_idx(galleries, i);
+        ///Obtiene NOMBRE de la GALERIA
+        json_object_object_get_ex(gallery, "NAME", &galleryName);
+
+        evaluarGal = json_object_get_string(galleryName);
+
+        if (evaluarGal == _galleryName) {
+
+
+            json_object_object_get_ex(gallery, "IMAGES", &images);
+
+            ///Obtiene la cantidad de IMAGENES
+            n_images = json_object_array_length(images);
+
+            for(int j=0; j<n_images;j++) {
+
+                image = json_object_array_get_idx(images, j);
+
+                json_object_object_get_ex(image, "FILENAME", &image_filename);
+
+                evaluarImg = json_object_get_string(image_filename);
+
+
+                if (evaluarImg == _imgId) {
+                    //cerr << "Error: The image " << _imgId << " already exists" << endl;
+
+                    ///Crea los objetos JSON para agregar METADATA a una IMAGEN
+                    json_object *jImageName = json_object_new_string(_imgName.c_str());
+                    json_object *jImageAuthor = json_object_new_string(_author.c_str());
+                    json_object *jImageYear = json_object_new_int(_year);
+                    json_object *jImageSize = json_object_new_string(_size.c_str());
+                    json_object *jImageDescription = json_object_new_string(_description.c_str());
+
+
+                    ///Se asignan las KEYS correspondientes
+                    json_object_object_add(image, "NAME", jImageName);
+                    json_object_object_add(image, "AUTHOR", jImageAuthor);
+                    json_object_object_add(image, "YEAR", jImageYear);
+                    json_object_object_add(image, "SIZE", jImageSize);
+                    json_object_object_add(image, "DESCRIPTION", jImageDescription);
+
+
+                    cout << json_object_to_json_string(parsed_json) << endl;
+
+
+                    ///Se copia el nuevo contenido en el Buffer de escritura
+                    strcpy(writebuff, json_object_to_json_string(parsed_json));
+
+                    //cout<<json_object_to_json_string(parsed_json)<<endl;
+
+                    fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json","w");
+                    fputs(writebuff, fp);
+                    fclose(fp);
+
+
+                    return;
+                }
+            }
+            cerr<<"Error: The image "<<_imgId<<" doesn't exist"<<endl;
+            return;
+        }
+    }
+    cerr<<"Error: The gallery "<<_galleryName<<" doesn't exist"<<endl;
 }
