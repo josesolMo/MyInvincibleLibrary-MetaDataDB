@@ -14,6 +14,8 @@ int main(){
     //db1->restartDataBase();
     //db1->updateBackup();
     db1->addMetadata("Carros", "DCMI123","Ferrari", "Edgitar", 2010,"1080x720", "Un auto deportivo rojo");
+    //db1->deleteMetadata("Carros", "DCMI123");
+    db1->modifyMetadata("Carros", "DCMI123","AUTHOR","RubyRuby");
     /*
     db1->addGalery("Viajes");
 
