@@ -37,14 +37,11 @@ public:
     void restartDataBase();
     void updateBackup();
 
-    Galery* getGalery();
-    vector<Galery>* getGaleries();
-    imagen getImage(string _galleryName, string _imgId);
+    vector<string> getColumn(string _galleryName, string _columnId);
 
 
 private:
-    vector<Galery*> galeries;
-    DBList tmpGalery;
+
 
 
 };

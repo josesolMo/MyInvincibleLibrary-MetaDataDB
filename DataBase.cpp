@@ -6,144 +6,7 @@
 
 
 DataBase::DataBase() {}
-/*
-/**
- * Metodo que permite agregar galerias
- * @param _galeryName
 
-void DataBase::addGalery(string _galeryName){
-    bool galeryexist=0;
-    for (Galery *g:galeries){
-        if (g->getName()==_galeryName){
-            cout<<"Error: The gallery "<<_galeryName<<" already exists"<<endl;
-            galeryexist=1;
-            break;
-        }
-    }
-    if (not galeryexist){
-        Galery *galery = new Galery(_galeryName);
-        galeries.push_back(galery);
-        cout<<"The gallery has created successfully!"<<endl;
-    }
-}
-*/
-
-/*
-
-void DataBase::addImage(string _galeryName, string _imgId) {
-    for (Galery *g:galeries){
-        if (g->getName()==_galeryName){
-            for(int i=0; i<g->getSize();i++) {
-                if (g->recorrer(i)->getId()==_imgId) {
-                    cout<<"Error: The image "<<_imgId<<" already exists"<<endl;
-                    return;
-                }
-            }
-            imagen *img = new imagen(_imgId);
-            g->insertFirst(img);
-            cout<<"The image "<<_imgId<<" been added successfully!"<<endl;
-            return;
-        }
-    }
-    cout<<"Error: The gallery "<<_galeryName<<" doesn't exist"<<endl;
-}
-*/
-
-/*
-/**
- * Metodo para agragar metadata a una imagen especifica en una galeria especifica
- * @param _galeryName
- * @param _imgId
- * @param _imgName
- * @param _autor
- * @param _year
- * @param _size
- * @param _description
-
-void DataBase::addMetadata(string _galeryName, string _imgId, string _imgName,string _author, string _year,
-                           string _size, string _description) {
-    for (Galery *g:galeries){
-        if (g->getName()==_galeryName){
-            cout<<g->getSize()<<endl;
-            for(int i=0; i<g->getSize();i++) {
-                cout<<g->recorrer(i)->getId()<<endl;
-                if (g->recorrer(i)->getId()==_imgId) {
-                    g->recorrer(i)->setMetadata(_imgName, _author, _year, _size, _description);
-                    cout<<"Metadata has been added successfully!"<<endl;
-                    return;
-                }
-            }
-            cout<<"Error: The image "<<_imgId<<" doesn't exist"<<endl;
-            return;
-        }
-    }
-    cout<<"Error: The gallery "<<_galeryName<<" doesn't exist"<<endl;
-}
-*/
-///**
-// * Metodo que permite consultar la metadata de una imagen especifica en una galeria especifica
-// * @param _galeryName
-// * @param _imgId
-// * @return
-// */
-//DBList DataBase::consultMetadata(string _galeryName, string _imgId) {
-//    for (Galery *g:galeries){
-//        if (g->getName()==_galeryName){
-//            for(int i=0; i<g->getSize();i++) {
-//                //cout << g->recorrer(i)->getId() << endl;
-//                if (g->recorrer(i)->getId() == _imgId) {
-//                    cout<<g->recorrer(i)->getMetadata().recorrer(0)<<endl;
-//                    cout<<g->recorrer(i)->getMetadata().recorrer(1)<<endl;
-//                    cout<<g->recorrer(i)->getMetadata().recorrer(2)<<endl;
-//                    cout<<g->recorrer(i)->getMetadata().recorrer(3)<<endl;
-//                    cout<<g->recorrer(i)->getMetadata().recorrer(4)<<endl;
-//                    return g->recorrer(i)->getMetadata();
-//                }
-//            }
-//            cout<<"Error: The meta data for the image "<<_imgId<<" doesn't exist"<<endl;
-//            DBList x;
-//
-//            return x;
-//        }
-//    }
-//    cout<<"Error: The gallery "<<_galeryName<<" doesn't exist"<<endl;
-//}
-
-//void DataBase::deleteMetadata(string _galeryName, string _imgId) {
-//    for (Galery *g:galeries){
-//        if (g->getName()==_galeryName){
-//            for(int i=0; i<g->getSize();i++) {
-//                //cout << g->recorrer(i)->getId() << endl;
-//                if (g->recorrer(i)->getId() == _imgId) {
-//                    g->sacar(i);
-//                    cout<<"The metadata has been eliminated successfully!"<<endl;
-//                    return;
-//                }
-//            }
-//            cout<<"Error: The meta data for the image "<<_imgId<<" doesn't exist"<<endl;
-//            return;
-//        }
-//    }
-//    cout<<"Error: The gallery "<<_galeryName<<" doesn't exist"<<endl;
-//}
-
-//void DataBase::modifyMetadata(string _galeryName, string _imgId, string _metadataId, string _data) {
-//    for (Galery *g:galeries){
-//        if (g->getName()==_galeryName){
-//            for(int i=0; i<g->getSize();i++) {
-//                //cout << g->recorrer(i)->getId() << endl;
-//                if (g->recorrer(i)->getId() == _imgId) {
-//                    g->recorrer(i)->setMetadata(_metadataId,_data);
-//                    cout<<"The metadata "<<_metadataId<<" has been modified successfully!"<<endl;
-//                    return;
-//                }
-//            }
-//            cout<<"Error: The metadata for the image "<<_imgId<<" doesn't exist"<<endl;
-//            return;
-//        }
-//    }
-//    cout<<"Error: The gallery "<<_galeryName<<" doesn't exist"<<endl;
-//}
 
 void DataBase::readJson(){
     FILE *fp;
@@ -262,6 +125,11 @@ void DataBase::updateBackup() {
     fputs(updatebuff, file);
 }
 
+
+/**
+ * Metodo que permite agregar galerias
+ * @param _galleryName
+ */
 bool DataBase::addGallery(string _galleryName) {
     FILE *fp;
 
@@ -773,7 +641,6 @@ string DataBase::consultMetadata(string _galleryName, string _imgId, string _met
     FILE *fp;
 
     char readbuff[20000];
-    char writebuff[20000];
 
     struct json_object *parsed_json;
     struct json_object *galleries;
@@ -839,24 +706,6 @@ string DataBase::consultMetadata(string _galleryName, string _imgId, string _met
 
                     return json_object_to_json_string(image_return);
 
-//                    if (_metadataId=="NAME"){
-//
-//
-//
-//                    }else if(_metadataId=="AUTHOR"){
-//                        json_object *jImageAuthor = json_object_new_string(_data.c_str());
-//                        json_object_object_add(image, "AUTHOR", jImageAuthor);
-//                    }else if(_metadataId=="YEAR"){
-//                        json_object *jImageYear = json_object_new_int(stoi(_data));
-//                        json_object_object_add(image, "YEAR", jImageYear);
-//                    }else if(_metadataId=="SIZE"){
-//                        json_object *jImageSize = json_object_new_string(_data.c_str());
-//                        json_object_object_add(image, "SIZE", jImageSize);
-//                    }else if(_metadataId=="DESCRIPTION"){
-//                        json_object *jImageDescription = json_object_new_string(_data.c_str());
-//                        json_object_object_add(image, "DESCRIPTION", jImageDescription);
-//                    }
-
                 }
             }
             cerr << "Error: The image " << _imgId << " doesn't exist" << endl;
@@ -865,4 +714,83 @@ string DataBase::consultMetadata(string _galleryName, string _imgId, string _met
     }
     cerr<<"Error: The gallery "<<_galleryName<<" doesn't exist"<<endl;
     return  "0";
+}
+
+
+vector<string> DataBase::getColumn(string _galleryName, string _columnId) {
+
+    FILE *fp;
+
+    char readbuff[20000];
+
+    struct json_object *parsed_json;
+    struct json_object *galleries;
+    struct  json_object *gallery;
+    struct  json_object *galleryName;
+    struct  json_object *images;
+    struct  json_object *image;
+    struct json_object *image_return;
+
+    int n_galleries;
+    int n_images;
+
+    string evaluarGal;
+    string fila_return;
+
+    vector<string> result;
+
+    fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json","r");
+
+    fread(readbuff, 20000, 1, fp);
+
+    fclose(fp);
+
+    parsed_json = json_tokener_parse(readbuff);
+
+    ///Ingresa a las GALERIAS
+    json_object_object_get_ex(parsed_json, "GALLERIES", &galleries);
+
+    ///Obtiene la cantidad de GALERIAS
+    n_galleries = json_object_array_length(galleries);
+
+
+    for (int i=0;i<n_galleries;i++) {
+
+        ///Elige una GALERIA para evaluar
+        gallery = json_object_array_get_idx(galleries, i);
+        ///Obtiene NOMBRE de la GALERIA
+        json_object_object_get_ex(gallery, "NAME", &galleryName);
+
+        evaluarGal = json_object_get_string(galleryName);
+
+        if (evaluarGal == _galleryName) {
+
+            result.push_back(_columnId);
+
+            json_object_object_get_ex(gallery, "IMAGES", &images);
+
+            ///Obtiene la cantidad de IMAGENES
+            n_images = json_object_array_length(images);
+
+            for (int j = 0; j < n_images; j++) {
+
+                image = json_object_array_get_idx(images, j);
+
+                json_object_object_get_ex(image, _columnId.c_str(), &image_return);
+
+                fila_return = json_object_get_string(image_return);
+
+                result.push_back(fila_return);
+            }
+
+            for(int x = 0; x<result.size();x++){
+                cout<<result[x]<<endl;
+            }
+
+            return result;
+        }
+    }
+    cerr<<"Error: The gallery "<<_galleryName<<" doesn't exist"<<endl;
+    vector<string> error;
+    return  error;
 }

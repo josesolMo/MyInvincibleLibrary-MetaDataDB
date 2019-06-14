@@ -17,6 +17,7 @@ using namespace std;
  * Constructor
  */
 SQLController::SQLController() {
+//    dataBase = new DataBase();
     stringToRead = "";
 }
 
@@ -381,23 +382,23 @@ void SQLController::addToTable(string columna, string value, string imagen)
 {
     if(columna.compare("A") == 0){
         //this->fecha = value;
-        dataBase.modifyMetadata("", imagen, "YEAR", value);
+        //dataBase->modifyMetadata("", imagen, "YEAR", value);
     }
     else if(columna.compare("B") == 0){
         //this->nombre = value;
-        dataBase.modifyMetadata("", imagen, "NAME", value);
+        //dataBase->modifyMetadata("", imagen, "NAME", value);
     }
     else if(columna.compare("C") == 0){
         //this->autor = value;
-        dataBase.modifyMetadata("", imagen, "AUTHOR", value);
+        //dataBase->modifyMetadata("", imagen, "AUTHOR", value);
     }
     else if(columna.compare("D") == 0){
         //this->size = value;
-        dataBase.modifyMetadata("", imagen, "SIZE", value);
+        //dataBase->modifyMetadata("", imagen, "SIZE", value);
     }
     else if(columna.compare("E") == 0){
         //this->descripcion = value;
-        dataBase.modifyMetadata("", imagen, "DESCRIPTION", value);
+        //dataBase->modifyMetadata("", imagen, "DESCRIPTION", value);
     }
 }
 

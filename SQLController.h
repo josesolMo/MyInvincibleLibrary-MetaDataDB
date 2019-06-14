@@ -15,7 +15,7 @@ class SQLController {
 private:
     string stringToRead;
 
-    static DataBase dataBase;
+    static DataBase *dataBase;
 
 public:
     SQLController();

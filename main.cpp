@@ -230,15 +230,20 @@ int runServer() {
 int main(){
 
     dataBase = new DataBase();
-    //runServer();
-    //db1->restartDataBase();
-    //db1->updateBackup();
-    //dataBase->addGallery("Carros");
-    //dataBase->addImage("Carros", "DCMI123");
-    //dataBase->addMetadata("Carros", "DCMI123","Ferrari", "Edgitar", 2010,"1080x720", "Un auto deportivo rojo");
-    //db1->deleteMetadata("Carros", "DCMI123");
-    //db1->modifyMetadata("Carros", "DCMI123","AUTHOR","RubyRuby");
-    dataBase->consultMetadata("Carros", "DCMI123", "NAME");
+//    runServer();
+//    db1->restartDataBase();
+//    db1->updateBackup();
+//    dataBase->addGallery("Carros");
+//    dataBase->addImage("Carros", "DCMI124");
+//    dataBase->addMetadata("Carros", "DCMI124","Toyota", "Ruben", 2011,"20x20", "Un auto feo");
+//
+//    dataBase->addImage("Carros", "DCMI125");
+//    dataBase->addMetadata("Carros", "DCMI125","Lamborgini", "Andrey", 2003,"70x70", "Una mierda");
+//    db1->deleteMetadata("Carros", "DCMI123");
+//    db1->modifyMetadata("Carros", "DCMI123","AUTHOR","RubyRuby");
+//    dataBase->consultMetadata("Carros", "DCMI123", "NAME");
+
+    dataBase->getColumn("Carros", "DESCRIPTION");
 
     return 0;
 }
