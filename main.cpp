@@ -131,21 +131,21 @@ int runServer() {
             ///KEY: NEWGALLERY
             ///Obtiene el nombre de la nueva galeria para verificar si puede ser guardada.
             struct json_object *tempNewGallery;
-            cout<<"NEWGALLERY"<<endl;
+            //cout<<"NEWGALLERY"<<endl;
             json_object *parsed_jsonNewGallery = json_tokener_parse(buff);
             json_object_object_get_ex(parsed_jsonNewGallery, "NEWGALLERY", &tempNewGallery);
 
             ///KEY: NEWIMAGE
             ///Obtiene el nombre de la nueva imagen para verificar si puede ser guardada.
             struct json_object *tempNewImage;
-            cout<<"NEWIMAGE"<<endl;
+            //cout<<"NEWIMAGE"<<endl;
             json_object *parsed_jsonNewImage = json_tokener_parse(buff);
             json_object_object_get_ex(parsed_jsonNewImage, "NEWIMAGE", &tempNewImage);
 
             ///KEY: GALLERY
             ///Obtiene el nombre de la galeria asociada a la direccion que se quiere acceder
             struct json_object *tempGallery;
-            cout<<"GALLERY"<<endl;
+            //cout<<"GALLERY"<<endl;
             json_object *parsed_jsonGallery = json_tokener_parse(buff);
             json_object_object_get_ex(parsed_jsonGallery, "GALLERY", &tempGallery);
 
@@ -230,12 +230,15 @@ int runServer() {
 int main(){
 
     dataBase = new DataBase();
-    runServer();
+    //runServer();
     //db1->restartDataBase();
     //db1->updateBackup();
-    //db1->addMetadata("Carros", "DCMI123","Ferrari", "Edgitar", 2010,"1080x720", "Un auto deportivo rojo");
+    //dataBase->addGallery("Carros");
+    //dataBase->addImage("Carros", "DCMI123");
+    //dataBase->addMetadata("Carros", "DCMI123","Ferrari", "Edgitar", 2010,"1080x720", "Un auto deportivo rojo");
     //db1->deleteMetadata("Carros", "DCMI123");
     //db1->modifyMetadata("Carros", "DCMI123","AUTHOR","RubyRuby");
+    dataBase->consultMetadata("Carros", "DCMI123", "NAME");
 
     return 0;
 }

@@ -29,7 +29,7 @@ public:
                                                         string _size,
                                                         string _description);
 
-    DBList consultMetadata(string _galleryName, string _imgId);
+    string consultMetadata(string _galleryName, string _imgId, string _metadataId);
 
     void deleteMetadata(string _galleryName, string _imgId);
     void modifyMetadata(string _galleryName, string _imgId, string _metadataId, string _data);
