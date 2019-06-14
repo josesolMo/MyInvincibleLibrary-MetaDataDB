@@ -33,8 +33,8 @@ void SQLController::funcionInsert(string comando)
             cout << "Syntax error" << endl;
             return;
         }
-        string galery = subs.substr(0, space);
-        cout << galery << endl;
+        string imagen = subs.substr(0, space);
+        cout << imagen << endl;
         subs = subs.substr(space+1);
         vector <string> order;
         if((subs.substr(0,1)).compare("(") == 0){
@@ -136,7 +136,7 @@ void SQLController::funcionInsert(string comando)
                 }
                 //cout << current << endl;
                 //cout << columns << endl;
-                addToTable(order[c],current);
+                addToTable(order[c],current, imagen);
                 c++;
             }
             //ui->LineaCMD->clear();
@@ -352,22 +352,22 @@ void SQLController::funcionDelete(string comando)
 
 string SQLController::columnaGET(string evaluar)
 {
-    if(evaluar.compare("Fecha") == 0){
+    if(evaluar.compare("YEAR") == 0){
         return "A";
     }
-    else if(evaluar.compare("Nombre") == 0){
+    else if(evaluar.compare("NAME") == 0){
         return "B";
 
     }
-    else if(evaluar.compare("Autor") == 0){
+    else if(evaluar.compare("AUTHOR") == 0){
         return "C";
 
     }
-    else if(evaluar.compare("Tamano") == 0){
+    else if(evaluar.compare("SIZE") == 0){
         return "D";
 
     }
-    else if(evaluar.compare("Descripcion") == 0){
+    else if(evaluar.compare("DESCRIPTION") == 0){
         return "E";
 
     }
@@ -377,22 +377,27 @@ string SQLController::columnaGET(string evaluar)
     }
 }
 
-void SQLController::addToTable(string columna, string value)
+void SQLController::addToTable(string columna, string value, string imagen)
 {
     if(columna.compare("A") == 0){
         //this->fecha = value;
+        dataBase.modifyMetadata("", imagen, "YEAR", value);
     }
     else if(columna.compare("B") == 0){
         //this->nombre = value;
+        dataBase.modifyMetadata("", imagen, "NAME", value);
     }
     else if(columna.compare("C") == 0){
         //this->autor = value;
+        dataBase.modifyMetadata("", imagen, "AUTHOR", value);
     }
     else if(columna.compare("D") == 0){
         //this->size = value;
+        dataBase.modifyMetadata("", imagen, "SIZE", value);
     }
     else if(columna.compare("E") == 0){
         //this->descripcion = value;
+        dataBase.modifyMetadata("", imagen, "DESCRIPTION", value);
     }
 }
 

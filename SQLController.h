@@ -6,6 +6,7 @@
 #define MYINVINCIBLELIBRARY_METADATADB_SQLCONTROLLER_H
 
 #include <string>
+#include "DataBase.h"
 
 using namespace std;
 
@@ -13,6 +14,8 @@ class SQLController {
 
 private:
     string stringToRead;
+
+    static DataBase dataBase;
 
 public:
     SQLController();
@@ -29,7 +32,7 @@ public:
 
     string columnaGET(string evaluar);
 
-    void addToTable(string columna, string value);
+    void addToTable(string columna, string value, string imagen);
 
     void makeFunction(string comando);
 };
