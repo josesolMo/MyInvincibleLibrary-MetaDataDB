@@ -24,12 +24,13 @@ public:
     bool addImage(string _galleryName, string _imgId);
 
     void addMetadata(string _galleryName, string _imgId, string _imgName,
-                                                        string _author,
-                                                        int _year,
-                                                        string _size,
-                                                        string _description);
+                                                         string _author,
+                                                         int _year,
+                                                         string _size,
+                                                         string _description);
 
     string consultMetadata(string _galleryName, string _imgId, string _metadataId);
+
 
     void deleteMetadata(string _galleryName, string _imgId);
     void modifyMetadata(string _galleryName, string _imgId, string _metadataId, string _data);
@@ -39,6 +40,7 @@ public:
 
     vector<string> getColumn(string _galleryName, string _columnId);
 
+    vector<string> getRow(string _galleryName, int index);
 
 private:
 

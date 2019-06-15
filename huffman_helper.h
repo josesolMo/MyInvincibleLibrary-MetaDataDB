@@ -6,6 +6,9 @@
 #define MYINVINCIBLELIBRARY_METADATADB_HUFFMAN_HELPER_H
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
+
+using namespace std;
 
 class huffman_helper {
 
@@ -43,6 +46,8 @@ public:
     struct MinHeap* createAndBuildMinHeap(char data[], int freq[], int size);
 
     struct MinHeapNode* buildHuffmanTree(char data[], int freq[], int size);
+
+    string compress(string _cadena);
 
 
 
