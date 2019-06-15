@@ -274,9 +274,11 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    return;
+                    for(int i=0; i< indices.size(); i++){
+                        matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                    }
+                    return matrix;
                 }
-
                 comand = subs.find("<");
                 if (subs.length() > comand){
                     string column = subs.substr(0, comand);
