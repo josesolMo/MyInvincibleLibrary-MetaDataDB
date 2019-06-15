@@ -1,6 +1,3 @@
-//
-// Created by ruben on 13/06/19.
-//
 
 #include "SQLController.h"
 #include <iostream>
@@ -11,13 +8,19 @@
 #include <vector>
 
 
+/**
+ * Controlador del manejo de la sintaxis SQL.
+ *
+ * @since 13/06/19
+ */
+
 
 using namespace std;
 /**
  * Constructor
  */
 SQLController::SQLController() {
-    stringToRead = "";
+    dataBase = new DataBase();
 }
 
 
@@ -1521,45 +1524,26 @@ void SQLController::addToTable(string columna, string value, string imagen)
 {
     if(columna.compare("A") == 0){
         //this->fecha = value;
-        dataBase.modifyMetadata("", imagen, "YEAR", value);
+        dataBase->modifyMetadata("", imagen, "YEAR", value);
     }
     else if(columna.compare("B") == 0){
         //this->nombre = value;
-        dataBase.modifyMetadata("", imagen, "NAME", value);
+        dataBase->modifyMetadata("", imagen, "NAME", value);
     }
     else if(columna.compare("C") == 0){
         //this->autor = value;
-        dataBase.modifyMetadata("", imagen, "AUTHOR", value);
+        dataBase->modifyMetadata("", imagen, "AUTHOR", value);
     }
     else if(columna.compare("D") == 0){
         //this->size = value;
-        dataBase.modifyMetadata("", imagen, "SIZE", value);
+        dataBase->modifyMetadata("", imagen, "SIZE", value);
     }
     else if(columna.compare("E") == 0){
         //this->descripcion = value;
-        dataBase.modifyMetadata("", imagen, "DESCRIPTION", value);
+        dataBase->modifyMetadata("", imagen, "DESCRIPTION", value);
     }
 }
 
-
-///Getters y Setters
-
-
-/**
- * Getter
- * @return
- */
-string SQLController::getStringToRead() {
-    return stringToRead;
-}
-
-/**
- * Setter
- * @param str
- */
-void SQLController::setStringToRead(string str) {
-    stringToRead = str;
-}
 
 void SQLController::makeFunction(string comando) {
 
@@ -1591,4 +1575,24 @@ void SQLController::makeFunction(string comando) {
         }
     }
 
+}
+
+
+///Getters y Setters
+
+
+/**
+ * Getter de dataBase
+ * @return DataBase
+ */
+DataBase *SQLController::getDataBase() {
+    return dataBase;
+}
+
+/**
+ * Setter de dataBase
+ * @param _dataBase
+ */
+void SQLController::setDataBase(DataBase *_dataBase) {
+    dataBase = _dataBase;
 }
