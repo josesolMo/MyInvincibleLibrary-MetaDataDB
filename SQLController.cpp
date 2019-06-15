@@ -26,8 +26,10 @@ SQLController::SQLController() {
 
 ///Metodos
 
-void SQLController::funcionInsert(string comando)
+vector<vector<string>> SQLController::funcionInsert(string comando)
 {
+    vector<vector<string>> matrix;
+    vector <string> verify;
     string subs = comando.substr(0,5);
     if (subs.compare("INTO ") == 0 ||subs.compare("into ") == 0){
         subs = comando.substr(5);
@@ -35,7 +37,9 @@ void SQLController::funcionInsert(string comando)
         if (subs.length()< space){
             cout << "Syntax error" << endl;
             ///database.sendJSON("CONSOLE","0");
-            return;
+            verify.push_back("0");
+            matrix.push_back(verify);
+            return matrix;
         }
         string imagen = subs.substr(0, space);
         cout << imagen << endl;
@@ -45,7 +49,9 @@ void SQLController::funcionInsert(string comando)
             size_t columnsEnd = subs.find(")");
             if (subs.length()< columnsEnd){
                 cout << "Syntax error" << endl;
-                return;
+                verify.push_back("0");
+                matrix.push_back(verify);
+                return matrix;
             }
             string columns = subs.substr(1, columnsEnd);
             cout << columns << endl;
@@ -75,7 +81,9 @@ void SQLController::funcionInsert(string comando)
                 current = columnaGET(current);
                 if(current.compare("F") == 0){
                     cout << "No existe ese dato en la tabla" << endl;
-                    return;
+                    verify.push_back("0");
+                    matrix.push_back(verify);
+                    return matrix;
                 }
                 else {
                     order.push_back(current);
@@ -98,7 +106,9 @@ void SQLController::funcionInsert(string comando)
         size_t values = subs.find("VALUES ");
         if(values > 2){
             cout << "Syntax error" << endl;
-            return;
+            verify.push_back("0");
+            matrix.push_back(verify);
+            return matrix;
         }
 
         subs = subs.substr(values+7);
@@ -108,7 +118,9 @@ void SQLController::funcionInsert(string comando)
             size_t valuesEnd = subs.find(")");
             if (subs.length()< valuesEnd){
                 cout << "Syntax error" << endl;
-                return;
+                verify.push_back("0");
+                matrix.push_back(verify);
+                return matrix;
             }
             string values = subs.substr(1, valuesEnd);
             cout << values << endl;
@@ -123,7 +135,9 @@ void SQLController::funcionInsert(string comando)
                     int min = order.size()-1;
                     if(c != min){
                         cout << "Faltan valores o sobran" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                 }
                 else {
@@ -144,34 +158,46 @@ void SQLController::funcionInsert(string comando)
                 c++;
             }
             //ui->LineaCMD->clear();
-            return;
+            verify.push_back("1");
+            matrix.push_back(verify);
+            return matrix;
         }
         else {
             cout << "Syntax error" << endl;
-            return;
+            verify.push_back("0");
+            matrix.push_back(verify);
+            return matrix;
         }
     }
     else {
         cout << "Syntax error" << endl;
-        return;
+        verify.push_back("0");
+        matrix.push_back(verify);
+        return matrix;
     }
 }
 
-void SQLController::funcionSelect(string comando)
+vector<vector<string>> SQLController::funcionSelect(string comando)
 {
+    vector<vector<string>> matrix;
+    vector <string> verify;
     string subs = comando;
     cout << subs << endl;
     if (subs[0] == '*'){
         size_t From = subs.find("FROM ");
         if (3 < From){
             cout << "Syntax error" << endl;
-            return;
+            verify.push_back("0");
+            matrix.push_back(verify);
+            return matrix;
         }
         subs = subs.substr(From+5);
         size_t pycoma = subs.find(";");
         if (subs.length()< pycoma){
             cout << "Syntax error" << endl;
-            return;
+            verify.push_back("0");
+            matrix.push_back(verify);
+            return matrix;
         }
         string tabla = subs.substr(0, pycoma);
         cout << tabla << endl;
@@ -183,15 +209,27 @@ void SQLController::funcionSelect(string comando)
         }
         subs = subs.substr(pycoma+1);
         cout << subs << endl;
+        if (dataBase->getColumn(tabla,"NAME")[0].compare("ERROR") == 0){
+            verify.push_back("0");
+            matrix.push_back(verify);
+            return matrix;
+        }
         if(subs.compare("") == 0 || subs.compare(" ") == 0){
             cout << "Imprimir valores de tabla" << endl;
-            return;
+            matrix.push_back(dataBase->getColumn(tabla,"NAME"));
+            matrix.push_back(dataBase->getColumn(tabla,"AUTHOR"));
+            matrix.push_back(dataBase->getColumn(tabla,"YEAR"));
+            matrix.push_back(dataBase->getColumn(tabla,"SIZE"));
+            matrix.push_back(dataBase->getColumn(tabla,"DESCRIPTION"));
+            return matrix;
         }
         else{
             size_t where = subs.find("WHERE ");
             if (2 < where){
                 cout << "Syntax error" << endl;
-                return;
+                verify.push_back("0");
+                matrix.push_back(verify);
+                return matrix;
             }
             subs = subs.substr(where+6);
             if (subs.substr(0,4).compare("NOT ") == 0){
@@ -209,7 +247,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -227,6 +267,13 @@ void SQLController::funcionSelect(string comando)
                         value = value.substr(0, value.length()-1);
                     }
                     cout << value << endl; ///SE OBTIENE EL VALOR A COMPARAR
+                    vector <string> dataToVerify = dataBase->getColumn(tabla,column);
+                    vector <int> indices;
+                    for(int i=1; i< dataToVerify.size(); i++){
+                        if(dataToVerify[i].compare(value) != 0){
+                            indices.push_back(i);
+                        }
+                    }
                     return;
                 }
 
@@ -243,7 +290,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -277,7 +326,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -310,7 +361,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -344,7 +397,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -367,7 +422,9 @@ void SQLController::funcionSelect(string comando)
 
                 else{
                     cout << "Syntax error" << endl;
-                    return;
+                    verify.push_back("0");
+                    matrix.push_back(verify);
+                    return matrix;
                 }
 
             }
@@ -389,7 +446,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     subs = subs.substr(0,pycoma-1);
 
@@ -432,7 +491,9 @@ void SQLController::funcionSelect(string comando)
                     }
                     else{
                         cout << "No hay ningun operador para comparar"<< endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
 
 
@@ -455,7 +516,9 @@ void SQLController::funcionSelect(string comando)
                         size_t valuesEnd = subs.find(")");
                         if (subs.length() < valuesEnd) {
                             cout << "Syntax error" << endl;
-                            return;
+                            verify.push_back("0");
+                            matrix.push_back(verify);
+                            return matrix;
                         }
                         string values = subs.substr(1, valuesEnd);
                         cout << values << endl;
@@ -498,7 +561,9 @@ void SQLController::funcionSelect(string comando)
                     }
                     else {
                         cout << "Syntax error"<< endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                 }
 
@@ -515,7 +580,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -549,7 +616,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -583,7 +652,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -616,7 +687,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -650,7 +723,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -676,14 +751,16 @@ void SQLController::funcionSelect(string comando)
                     string column = subs.substr(0, comand);
                     subs = subs.substr(comand+3);
                     if(subs.compare("NOT NULL;") == 0){
-
+                        return;
                     }
                     else if(subs.compare("NULL;") == 0){
-
+                        return;
                     }
                     else{
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                 }
 
@@ -694,7 +771,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
 
                     string pattern = subs.substr(0, pycoma);
@@ -714,7 +793,9 @@ void SQLController::funcionSelect(string comando)
                     size_t operador = pattern.find("%");
                     if (pattern.length() < operador){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     else{
                         if (pattern[0] == '%') {
@@ -748,7 +829,9 @@ void SQLController::funcionSelect(string comando)
                             }
                             else{
                                 cout << "Patron mal definido" << endl;
-                                return;
+                                verify.push_back("0");
+                                matrix.push_back(verify);
+                                return matrix;
                             }
 
                         }
@@ -782,14 +865,18 @@ void SQLController::funcionSelect(string comando)
                             }
                             else{
                                 cout << "Patron mal definido" << endl;
-                                return;
+                                verify.push_back("0");
+                                matrix.push_back(verify);
+                                return matrix;
                             }
                         }
                     }
                 }
                 else{
                     cout << "Syntax error" << endl;
-                    return;
+                    verify.push_back("0");
+                    matrix.push_back(verify);
+                    return matrix;
                 }
             }
 
@@ -806,7 +893,9 @@ void SQLController::funcionSelect(string comando)
         size_t From = subs.find("FROM ");
         if (3 < From){
             cout << "Syntax error" << endl;
-            return;
+            verify.push_back("0");
+            matrix.push_back(verify);
+            return matrix;
         }
         string columnas = subs.substr(0,From);
         vector <string> columns;
@@ -847,7 +936,9 @@ void SQLController::funcionSelect(string comando)
         size_t pycoma = subs.find(";");
         if (subs.length()< pycoma){
             cout << "Syntax error" << endl;
-            return;
+            verify.push_back("0");
+            matrix.push_back(verify);
+            return matrix;
         }
         string tabla = subs.substr(0, pycoma);
         cout << tabla << endl;
@@ -867,7 +958,9 @@ void SQLController::funcionSelect(string comando)
             size_t where = subs.find("WHERE ");
             if (2 < where){
                 cout << "Syntax error" << endl;
-                return;
+                verify.push_back("0");
+                matrix.push_back(verify);
+                return matrix;
             }
             subs = subs.substr(where+6);
             if (subs.substr(0,4).compare("NOT ") == 0){
@@ -885,7 +978,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -919,7 +1014,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -953,7 +1050,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -986,7 +1085,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -1020,7 +1121,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -1043,7 +1146,9 @@ void SQLController::funcionSelect(string comando)
 
                 else{
                     cout << "Syntax error" << endl;
-                    return;
+                    verify.push_back("0");
+                    matrix.push_back(verify);
+                    return matrix;
                 }
 
             }
@@ -1065,7 +1170,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     subs = subs.substr(0,pycoma-1);
 
@@ -1108,7 +1215,9 @@ void SQLController::funcionSelect(string comando)
                     }
                     else{
                         cout << "No hay ningun operador para comparar"<< endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
 
 
@@ -1131,7 +1240,9 @@ void SQLController::funcionSelect(string comando)
                         size_t valuesEnd = subs.find(")");
                         if (subs.length() < valuesEnd) {
                             cout << "Syntax error" << endl;
-                            return;
+                            verify.push_back("0");
+                            matrix.push_back(verify);
+                            return matrix;
                         }
                         string values = subs.substr(1, valuesEnd);
                         cout << values << endl;
@@ -1174,7 +1285,9 @@ void SQLController::funcionSelect(string comando)
                     }
                     else {
                         cout << "Syntax error"<< endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                 }
 
@@ -1191,7 +1304,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -1225,7 +1340,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -1259,7 +1376,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -1292,7 +1411,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -1326,7 +1447,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     string value = subs.substr(0, pycoma);
                     cout << value << endl;
@@ -1352,14 +1475,16 @@ void SQLController::funcionSelect(string comando)
                     string column = subs.substr(0, comand);
                     subs = subs.substr(comand+3);
                     if(subs.compare("NOT NULL;") == 0){
-
+                        return;
                     }
                     else if(subs.compare("NULL;") == 0){
-
+                        return;
                     }
                     else{
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                 }
 
@@ -1370,7 +1495,9 @@ void SQLController::funcionSelect(string comando)
                     size_t pycoma = subs.find(";");
                     if (subs.length()< pycoma){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
 
                     string pattern = subs.substr(0, pycoma);
@@ -1390,7 +1517,9 @@ void SQLController::funcionSelect(string comando)
                     size_t operador = pattern.find("%");
                     if (pattern.length() < operador){
                         cout << "Syntax error" << endl;
-                        return;
+                        verify.push_back("0");
+                        matrix.push_back(verify);
+                        return matrix;
                     }
                     else{
                         if (pattern[0] == '%') {
@@ -1424,7 +1553,9 @@ void SQLController::funcionSelect(string comando)
                             }
                             else{
                                 cout << "Patron mal definido" << endl;
-                                return;
+                                verify.push_back("0");
+                                matrix.push_back(verify);
+                                return matrix;
                             }
 
                         }
@@ -1458,14 +1589,18 @@ void SQLController::funcionSelect(string comando)
                             }
                             else{
                                 cout << "Patron mal definido" << endl;
-                                return;
+                                verify.push_back("0");
+                                matrix.push_back(verify);
+                                return matrix;
                             }
                         }
                     }
                 }
                 else{
                     cout << "Syntax error" << endl;
-                    return;
+                    verify.push_back("0");
+                    matrix.push_back(verify);
+                    return matrix;
                 }
             }
 
@@ -1477,7 +1612,9 @@ void SQLController::funcionSelect(string comando)
     }
     else {
         cout << "Syntax error" << endl;
-        return;
+        verify.push_back("0");
+        matrix.push_back(verify);
+        return matrix;
     }
 
 }
