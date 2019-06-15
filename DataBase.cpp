@@ -795,3 +795,86 @@ vector<string> DataBase::getColumn(string _galleryName, string _columnId) {
     error.push_back("ERROR");
     return  error;
 }
+
+vector<string> DataBase::getRow(string _galleryName, int index) {
+
+    FILE *fp;
+
+    char readbuff[20000];
+
+    struct json_object *parsed_json;
+    struct json_object *galleries;
+    struct  json_object *gallery;
+    struct  json_object *galleryName;
+    struct  json_object *images;
+    struct  json_object *image;
+    struct json_object *image_return;
+
+    int n_galleries;
+
+    string evaluarGal;
+    string fila_return;
+
+    vector<string> result;
+
+    fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json","r");
+
+    fread(readbuff, 20000, 1, fp);
+
+    fclose(fp);
+
+    parsed_json = json_tokener_parse(readbuff);
+
+    ///Ingresa a las GALERIAS
+    json_object_object_get_ex(parsed_json, "GALLERIES", &galleries);
+
+    ///Obtiene la cantidad de GALERIAS
+    n_galleries = json_object_array_length(galleries);
+
+
+    for (int i=0;i<n_galleries;i++) {
+
+        ///Elige una GALERIA para evaluar
+        gallery = json_object_array_get_idx(galleries, i);
+        ///Obtiene NOMBRE de la GALERIA
+        json_object_object_get_ex(gallery, "NAME", &galleryName);
+
+        evaluarGal = json_object_get_string(galleryName);
+
+        if (evaluarGal == _galleryName) {
+
+            json_object_object_get_ex(gallery, "IMAGES", &images);
+
+            image = json_object_array_get_idx(images, index-1);
+
+
+            json_object_object_get_ex(image, "FILENAME", &image_return);
+            result.push_back(json_object_to_json_string(image_return));
+
+
+            json_object_object_get_ex(image, "NAME", &image_return);
+            result.push_back(json_object_to_json_string(image_return));
+
+
+            json_object_object_get_ex(image, "AUTHOR", &image_return);
+            result.push_back(json_object_to_json_string(image_return));
+
+
+            json_object_object_get_ex(image, "YEAR", &image_return);
+            result.push_back(json_object_to_json_string(image_return));
+
+
+            json_object_object_get_ex(image, "SIZE", &image_return);
+            result.push_back(json_object_to_json_string(image_return));
+
+
+            json_object_object_get_ex(image, "DESCRIPTION", &image_return);
+            result.push_back(json_object_to_json_string(image_return));
+            
+
+            return result;
+        }
+    }
+    vector<string> error;
+    return error;
+}

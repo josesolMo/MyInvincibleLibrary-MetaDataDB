@@ -2,6 +2,7 @@
 // Created by jose on 14/06/19.
 //
 
+#include <vector>
 #include "huffman_helper.h"
 
 
@@ -287,4 +288,13 @@ void huffman_helper::HuffmanCodes(char data[], int freq[], int size)
     int arr[MAX_TREE_HT], top = 0;
 
     printCodes(root, arr, top);
+}
+
+string huffman_helper::compress(string _cadena) {
+
+    vector<char> characters;
+
+    vector<int> frecuencias;
+
+    return "";
 }
