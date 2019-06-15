@@ -8,19 +8,26 @@
 #include <string>
 #include "DataBase.h"
 
+
+/**
+ * Header de SQLController
+ *
+ * @since 13/06/19
+ */
+
+
 using namespace std;
 
 class SQLController {
 
 private:
-    string stringToRead;
+    DataBase *dataBase;
 
-    static DataBase *dataBase;
 
 public:
+
     SQLController();
-    string getStringToRead();
-    void setStringToRead(string str);
+
 
     void funcionInsert(string comando);
 
@@ -35,9 +42,12 @@ public:
     void addToTable(string columna, string value, string imagen);
 
     void makeFunction(string comando);
+
+    ///Getters & Setters
+    DataBase* getDataBase();
+    void setDataBase(DataBase* _dataBase);
+
 };
-
-
 
 
 #endif //MYINVINCIBLELIBRARY_METADATADB_SQLCONTROLLER_H
