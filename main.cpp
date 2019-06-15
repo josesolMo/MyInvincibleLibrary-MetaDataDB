@@ -9,6 +9,7 @@
 #include <string.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include "huffman_helper.h"
 
 #define PORT 3550
 #define BACKLOG 4
@@ -229,7 +230,18 @@ int runServer() {
 
 int main(){
 
-    dataBase = new DataBase();
+//    huffman_helper *hh = new huffman_helper();
+//
+//    char arr[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
+//    int freq[] = { 65, 9, 12, 13, 16, 45 };
+//
+//    int size = sizeof(arr) / sizeof(arr[0]);
+//
+//    cout<< sizeof(arr)<<endl;
+//
+//    hh->HuffmanCodes(arr, freq, size);
+
+    //dataBase = new DataBase();
 //    runServer();
 //    db1->restartDataBase();
 //    db1->updateBackup();
@@ -243,7 +255,7 @@ int main(){
 //    db1->modifyMetadata("Carros", "DCMI123","AUTHOR","RubyRuby");
 //    dataBase->consultMetadata("Carros", "DCMI123", "NAME");
 
-    dataBase->getColumn("Carros", "DESCRIPTION");
+    //dataBase->getColumn("Carros", "DESCRIPTION");
 
     return 0;
 }
