@@ -328,19 +328,19 @@ int main(){
     //sqlController = new SQLController();
 
     ///Corre el servidor
-    //runServer();
+    runServer();
 
 
-    huffman_helper *hh = new huffman_helper();
-
-    char arr[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
-    int freq[] = { 65, 9, 12, 13, 16, 45 };
-
-    int size = sizeof(arr) / sizeof(arr[0]);
-
-    cout<< sizeof(arr)<<endl;
-
-    hh->HuffmanCodes(arr, freq, size);
+//    huffman_helper *hh = new huffman_helper();
+//
+//    char arr[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
+//    int freq[] = { 65, 9, 12, 13, 16, 45 };
+//
+//    int size = sizeof(arr) / sizeof(arr[0]);
+//
+//    cout<< sizeof(arr)<<endl;
+//
+//    hh->HuffmanCodes(arr, freq, size);
 
 
 
@@ -414,6 +414,10 @@ int main(){
 //    json_object_object_add(jobj, "CONSOLE", jarray1);
 //
 //    cout<<json_object_to_json_string(jobj)<<endl;
+
+//    DataBase *dataBase = new DataBase();
+//
+//    dataBase->getRow("Carros", 1);
 
     return 0;
 }

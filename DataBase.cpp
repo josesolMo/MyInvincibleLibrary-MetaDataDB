@@ -810,7 +810,6 @@ vector<string> DataBase::getRow(string _galleryName, int index) {
     struct json_object *image_return;
 
     int n_galleries;
-    int n_images;
 
     string evaluarGal;
     string fila_return;
@@ -845,7 +844,7 @@ vector<string> DataBase::getRow(string _galleryName, int index) {
 
             json_object_object_get_ex(gallery, "IMAGES", &images);
 
-            image = json_object_array_get_idx(images, index);
+            image = json_object_array_get_idx(images, index-1);
 
 
             json_object_object_get_ex(image, "FILENAME", &image_return);
@@ -870,7 +869,7 @@ vector<string> DataBase::getRow(string _galleryName, int index) {
 
             json_object_object_get_ex(image, "DESCRIPTION", &image_return);
             result.push_back(json_object_to_json_string(image_return));
-
+            
 
             return result;
         }
