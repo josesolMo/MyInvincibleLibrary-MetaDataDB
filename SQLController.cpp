@@ -672,14 +672,117 @@ void SQLController::funcionSelect(string comando)
                 if (subs.length() > comand){
                     string column = subs.substr(0, comand);
                     subs = subs.substr(comand+3);
-                    cout << column << endl;
+                    if(subs.compare("NOT NULL;") == 0){
+
+                    }
+                    else if(subs.compare("NULL;") == 0){
+
+                    }
+                    else{
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
                 }
 
                 comand = subs.find("LIKE ");
                 if (subs.length() > comand){
                     string column = subs.substr(0, comand);
                     subs = subs.substr(comand+5 );
-                    cout << column << endl;
+                    size_t pycoma = subs.find(";");
+                    if (subs.length()< pycoma){
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+
+                    string pattern = subs.substr(0, pycoma);
+                    if(pattern[0] == ' '){
+                        pattern = pattern.substr(1);
+                    }
+                    if (pattern[pattern.length()-1] == ' '){
+                        pattern = pattern.substr(0, pattern.length()-1);
+                    }
+
+                    if(pattern[0] == '"'){
+                        pattern = pattern.substr(1);
+                    }
+                    if (pattern[pattern.length()-1] == '"'){
+                        pattern = pattern.substr(0, pattern.length()-1);
+                    }
+                    size_t operador = pattern.find("%");
+                    if (pattern.length() < operador){
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+                    else{
+                        if (pattern[0] == '%') {
+                            pattern = pattern.substr(1);
+                            size_t spattern = pattern.find("%");
+                            if (pattern.length() > spattern){
+                                pattern = pattern.substr(0,spattern-1);
+                                cout << "Patron en cualquier pos: " + pattern << endl;
+                                return;
+                            }
+                            else{
+                                cout << "Terminan en: " + pattern << endl;
+                                return;
+                            }
+
+                        }
+                        else if(pattern[0] == '_'){
+                            pattern = pattern.substr(1);
+                            int spaces = 1;
+                            while(pattern[0] == '_'){
+                                spaces += 1;
+                                pattern = pattern.substr(1);
+                            }
+                            size_t spattern = pattern.find("%");
+                            if (pattern.length() > spattern){
+                                pattern = pattern.substr(0,spattern-1);
+                                cout << "Patron : " + pattern + " luego de " ;
+                                cout << spaces;
+                                cout << " espacios" << endl;
+                                return;
+                            }
+                            else{
+                                cout << "Patron mal definido" << endl;
+                                return;
+                            }
+
+                        }
+                        else{
+                            if(pattern[pattern.length()-1] == '%'){
+                                pattern = pattern.substr(0,pattern.length()-1);
+                                size_t spattern = pattern.find("_");
+                                if(pattern.length() > spattern){
+                                    pattern = pattern.substr(0,spattern-1);
+                                    string spaces = pattern.substr(spattern);
+                                    int space = 0;
+                                    while(spaces[0] == '_'){
+                                        space += 1;
+                                        spaces = spaces.substr(1);
+                                    }
+                                    cout << "Palabra que inicia con : " + pattern + " de largo de " ;
+                                    cout << space << endl;
+                                    return;
+                                }
+                                else{
+                                    cout << "Palabra que inicia con : " + pattern << endl;
+                                    return;
+                                }
+                            }
+                            size_t spattern = pattern.find("%");
+                            if(pattern.length() > spattern){
+                                string inicio = pattern.substr(0,spattern-1);
+                                string fin = pattern.substr(spattern);
+                                cout << "Palabra que inicia con : " + inicio + " y termina con " + fin << endl;
+                                return;
+                            }
+                            else{
+                                cout << "Patron mal definido" << endl;
+                                return;
+                            }
+                        }
+                    }
                 }
                 else{
                     cout << "Syntax error" << endl;
@@ -695,6 +798,679 @@ void SQLController::funcionSelect(string comando)
     }
     else if(subs.find("FROM ") < subs.length()){
 
+
+
+        size_t From = subs.find("FROM ");
+        if (3 < From){
+            cout << "Syntax error" << endl;
+            return;
+        }
+        string columnas = subs.substr(0,From);
+        vector <string> columns;
+
+        while (columnas.compare("") != 0 || columnas.compare(" ") != 0 ){
+            size_t coma = columnas.find(",");
+            string current;
+            if (columnas.length()< coma){
+                current = columnas.substr(0, columnas.length()-1);
+                //cout << current << endl;
+                columnas = columnas.substr(current.length(),columnas.length()-1);
+            }
+            else {
+                current = columnas.substr(0, coma);
+                //cout << current << endl;
+                columnas = columnas.substr(coma+1);
+                //cout << columns << endl;
+            }
+            if(current[0] == ' '){
+                current = current.substr(1);
+            }
+            if (current[current.length()-1] == ' '){
+                current = current.substr(0, current.length()-1);
+            }
+
+            cout << current << endl;
+            cout << columnas << endl;
+            for(int i=0; i< columns.size(); i++){
+                if (columns[i].compare(current) != 0){
+                    columns.push_back(current);
+                }
+            }
+
+        }
+
+
+        subs = subs.substr(From+5);
+        size_t pycoma = subs.find(";");
+        if (subs.length()< pycoma){
+            cout << "Syntax error" << endl;
+            return;
+        }
+        string tabla = subs.substr(0, pycoma);
+        cout << tabla << endl;
+        if(tabla[0] == ' '){
+            tabla = tabla.substr(1);
+        }
+        if (tabla[tabla.length()-1] == ' '){
+            tabla = tabla.substr(0, tabla.length()-1);
+        }
+        subs = subs.substr(pycoma+1);
+        cout << subs << endl;
+        if(subs.compare("") == 0 || subs.compare(" ") == 0){
+            cout << "Imprimir valores de tabla" << endl;
+            return;
+        }
+        else{
+            size_t where = subs.find("WHERE ");
+            if (2 < where){
+                cout << "Syntax error" << endl;
+                return;
+            }
+            subs = subs.substr(where+6);
+            if (subs.substr(0,4).compare("NOT ") == 0){
+                subs = subs.substr(4);
+                size_t comand = subs.find("=");
+                if (subs.length() > comand){
+                    string column = subs.substr(0, comand);
+                    subs = subs.substr(comand+1);
+
+                    if (column[column.length()-1] == ' '){
+                        column = column.substr(0, column.length()-1);
+                    }
+
+                    cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
+                    size_t pycoma = subs.find(";");
+                    if (subs.length()< pycoma){
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+                    string value = subs.substr(0, pycoma);
+                    cout << value << endl;
+                    if(value[0] == ' '){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == ' '){
+                        value = value.substr(0, value.length()-1);
+                    }
+
+                    if(value[0] == '"'){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == '"'){
+                        value = value.substr(0, value.length()-1);
+                    }
+                    cout << value << endl; ///SE OBTIENE EL VALOR A COMPARAR
+                    return;
+                }
+
+                comand = subs.find("<");
+                if (subs.length() > comand){
+                    string column = subs.substr(0, comand);
+                    subs = subs.substr(comand+1);
+
+                    if (column[column.length()-1] == ' '){
+                        column = column.substr(0, column.length()-1);
+                    }
+
+                    cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
+                    size_t pycoma = subs.find(";");
+                    if (subs.length()< pycoma){
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+                    string value = subs.substr(0, pycoma);
+                    cout << value << endl;
+                    if(value[0] == ' '){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == ' '){
+                        value = value.substr(0, value.length()-1);
+                    }
+
+                    if(value[0] == '"'){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == '"'){
+                        value = value.substr(0, value.length()-1);
+                    }
+                    cout << value << endl; ///SE OBTIENE EL VALOR A COMPARAR
+                    return;
+                }
+
+                comand = subs.find(">");
+                if (subs.length() > comand){
+                    string column = subs.substr(0, comand);
+                    subs = subs.substr(comand+1);
+
+                    if (column[column.length()-1] == ' '){
+                        column = column.substr(0, column.length()-1);
+                    }
+
+                    cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
+                    size_t pycoma = subs.find(";");
+                    if (subs.length()< pycoma){
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+                    string value = subs.substr(0, pycoma);
+                    cout << value << endl;
+                    if(value[0] == ' '){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == ' '){
+                        value = value.substr(0, value.length()-1);
+                    }
+
+                    if(value[0] == '"'){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == '"'){
+                        value = value.substr(0, value.length()-1);
+                    }
+                    cout << value << endl; ///SE OBTIENE EL VALOR A COMPARAR
+                    return;
+                }
+                comand = subs.find(">=");
+                if (subs.length() > comand){
+                    string column = subs.substr(0, comand);
+                    subs = subs.substr(comand+2);
+
+                    if (column[column.length()-1] == ' '){
+                        column = column.substr(0, column.length()-1);
+                    }
+
+                    cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
+                    size_t pycoma = subs.find(";");
+                    if (subs.length()< pycoma){
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+                    string value = subs.substr(0, pycoma);
+                    cout << value << endl;
+                    if(value[0] == ' '){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == ' '){
+                        value = value.substr(0, value.length()-1);
+                    }
+
+                    if(value[0] == '"'){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == '"'){
+                        value = value.substr(0, value.length()-1);
+                    }
+                    cout << value << endl; ///SE OBTIENE EL VALOR A COMPARAR
+                    return;
+                }
+
+                comand = subs.find("<=");
+                if (subs.length() > comand){
+                    string column = subs.substr(0, comand);
+                    subs = subs.substr(comand+2);
+
+                    if (column[column.length()-1] == ' '){
+                        column = column.substr(0, column.length()-1);
+                    }
+
+                    cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
+                    size_t pycoma = subs.find(";");
+                    if (subs.length()< pycoma){
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+                    string value = subs.substr(0, pycoma);
+                    cout << value << endl;
+                    if(value[0] == ' '){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == ' '){
+                        value = value.substr(0, value.length()-1);
+                    }
+
+                    if(value[0] == '"'){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == '"'){
+                        value = value.substr(0, value.length()-1);
+                    }
+                    cout << value << endl; ///SE OBTIENE EL VALOR A COMPARAR
+                    return;
+                }
+
+                else{
+                    cout << "Syntax error" << endl;
+                    return;
+                }
+
+            }
+            else {
+
+                size_t comand = subs.find("BETWEEN ");
+                if (subs.length() > comand){
+                    string column = subs.substr(0, comand);
+                    subs = subs.substr(comand+8);
+                    size_t notCmd = column.find(" NOT ");
+                    bool notcmd;
+                    if (column.length()< notcmd){
+                        notcmd = false;
+                    }
+                    else{
+                        column = column.substr(0, notCmd);
+                        notcmd = true;
+                    }
+                    size_t pycoma = subs.find(";");
+                    if (subs.length()< pycoma){
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+                    subs = subs.substr(0,pycoma-1);
+
+                    size_t AND = subs.find(" AND ");
+                    if (AND< subs.length()){
+                        string value1 = subs.substr(0, AND);
+                        string value2 = subs.substr(AND+5);
+
+                        if(value1[0] == ' '){
+                            value1 = value1.substr(1);
+                        }
+                        if (value1[value1.length()-1] == ' '){
+                            value1 = value1.substr(0, value1.length()-1);
+                        }
+
+                        if(value1[0] == '"'){
+                            value1 = value1.substr(1);
+                        }
+                        if (value1[value1.length()-1] == '"'){
+                            value1 = value1.substr(0, value1.length()-1);
+                        }
+
+                        if(value2[0] == ' '){
+                            value2 = value2.substr(1);
+                        }
+                        if (value2[value2.length()-1] == ' '){
+                            value2 = value2.substr(0, value2.length()-1);
+                        }
+
+                        if(value2[0] == '"'){
+                            value2 = value2.substr(1);
+                        }
+                        if (value2[value2.length()-1] == '"'){
+                            value2 = value2.substr(0, value2.length()-1);
+                        }
+
+                        cout<< value1 << endl;
+                        cout<< value2 << endl;
+
+                    }
+                    else{
+                        cout << "No hay ningun operador para comparar"<< endl;
+                        return;
+                    }
+
+
+                }
+
+                comand = subs.find("IN ");
+                if (subs.length() > comand){
+                    string column = subs.substr(0, comand);
+                    subs = subs.substr(comand+3);
+                    size_t notCmd = column.find(" NOT ");
+                    bool notcmd;
+                    if (column.length()< notcmd){
+                        notcmd = false;
+                    }
+                    else{
+                        column = column.substr(0, notCmd);
+                        notcmd = true;
+                    }
+                    if((subs.substr(0,1)).compare("(") == 0) {
+                        size_t valuesEnd = subs.find(")");
+                        if (subs.length() < valuesEnd) {
+                            cout << "Syntax error" << endl;
+                            return;
+                        }
+                        string values = subs.substr(1, valuesEnd);
+                        cout << values << endl;
+                        vector <string> search;
+                        while (values.compare(")") != 0){
+                            size_t coma = values.find(",");
+                            string current;
+                            if (values.length()< coma){
+                                current = values.substr(0, values.length()-1);
+                                //cout << current << endl;
+                                values = values.substr(current.length(),values.length()-1);
+                            }
+                            else {
+                                current = values.substr(0, coma);
+                                //cout << current << endl;
+                                values = values.substr(coma+1);
+                                //cout << columns << endl;
+                            }
+                            if(current[0] == ' '){
+                                current = current.substr(1);
+                            }
+                            if (current[current.length()-1] == ' '){
+                                current = current.substr(0, current.length()-1);
+                            }
+                            if(current[0] == '"'){
+                                current = current.substr(1);
+                            }
+                            if (current[current.length()-1] == '"'){
+                                current = current.substr(0, current.length()-1);
+                            }
+                            cout << current << endl;
+                            cout << values << endl;
+                            for(int i=0; i< search.size(); i++){
+                                if (search[i].compare(current) != 0){
+                                    search.push_back(current);
+                                }
+                            }
+
+                        }
+                    }
+                    else {
+                        cout << "Syntax error"<< endl;
+                        return;
+                    }
+                }
+
+                comand = subs.find("=");
+                if (subs.length() > comand){
+                    string column = subs.substr(0, comand);
+                    subs = subs.substr(comand+1);
+
+                    if (column[column.length()-1] == ' '){
+                        column = column.substr(0, column.length()-1);
+                    }
+
+                    cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
+                    size_t pycoma = subs.find(";");
+                    if (subs.length()< pycoma){
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+                    string value = subs.substr(0, pycoma);
+                    cout << value << endl;
+                    if(value[0] == ' '){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == ' '){
+                        value = value.substr(0, value.length()-1);
+                    }
+
+                    if(value[0] == '"'){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == '"'){
+                        value = value.substr(0, value.length()-1);
+                    }
+                    cout << value << endl; ///SE OBTIENE EL VALOR A COMPARAR
+                    return;
+                }
+
+                comand = subs.find("<");
+                if (subs.length() > comand){
+                    string column = subs.substr(0, comand);
+                    subs = subs.substr(comand+1);
+
+                    if (column[column.length()-1] == ' '){
+                        column = column.substr(0, column.length()-1);
+                    }
+
+                    cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
+                    size_t pycoma = subs.find(";");
+                    if (subs.length()< pycoma){
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+                    string value = subs.substr(0, pycoma);
+                    cout << value << endl;
+                    if(value[0] == ' '){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == ' '){
+                        value = value.substr(0, value.length()-1);
+                    }
+
+                    if(value[0] == '"'){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == '"'){
+                        value = value.substr(0, value.length()-1);
+                    }
+                    cout << value << endl; ///SE OBTIENE EL VALOR A COMPARAR
+                    return;
+                }
+
+                comand = subs.find(">");
+                if (subs.length() > comand){
+                    string column = subs.substr(0, comand);
+                    subs = subs.substr(comand+1);
+
+                    if (column[column.length()-1] == ' '){
+                        column = column.substr(0, column.length()-1);
+                    }
+
+                    cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
+                    size_t pycoma = subs.find(";");
+                    if (subs.length()< pycoma){
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+                    string value = subs.substr(0, pycoma);
+                    cout << value << endl;
+                    if(value[0] == ' '){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == ' '){
+                        value = value.substr(0, value.length()-1);
+                    }
+
+                    if(value[0] == '"'){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == '"'){
+                        value = value.substr(0, value.length()-1);
+                    }
+                    cout << value << endl; ///SE OBTIENE EL VALOR A COMPARAR
+                    return;
+                }
+                comand = subs.find(">=");
+                if (subs.length() > comand){
+                    string column = subs.substr(0, comand);
+                    subs = subs.substr(comand+2);
+
+                    if (column[column.length()-1] == ' '){
+                        column = column.substr(0, column.length()-1);
+                    }
+
+                    cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
+                    size_t pycoma = subs.find(";");
+                    if (subs.length()< pycoma){
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+                    string value = subs.substr(0, pycoma);
+                    cout << value << endl;
+                    if(value[0] == ' '){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == ' '){
+                        value = value.substr(0, value.length()-1);
+                    }
+
+                    if(value[0] == '"'){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == '"'){
+                        value = value.substr(0, value.length()-1);
+                    }
+                    cout << value << endl; ///SE OBTIENE EL VALOR A COMPARAR
+                    return;
+                }
+
+                comand = subs.find("<=");
+                if (subs.length() > comand){
+                    string column = subs.substr(0, comand);
+                    subs = subs.substr(comand+2);
+
+                    if (column[column.length()-1] == ' '){
+                        column = column.substr(0, column.length()-1);
+                    }
+
+                    cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
+                    size_t pycoma = subs.find(";");
+                    if (subs.length()< pycoma){
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+                    string value = subs.substr(0, pycoma);
+                    cout << value << endl;
+                    if(value[0] == ' '){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == ' '){
+                        value = value.substr(0, value.length()-1);
+                    }
+
+                    if(value[0] == '"'){
+                        value = value.substr(1);
+                    }
+                    if (value[value.length()-1] == '"'){
+                        value = value.substr(0, value.length()-1);
+                    }
+                    cout << value << endl; ///SE OBTIENE EL VALOR A COMPARAR
+                    return;
+                }
+
+                comand = subs.find("IS ");
+                if (subs.length() > comand){
+                    string column = subs.substr(0, comand);
+                    subs = subs.substr(comand+3);
+                    if(subs.compare("NOT NULL;") == 0){
+
+                    }
+                    else if(subs.compare("NULL;") == 0){
+
+                    }
+                    else{
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+                }
+
+                comand = subs.find("LIKE ");
+                if (subs.length() > comand){
+                    string column = subs.substr(0, comand);
+                    subs = subs.substr(comand+5 );
+                    size_t pycoma = subs.find(";");
+                    if (subs.length()< pycoma){
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+
+                    string pattern = subs.substr(0, pycoma);
+                    if(pattern[0] == ' '){
+                        pattern = pattern.substr(1);
+                    }
+                    if (pattern[pattern.length()-1] == ' '){
+                        pattern = pattern.substr(0, pattern.length()-1);
+                    }
+
+                    if(pattern[0] == '"'){
+                        pattern = pattern.substr(1);
+                    }
+                    if (pattern[pattern.length()-1] == '"'){
+                        pattern = pattern.substr(0, pattern.length()-1);
+                    }
+                    size_t operador = pattern.find("%");
+                    if (pattern.length() < operador){
+                        cout << "Syntax error" << endl;
+                        return;
+                    }
+                    else{
+                        if (pattern[0] == '%') {
+                            pattern = pattern.substr(1);
+                            size_t spattern = pattern.find("%");
+                            if (pattern.length() > spattern){
+                                pattern = pattern.substr(0,spattern-1);
+                                cout << "Patron en cualquier pos: " + pattern << endl;
+                                return;
+                            }
+                            else{
+                                cout << "Terminan en: " + pattern << endl;
+                                return;
+                            }
+
+                        }
+                        else if(pattern[0] == '_'){
+                            pattern = pattern.substr(1);
+                            int spaces = 1;
+                            while(pattern[0] == '_'){
+                                spaces += 1;
+                                pattern = pattern.substr(1);
+                            }
+                            size_t spattern = pattern.find("%");
+                            if (pattern.length() > spattern){
+                                pattern = pattern.substr(0,spattern-1);
+                                cout << "Patron : " + pattern + " luego de " ;
+                                cout << spaces;
+                                cout << " espacios" << endl;
+                                return;
+                            }
+                            else{
+                                cout << "Patron mal definido" << endl;
+                                return;
+                            }
+
+                        }
+                        else{
+                            if(pattern[pattern.length()-1] == '%'){
+                                pattern = pattern.substr(0,pattern.length()-1);
+                                size_t spattern = pattern.find("_");
+                                if(pattern.length() > spattern){
+                                    pattern = pattern.substr(0,spattern-1);
+                                    string spaces = pattern.substr(spattern);
+                                    int space = 0;
+                                    while(spaces[0] == '_'){
+                                        space += 1;
+                                        spaces = spaces.substr(1);
+                                    }
+                                    cout << "Palabra que inicia con : " + pattern + " de largo de " ;
+                                    cout << space << endl;
+                                    return;
+                                }
+                                else{
+                                    cout << "Palabra que inicia con : " + pattern << endl;
+                                    return;
+                                }
+                            }
+                            size_t spattern = pattern.find("%");
+                            if(pattern.length() > spattern){
+                                string inicio = pattern.substr(0,spattern-1);
+                                string fin = pattern.substr(spattern);
+                                cout << "Palabra que inicia con : " + inicio + " y termina con " + fin << endl;
+                                return;
+                            }
+                            else{
+                                cout << "Patron mal definido" << endl;
+                                return;
+                            }
+                        }
+                    }
+                }
+                else{
+                    cout << "Syntax error" << endl;
+                    return;
+                }
+            }
+
+
+            /*
+             * COLOCAR TODAS LAS POSIBLES CONDICIONALES[BETWEEN(AND, OR, NOT),IS(NULL, NOT NULL),LIKE]
+             */
+        }
     }
     else {
         cout << "Syntax error" << endl;
