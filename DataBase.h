@@ -32,8 +32,8 @@ public:
     string consultMetadata(string _galleryName, string _imgId, string _metadataId);
 
 
-    void deleteMetadata(string _galleryName, string _imgId);
-    void modifyMetadata(string _galleryName, string _imgId, string _metadataId, string _data);
+    vector<vector<string>> deleteMetadata(string _galleryName, string _imgId);
+    vector<vector<string>> modifyMetadata(string _galleryName, string _imgId, string _metadataId, string _data);
     void readJson();
     void restartDataBase();
     void updateBackup();
@@ -41,6 +41,10 @@ public:
     vector<string> getColumn(string _galleryName, string _columnId);
 
     vector<string> getRow(string _galleryName, int index);
+
+    vector<int> getColumnYear(string _galleryName);
+
+    vector<int> getColumnSize(string _galleryName);
 
 private:
 

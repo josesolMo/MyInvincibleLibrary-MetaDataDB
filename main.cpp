@@ -418,6 +418,7 @@ int main(){
 //    DataBase *dataBase = new DataBase();
 //
 //    dataBase->getRow("Carros", 1);
+//    dataBase->getColumnSize("Carros");
 
     return 0;
 }
