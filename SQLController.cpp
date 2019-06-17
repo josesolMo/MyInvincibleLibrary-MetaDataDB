@@ -7246,7 +7246,7 @@ void SQLController::addToTable(string columna, string value, string imagen)
 }
 
 
-void SQLController::makeFunction(string comando) {
+vector<vector<string>> SQLController::makeFunction(string comando) {
 
     if(comando.length() < 7){
         cout << "Syntax error" << endl;
@@ -7258,100 +7258,34 @@ void SQLController::makeFunction(string comando) {
         string cmd = comando.substr(7);
         if (subs.compare("INSERT ") == 0 || subs.compare("insert ") == 0){
             cout << "Funcion INSERT" << endl;
-            funcionInsert(cmd);
+            return funcionInsert(cmd);
         }else if (subs.compare("SELECT ") == 0 || subs.compare("select ") == 0){
             cout << "Funcion SELECT" << endl;
-            funcionSelect(cmd);
+            return funcionSelect(cmd);
             //ui->LineaCMD->clear();
         }else if (subs.compare("UPDATE ") == 0 || subs.compare("update ") == 0){
             cout << "Funcion UPDATE" << endl;
-            funcionUpdate(cmd);
+            return funcionUpdate(cmd);
             //ui->LineaCMD->clear();
         }
         subs = comando.substr(0,12);
         cmd = comando.substr(12);
         if (subs.compare("DELETE FROM ") == 0 || subs.compare("delete from ") == 0){
             cout << "Funcion DELETE FROM" << endl;
-            funcionDelete(cmd);
+            return funcionDelete(cmd);
             //ui->LineaCMD->clear();
         }else {
             cout << "Syntax error" << endl;
+            vector<vector<string>> matrix;
+            vector <string> verify;
+            verify.push_back("0");
+            matrix.push_back(verify);
+            return matrix;
         }
     }
 
 }
 
-vector<vector<string>> SQLController::funcionUpdate(string comando)
-{
-    vector<vector<string>> matrix;
-    vector <string> verify;
-    string subs = comando;
-    size_t Set = subs.find("SET ");
-
-    if (3 < Set){
-        cout << "Syntax error" << endl;
-        verify.push_back("0");
-        matrix.push_back(verify);
-        return matrix;
-    }
-
-    string tabla = subs.substr(0,Set);
-
-    if(tabla[0] == ' '){
-            tabla = tabla.substr(1);
-    }
-    if (tabla[tabla.length()-1] == ' '){
-            tabla = tabla.substr(0, tabla.length()-1);
-    }
-
-    subs = subs.substr(Set+4);
-    size_t pycoma = subs.find(";");
-    if (subs.length()< pycoma){
-        cout << "Syntax error" << endl;
-        verify.push_back("0");
-        matrix.push_back(verify);
-        return matrix;
-    }
-    string evaluate = subs.substr(0, pycoma);
-
-    size_t changeEnd = subs.find(";");
-    if (subs.length()< changeEnd){
-        cout << "Syntax error" << endl;
-        verify.push_back("0");
-        matrix.push_back(verify);
-        return matrix;
-    }
-    string values = subs.substr(1, changeEnd);
-    cout << values << endl;
-    vector<vector<string>> toChange;
-    while (values.compare(";") != 0){
-        size_t coma = values.find(",");
-        string current;
-        if (values.length()< coma){
-            current = values.substr(0, values.length()-1);
-            cout << current << endl;
-            values = values.substr(current.length(),values.length()-1);
-
-        }
-        else {
-            current = values.substr(0, coma);
-            cout << current << endl;
-            values = values.substr(coma+1);
-            cout << values << endl;
-        }
-        if(current[0] == ' '){
-            current = current.substr(1);
-        }
-        if (current[current.length()-1] == ' '){
-            current = current.substr(0, current.length()-1);
-        }
-        //cout << current << endl;
-        //cout << columns << endl;
-
-    }
-
-
-}
 
 
 ///Getters y Setters

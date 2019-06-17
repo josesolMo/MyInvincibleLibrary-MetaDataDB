@@ -41,7 +41,7 @@ public:
 
     void addToTable(string columna, string value, string imagen);
 
-    void makeFunction(string comando);
+    vector<vector<string>> makeFunction(string comando);
 
     ///Getters & Setters
     DataBase* getDataBase();
