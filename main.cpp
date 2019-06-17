@@ -130,6 +130,32 @@ string sendConsole(string _console, string _key) {
 
 }
 
+string sendInitial(){
+    vector<vector<string>> matrix = sqlController->getDataBase()->getAllGalleries();
+
+    int len1 = matrix.size();
+    int len2;
+
+    json_object *jobj = json_object_new_object();
+    json_object *jarray1 = json_object_new_array();
+    json_object *jarray2;
+    json_object *jstrings;
+
+    for(int i = 0;i<len1;i++){
+        jarray2 = json_object_new_array();
+        len2 = matrix[i].size();
+        for(int j = 0;j<len2;j++){
+            jstrings = json_object_new_string(matrix[i][j].c_str());
+            json_object_array_add(jarray2, jstrings);
+        }
+        json_object_array_add(jarray1, jarray2);
+    }
+
+    json_object_object_add(jobj, "INITIAL", jarray1);
+
+    return json_object_to_json_string(jobj);
+}
+
 string sendFile(string gallery, string arrowIndex) {}
 
 string sendBinary(string gallery, string arrowIndex) {}
@@ -234,6 +260,12 @@ int runServer() {
             json_object *parsed_jsonConsole = json_tokener_parse(buff);
             json_object_object_get_ex(parsed_jsonConsole, "CONSOLE", &tempConsole);
 
+            ///KEY: INITIAL
+            ///Obtiene el nombre de la galeria asociada a la direccion que se quiere acceder
+            struct json_object *tempInitial;
+            //cout<<"GALLERY"<<endl;
+            json_object *parsed_jsonInitial = json_tokener_parse(buff);
+            json_object_object_get_ex(parsed_jsonInitial, "INITIAL", &tempInitial);
 
             /*
             ///KEY: TEMPLATE
@@ -289,6 +321,20 @@ int runServer() {
                 send(fd2, tablas.c_str(), MAXDATASIZE, 0);
             }
 
+            ///Obtendra un request para obtener la galeria
+            ///Verifica que reciba los KEYS: INITIAL
+            if (json_object_get_string(tempInitial) != nullptr) {
+                ///JSON saliente del servidor
+                string initial = sendInitial();
+
+                cout << initial << endl;
+
+                ///Envio al cliente
+                send(fd2, initial.c_str(), MAXDATASIZE, 0);
+            }
+
+
+
 
 
 
@@ -325,13 +371,15 @@ int runServer() {
 int main(){
 
     ///Instanciacion del objeto de SQLController
-    //sqlController = new SQLController();
+    sqlController = new SQLController();
 
     ///Corre el servidor
     runServer();
 
 
-//    huffman_helper *hh = new huffman_helper();
+    //huffman_helper *hh = new huffman_helper();
+
+    //hh->compress("mama amasa");
 //
 //    char arr[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
 //    int freq[] = { 65, 9, 12, 13, 16, 45 };
@@ -416,6 +464,7 @@ int main(){
 //    cout<<json_object_to_json_string(jobj)<<endl;
 
 //    DataBase *dataBase = new DataBase();
+//    dataBase->getAllGalleries();
 //
 //    dataBase->getRow("Carros", 1);
 //    dataBase->getColumnSize("Carros");

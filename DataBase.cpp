@@ -1081,3 +1081,75 @@ vector<int> DataBase::getColumnSize(string _galleryName) {
     vector<int> error;
     return  error;
 }
+
+vector<vector<string>> DataBase::getAllGalleries() {
+    FILE *fp;
+
+    char readbuff[20000];
+
+    struct json_object *parsed_json;
+    struct json_object *galleries;
+    struct  json_object *gallery;
+    struct  json_object *galleryName;
+    struct json_object *images;
+    struct json_object *image;
+    struct json_object *image_return;
+
+    vector<vector<string>> result;
+
+    int n_galleries;
+    int n_images;
+
+    string evaluar;
+    string file_name;
+
+    fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json","r");
+
+    fread(readbuff, 20000, 1, fp);
+
+    fclose(fp);
+
+    parsed_json = json_tokener_parse(readbuff);
+
+    ///Ingresa a las GALERIAS
+    json_object_object_get_ex(parsed_json, "GALLERIES", &galleries);
+
+    ///Obtiene la cantidad de GALERIAS
+    n_galleries = json_object_array_length(galleries);
+
+    for (int i=0;i<n_galleries;i++){
+        vector<string> galeria;
+        ///Elige una GALERIA para evaluar
+        gallery = json_object_array_get_idx(galleries,i);
+
+        ///Obtiene NOMBRE de la GALERIA
+        json_object_object_get_ex(gallery, "NAME", &galleryName);
+
+        evaluar = json_object_get_string(galleryName);
+
+        cout<<evaluar<<": "<<endl;
+
+        galeria.push_back(evaluar);
+
+        json_object_object_get_ex(gallery, "IMAGES", &images);
+
+        ///Obtiene la cantidad de IMAGENES
+        n_images = json_object_array_length(images);
+
+        for (int j = 0; j < n_images; j++) {
+
+            image = json_object_array_get_idx(images, j);
+
+            json_object_object_get_ex(image, "FILENAME", &image_return);
+
+            file_name = json_object_get_string(image_return);
+
+            cout<<"-"<<file_name<<endl;
+
+            galeria.push_back(file_name);
+        }
+        result.push_back(galeria);
+    }
+
+    return result;
+}

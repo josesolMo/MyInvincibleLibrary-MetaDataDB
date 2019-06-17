@@ -3,6 +3,7 @@
 //
 
 #include <vector>
+#include <sstream>
 #include "huffman_helper.h"
 
 
@@ -170,10 +171,27 @@ void huffman_helper::buildMinHeap(struct MinHeap* minHeap)
 void huffman_helper::printArr(int arr[], int n)
 {
     int i;
+    string res;
+    stringstream ss;
+    string s;
+
     for (i = 0; i < n; ++i)
+        s="";
+
+        //cout<<arr[i]<<endl;
+        res+=arr[i];
+
+        ss << arr[i];
+        ss >> s;
+
+        res+=s;
+
+        //cout<<arr[i];
+
         printf("%d", arr[i]);
 
     printf("\n");
+    //return res;
 }
 
 // Utility function to check if this node is leaf
@@ -244,22 +262,23 @@ struct MinHeapNode* huffman_helper::buildHuffmanTree(char data[], int freq[], in
 
 // Prints huffman codes from the root of Huffman Tree.
 // It uses arr[] to store codes
-void huffman_helper::printCodes(struct MinHeapNode* root, int arr[], int top)
+vector<vector<string>> huffman_helper::printCodes(struct MinHeapNode* root, int arr[], int top, vector<string> letras, vector<string> codigos, vector<vector<string>> res)
 
 {
+
 
     // Assign 0 to left edge and recur
     if (root->left) {
 
         arr[top] = 0;
-        printCodes(root->left, arr, top + 1);
+        return printCodes(root->left, arr, top + 1, letras, codigos, res);
     }
 
     // Assign 1 to right edge and recur
     if (root->right) {
 
         arr[top] = 1;
-        printCodes(root->right, arr, top + 1);
+        return printCodes(root->right, arr, top + 1, letras, codigos, res);
     }
 
     // If this is a leaf node, then
@@ -268,16 +287,28 @@ void huffman_helper::printCodes(struct MinHeapNode* root, int arr[], int top)
     // and its code from arr[]
     if (isLeaf(root)) {
 
+        cout<<"hay"<<endl;
         printf("%c: ", root->data);
         printArr(arr, top);
+
+        stringstream ss;
+        string s;
+        ss << root->data;
+        ss >> s;
+
+
+        res[0].push_back(s);
+        //res[1].push_back(printArr(arr, top));
+
+        return res;
+
     }
 }
 
 // The main function that builds a
 // Huffman Tree and print codes by traversing
 // the built Huffman Tree
-void huffman_helper::HuffmanCodes(char data[], int freq[], int size)
-
+vector<vector<string>> huffman_helper::HuffmanCodes(char data[], int freq[], int size, vector<string> letras, vector<string> codigos)
 {
     // Construct Huffman Tree
     struct MinHeapNode* root
@@ -287,7 +318,9 @@ void huffman_helper::HuffmanCodes(char data[], int freq[], int size)
     // the Huffman tree built above
     int arr[MAX_TREE_HT], top = 0;
 
-    printCodes(root, arr, top);
+    vector<vector<string>> res;
+
+    return printCodes(root, arr, top, letras, codigos, res);
 }
 
 string huffman_helper::compress(string _cadena) {
@@ -295,6 +328,61 @@ string huffman_helper::compress(string _cadena) {
     vector<char> characters;
 
     vector<int> frecuencias;
+
+    vector<string> letras;
+
+    vector<string> codigos;
+
+    bool found;
+
+    int frec;
+
+    for (int i=0;i<_cadena.size();i++){
+        frec=0;
+        found = 0;
+        char c = _cadena[i];
+        for (int j=0;j<characters.size();j++){
+            if(characters[j]==c){
+                found=1;
+                break;
+            }
+        }
+        if (!found){
+            for (int j=0;j<_cadena.size();j++){
+                if (_cadena[j]==c){
+                    frec+=1;
+                }
+            }
+            characters.push_back(c);
+            frecuencias.push_back(frec);
+        }
+        cout<<"evaluando letra: "<<c<<" frecuencia: "<<frec<<endl;
+    }
+
+    for (int i=0;i<characters.size();i++){
+        cout<<characters[i]<<": "<<frecuencias[i]<<endl;
+    }
+
+    char arr[characters.size()];
+    int freq[characters.size()];
+
+    for (int i=0;i<characters.size();i++){
+        arr[i]=characters[i];
+        freq[i]=frecuencias[i];
+    }
+
+    vector<vector<string>> res = HuffmanCodes(arr,freq,characters.size(),letras,codigos);
+
+    cout<<"*************************************************************************"<<endl;
+
+    for (int i=0;i<res[0].size();i++){
+        cout<<res[0][i]<<endl;
+    }
+
+    for (int i=0;i<res[1].size();i++){
+        cout<<res[1][i]<<endl;
+    }
+
 
     return "";
 }

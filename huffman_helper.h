@@ -32,9 +32,9 @@ public:
 
     int isLeaf(struct MinHeapNode* root);
 
-    void printCodes(struct MinHeapNode* root, int arr[], int top);
+    vector<vector<string>> printCodes(struct MinHeapNode* root, int arr[], int top, vector<string> letras, vector<string> codigos, vector<vector<string>> res);
 
-    void HuffmanCodes(char data[], int freq[], int size);
+    vector<vector<string>> HuffmanCodes(char data[], int freq[], int size, vector<string> letras, vector<string> codigos);
 
 
     struct MinHeapNode* newNode(char data, unsigned freq);

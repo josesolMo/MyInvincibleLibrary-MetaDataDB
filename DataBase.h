@@ -46,6 +46,8 @@ public:
 
     vector<int> getColumnSize(string _galleryName);
 
+    vector<vector<string>> getAllGalleries();
+
 private:
 
 
