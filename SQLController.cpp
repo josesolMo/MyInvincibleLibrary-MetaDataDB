@@ -3873,10 +3873,6 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 }
 
 
-void SQLController::funcionUpdate(string comando)
-{
-    cout << comando << endl;
-}
 
 vector<vector<string>> SQLController::funcionDelete(string comando)
 {
@@ -5528,6 +5524,78 @@ void SQLController::makeFunction(string comando) {
             cout << "Syntax error" << endl;
         }
     }
+
+}
+
+vector<vector<string>> SQLController::funcionUpdate(string comando)
+{
+    vector<vector<string>> matrix;
+    vector <string> verify;
+    string subs = comando;
+    size_t Set = subs.find("SET ");
+
+    if (3 < Set){
+        cout << "Syntax error" << endl;
+        verify.push_back("0");
+        matrix.push_back(verify);
+        return matrix;
+    }
+
+    string tabla = subs.substr(0,Set);
+
+    if(tabla[0] == ' '){
+            tabla = tabla.substr(1);
+    }
+    if (tabla[tabla.length()-1] == ' '){
+            tabla = tabla.substr(0, tabla.length()-1);
+    }
+
+    subs = subs.substr(Set+4);
+    size_t pycoma = subs.find(";");
+    if (subs.length()< pycoma){
+        cout << "Syntax error" << endl;
+        verify.push_back("0");
+        matrix.push_back(verify);
+        return matrix;
+    }
+    string evaluate = subs.substr(0, pycoma);
+
+    size_t changeEnd = subs.find(";");
+    if (subs.length()< changeEnd){
+        cout << "Syntax error" << endl;
+        verify.push_back("0");
+        matrix.push_back(verify);
+        return matrix;
+    }
+    string values = subs.substr(1, changeEnd);
+    cout << values << endl;
+    vector<vector<string>> toChange;
+    while (values.compare(";") != 0){
+        size_t coma = values.find(",");
+        string current;
+        if (values.length()< coma){
+            current = values.substr(0, values.length()-1);
+            cout << current << endl;
+            values = values.substr(current.length(),values.length()-1);
+
+        }
+        else {
+            current = values.substr(0, coma);
+            cout << current << endl;
+            values = values.substr(coma+1);
+            cout << values << endl;
+        }
+        if(current[0] == ' '){
+            current = current.substr(1);
+        }
+        if (current[current.length()-1] == ' '){
+            current = current.substr(0, current.length()-1);
+        }
+        //cout << current << endl;
+        //cout << columns << endl;
+
+    }
+
 
 }
 

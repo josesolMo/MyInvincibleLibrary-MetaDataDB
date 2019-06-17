@@ -33,7 +33,7 @@ public:
 
     vector<vector<string>> funcionSelect(string comando);
 
-    void funcionUpdate(string comando);
+    vector<vector<string>> funcionUpdate(string comando);
 
     vector<vector<string>> funcionDelete(string comando);
 
