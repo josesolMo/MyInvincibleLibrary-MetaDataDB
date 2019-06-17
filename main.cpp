@@ -178,6 +178,16 @@ string sendRollback() {
     return json_object_to_json_string(jobj);
 }
 
+string sendDeleteGal(string _galleryName){
+    string res = sqlController->getDataBase()->deleteGallery(_galleryName);
+
+    json_object *jobj = json_object_new_object();
+    json_object *jstring = json_object_new_string(res.c_str());
+    json_object_object_add(jobj, "DELETEGALLERY", jstring);
+
+    return json_object_to_json_string(jobj);
+}
+
 string sendFile(string gallery, string arrowIndex) {}
 
 string sendBinary(string gallery, string arrowIndex) {}
@@ -303,6 +313,13 @@ int runServer() {
             json_object *parsed_jsonRollback = json_tokener_parse(buff);
             json_object_object_get_ex(parsed_jsonRollback, "ROLLBACK", &tempRollback);
 
+            ///KEY: DELETEGALLERY
+            ///Obtiene el nombre de la galeria asociada a la direccion que se quiere acceder
+            struct json_object *tempDeleteGal;
+            //cout<<"GALLERY"<<endl;
+            json_object *parsed_jsonDeleteGal = json_tokener_parse(buff);
+            json_object_object_get_ex(parsed_jsonDeleteGal, "DELETEGALLERY", &tempDeleteGal);
+
             /*
             ///KEY: TEMPLATE
             ///Obtiene un request para
@@ -393,10 +410,17 @@ int runServer() {
                 send(fd2, rollback.c_str(), MAXDATASIZE, 0);
             }
 
+            ///Obtendra un request para obtener la galeria
+            ///Verifica que reciba los KEYS: DELETEGALLERY
+            if (json_object_get_string(tempDeleteGal) != nullptr) {
+                ///JSON saliente del servidor
+                string deletegal = sendDeleteGal(json_object_get_string(tempDeleteGal));
 
+                cout << deletegal << endl;
 
-
-
+                ///Envio al cliente
+                send(fd2, deletegal.c_str(), MAXDATASIZE, 0);
+            }
 
 
             /*

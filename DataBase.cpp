@@ -1120,38 +1120,45 @@ vector<vector<string>> DataBase::getAllGalleries() {
     ///Obtiene la cantidad de GALERIAS
     n_galleries = json_object_array_length(galleries);
 
-    for (int i=0;i<n_galleries;i++){
-        vector<string> galeria;
-        ///Elige una GALERIA para evaluar
-        gallery = json_object_array_get_idx(galleries,i);
+    if (n_galleries==0){
+        vector<string> vacio;
+        vacio.push_back("0");
+        result.push_back(vacio);
+    }else {
 
-        ///Obtiene NOMBRE de la GALERIA
-        json_object_object_get_ex(gallery, "NAME", &galleryName);
+        for (int i = 0; i < n_galleries; i++) {
+            vector<string> galeria;
+            ///Elige una GALERIA para evaluar
+            gallery = json_object_array_get_idx(galleries, i);
 
-        evaluar = json_object_get_string(galleryName);
+            ///Obtiene NOMBRE de la GALERIA
+            json_object_object_get_ex(gallery, "NAME", &galleryName);
 
-        cout<<evaluar<<": "<<endl;
+            evaluar = json_object_get_string(galleryName);
 
-        galeria.push_back(evaluar);
+            cout << evaluar << ": " << endl;
 
-        json_object_object_get_ex(gallery, "IMAGES", &images);
+            galeria.push_back(evaluar);
 
-        ///Obtiene la cantidad de IMAGENES
-        n_images = json_object_array_length(images);
+            json_object_object_get_ex(gallery, "IMAGES", &images);
 
-        for (int j = 0; j < n_images; j++) {
+            ///Obtiene la cantidad de IMAGENES
+            n_images = json_object_array_length(images);
 
-            image = json_object_array_get_idx(images, j);
+            for (int j = 0; j < n_images; j++) {
 
-            json_object_object_get_ex(image, "FILENAME", &image_return);
+                image = json_object_array_get_idx(images, j);
 
-            file_name = json_object_get_string(image_return);
+                json_object_object_get_ex(image, "FILENAME", &image_return);
 
-            cout<<"-"<<file_name<<endl;
+                file_name = json_object_get_string(image_return);
 
-            galeria.push_back(file_name);
+                cout << "-" << file_name << endl;
+
+                galeria.push_back(file_name);
+            }
+            result.push_back(galeria);
         }
-        result.push_back(galeria);
     }
 
     return result;
@@ -1173,4 +1180,74 @@ void DataBase::restoreFromBackup() {
     fputs(updatebuff, file);
 
     fclose(file);
+}
+
+string DataBase::deleteGallery(string _galleryName) {
+    FILE *fp;
+
+    char readbuff[20000];
+    char writebuff[20000];
+
+    struct json_object *parsed_json;
+    struct json_object *galleries;
+    struct  json_object *gallery;
+    struct  json_object *galleryName;
+
+    json_object *res=json_object_new_object();
+    json_object *galleries_copy=json_object_new_array();
+
+    int n_galleries;
+
+    bool borrado;
+
+    string evaluar;
+
+    fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json","r");
+
+    fread(readbuff, 20000, 1, fp);
+
+    fclose(fp);
+
+    parsed_json = json_tokener_parse(readbuff);
+
+    ///Ingresa a las GALERIAS
+    json_object_object_get_ex(parsed_json, "GALLERIES", &galleries);
+    ///Obtiene la cantidad de GALERIAS
+    n_galleries = json_object_array_length(galleries);
+
+    for (int i=0;i<n_galleries;i++){
+        ///Elige una GALERIA para evaluar
+        gallery = json_object_array_get_idx(galleries,i);
+        ///Obtiene NOMBRE de la GALERIA
+        json_object_object_get_ex(gallery, "NAME", &galleryName);
+
+        evaluar = json_object_get_string(galleryName);
+
+        if(evaluar!=_galleryName){
+            json_object_array_add(galleries_copy, gallery);
+        }else{
+            borrado=1;
+        }
+    }
+
+    if (borrado){
+        cout<<json_object_to_json_string(galleries_copy)<<endl;
+        json_object_object_add(res, "GALLERIES", galleries_copy);
+
+        cout<<json_object_to_json_string(res)<<endl;
+
+        ///Se copia el nuevo contenido en el Buffer de escritura
+        strcpy(writebuff, json_object_to_json_string(res));
+
+        //cout<<json_object_to_json_string(parsed_json)<<endl;
+
+        fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json","w");
+        fputs(writebuff, fp);
+        fclose(fp);
+
+        cout<<"The gallery has deleted successfully!"<<endl;
+        return "1";
+    }
+    cout<<"The gallery doesn't exists"<<endl;
+    return "0";
 }

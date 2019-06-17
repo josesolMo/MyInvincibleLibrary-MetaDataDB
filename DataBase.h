@@ -50,6 +50,8 @@ public:
 
     vector<vector<string>> getAllGalleries();
 
+    string deleteGallery(string _galleryName);
+
 private:
 
 
