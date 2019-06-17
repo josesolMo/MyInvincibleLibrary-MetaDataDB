@@ -29,13 +29,13 @@ public:
     SQLController();
 
 
-    void funcionInsert(string comando);
+    vector<vector<string>> funcionInsert(string comando);
 
-    void funcionSelect(string comando);
+    vector<vector<string>> funcionSelect(string comando);
 
     void funcionUpdate(string comando);
 
-    void funcionDelete(string comando);
+    vector<vector<string>> funcionDelete(string comando);
 
     string columnaGET(string evaluar);
 

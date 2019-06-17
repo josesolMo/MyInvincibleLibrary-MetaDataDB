@@ -826,6 +826,7 @@ vector<string> DataBase::getColumn(string _galleryName, string _columnId) {
     }
     cerr<<"Error: The gallery "<<_galleryName<<" doesn't exist"<<endl;
     vector<string> error;
+    error.push_back("ERROR");
     return  error;
 }
 
