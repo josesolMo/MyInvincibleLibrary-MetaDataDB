@@ -1438,7 +1438,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                 if (subs.length() > comand){
                     string column = subs.substr(0, comand);
                     subs = subs.substr(comand+3);
-                    vector <int> dataToVerify = dataBase->getColumnYear(tabla);
+                    vector <string> dataToVerify = dataBase->getColumn(tabla, column);
                     vector <int> indices;
                     if(subs.compare("NOT NULL;") == 0){
                         for(int i=1; i< dataToVerify.size(); i++){
@@ -3482,7 +3482,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                 if (subs.length() > comand){
                     string column = subs.substr(0, comand);
                     subs = subs.substr(comand+3);
-                    vector <int> dataToVerify = dataBase->getColumnYear(tabla);
+                    vector <string> dataToVerify = dataBase->getColumn(tabla, column);
                     vector <int> indices;
                     if(subs.compare("NOT NULL;") == 0){
                         for(int i=1; i< dataToVerify.size(); i++){
@@ -5196,7 +5196,7 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
         if (subs.length() > comand){
             string column = subs.substr(0, comand);
             subs = subs.substr(comand+3);
-            vector <string> dataToVerify = dataBase->getColumnYear(tabla);
+            vector <string> dataToVerify = dataBase->getColumn(tabla, column);
             vector <int> indices;
             if(subs.compare("NOT NULL;") == 0){
                 for(int i=1; i< dataToVerify.size(); i++){
