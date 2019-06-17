@@ -35,7 +35,7 @@ public:
 
     void funcionUpdate(string comando);
 
-    void funcionDelete(string comando);
+    vector<vector<string>> funcionDelete(string comando);
 
     string columnaGET(string evaluar);
 
