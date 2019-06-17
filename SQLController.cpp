@@ -159,7 +159,7 @@ vector<vector<string>> SQLController::funcionInsert(string comando)
                 c++;
             }
             //ui->LineaCMD->clear();
-            verify.push_back("1");
+            verify.push_back("2");
             matrix.push_back(verify);
             return matrix;
         }
@@ -217,6 +217,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
         }
         if(subs.compare("") == 0 || subs.compare(" ") == 0){
             cout << "Imprimir valores de tabla" << endl;
+            matrix.push_back(dataBase->getColumn(tabla, "FILENAME"));
             matrix.push_back(dataBase->getColumn(tabla,"NAME"));
             matrix.push_back(dataBase->getColumn(tabla,"AUTHOR"));
             matrix.push_back(dataBase->getColumn(tabla,"YEAR"));
@@ -275,8 +276,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                    int recorrer = 0;
+                    while(recorrer<6) {
+                        int ind = 0;
+                        string Col = getCol(recorrer);
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -354,8 +365,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                        int recorrer = 0;
+                        while(recorrer<6) {
+                            int ind = 0;
+                            string Col = getCol(recorrer);
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
+                            }
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -370,8 +391,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                    int recorrer = 0;
+                    while(recorrer<6) {
+                        int ind = 0;
+                        string Col = getCol(recorrer);
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -448,8 +479,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                        int recorrer = 0;
+                        while(recorrer<6) {
+                            int ind = 0;
+                            string Col = getCol(recorrer);
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
+                            }
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -464,8 +505,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                    int recorrer = 0;
+                    while(recorrer<6) {
+                        int ind = 0;
+                        string Col = getCol(recorrer);
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -542,8 +593,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                        int recorrer = 0;
+                        while(recorrer<6) {
+                            int ind = 0;
+                            string Col = getCol(recorrer);
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
+                            }
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -558,8 +619,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                    int recorrer = 0;
+                    while(recorrer<6) {
+                        int ind = 0;
+                        string Col = getCol(recorrer);
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -636,8 +707,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                        int recorrer = 0;
+                        while(recorrer<6) {
+                            int ind = 0;
+                            string Col = getCol(recorrer);
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
+                            }
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -652,8 +733,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                    int recorrer = 0;
+                    while(recorrer<6) {
+                        int ind = 0;
+                        string Col = getCol(recorrer);
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -763,8 +854,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         }
                                     }
                                 }
-                                for (int i = 0; i < indices.size(); i++) {
-                                    matrix.push_back(dataBase->getRow(tabla, indices[i]));
+                                int recorrer = 0;
+                                while(recorrer<6) {
+                                    int ind = 0;
+                                    string Col = getCol(recorrer);
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
+                                    }
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -783,8 +884,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         }
                                     }
                                 }
-                                for (int i = 0; i < indices.size(); i++) {
-                                    matrix.push_back(dataBase->getRow(tabla, indices[i]));
+                                int recorrer = 0;
+                                while(recorrer<6) {
+                                    int ind = 0;
+                                    string Col = getCol(recorrer);
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
+                                    }
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             } else {
@@ -802,8 +913,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         }
                                     }
                                 }
-                                for (int i = 0; i < indices.size(); i++) {
-                                    matrix.push_back(dataBase->getRow(tabla, indices[i]));
+                                int recorrer = 0;
+                                while(recorrer<6) {
+                                    int ind = 0;
+                                    string Col = getCol(recorrer);
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
+                                    }
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -868,8 +989,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         }
                                     }
                                 }
-                                for (int i = 0; i < indices.size(); i++) {
-                                    matrix.push_back(dataBase->getRow(tabla, indices[i]));
+                                int recorrer = 0;
+                                while(recorrer<6) {
+                                    int ind = 0;
+                                    string Col = getCol(recorrer);
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
+                                    }
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -888,8 +1019,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         }
                                     }
                                 }
-                                for (int i = 0; i < indices.size(); i++) {
-                                    matrix.push_back(dataBase->getRow(tabla, indices[i]));
+                                int recorrer = 0;
+                                while(recorrer<6) {
+                                    int ind = 0;
+                                    string Col = getCol(recorrer);
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
+                                    }
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             } else {
@@ -907,8 +1048,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         }
                                     }
                                 }
-                                for (int i = 0; i < indices.size(); i++) {
-                                    matrix.push_back(dataBase->getRow(tabla, indices[i]));
+                                int recorrer = 0;
+                                while(recorrer<6) {
+                                    int ind = 0;
+                                    string Col = getCol(recorrer);
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
+                                    }
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -998,8 +1149,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             c1=0;
                             c2++;
                         }
-                        for (int i = 0; i < indices.size(); i++) {
-                            matrix.push_back(dataBase->getRow(tabla, indices[i]));
+                        int recorrer = 0;
+                        while(recorrer<6) {
+                            int ind = 0;
+                            string Col = getCol(recorrer);
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
+                            }
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
 
@@ -1052,8 +1213,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                    int recorrer = 0;
+                    while(recorrer<6) {
+                        int ind = 0;
+                        string Col = getCol(recorrer);
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -1130,8 +1301,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                        int recorrer = 0;
+                        while(recorrer<6) {
+                            int ind = 0;
+                            string Col = getCol(recorrer);
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
+                            }
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -1146,8 +1327,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                    int recorrer = 0;
+                    while(recorrer<6) {
+                        int ind = 0;
+                        string Col = getCol(recorrer);
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -1224,8 +1415,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                        int recorrer = 0;
+                        while(recorrer<6) {
+                            int ind = 0;
+                            string Col = getCol(recorrer);
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
+                            }
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -1240,8 +1441,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                    int recorrer = 0;
+                    while(recorrer<6) {
+                        int ind = 0;
+                        string Col = getCol(recorrer);
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -1318,8 +1529,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                        int recorrer = 0;
+                        while(recorrer<6) {
+                            int ind = 0;
+                            string Col = getCol(recorrer);
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
+                            }
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -1334,8 +1555,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                    int recorrer = 0;
+                    while(recorrer<6) {
+                        int ind = 0;
+                        string Col = getCol(recorrer);
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -1412,8 +1643,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                        int recorrer = 0;
+                        while(recorrer<6) {
+                            int ind = 0;
+                            string Col = getCol(recorrer);
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
+                            }
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -1428,8 +1669,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                    int recorrer = 0;
+                    while(recorrer<6) {
+                        int ind = 0;
+                        string Col = getCol(recorrer);
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -1446,8 +1697,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                        int recorrer = 0;
+                        while(recorrer<6) {
+                            int ind = 0;
+                            string Col = getCol(recorrer);
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
+                            }
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -1457,8 +1718,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                        int recorrer = 0;
+                        while(recorrer<6) {
+                            int ind = 0;
+                            string Col = getCol(recorrer);
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
+                            }
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -1519,8 +1790,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         indices.push_back(i);
                                     }
                                 }
-                                for(int i=0; i< indices.size(); i++){
-                                    matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                                int recorrer = 0;
+                                while(recorrer<6) {
+                                    int ind = 0;
+                                    string Col = getCol(recorrer);
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
+                                    }
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -1535,8 +1816,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         indices.push_back(i);
                                     }
                                 }
-                                for(int i=0; i< indices.size(); i++){
-                                    matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                                int recorrer = 0;
+                                while(recorrer<6) {
+                                    int ind = 0;
+                                    string Col = getCol(recorrer);
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
+                                    }
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -1564,8 +1855,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         indices.push_back(i);
                                     }
                                 }
-                                for(int i=0; i< indices.size(); i++){
-                                    matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                                int recorrer = 0;
+                                while(recorrer<6) {
+                                    int ind = 0;
+                                    string Col = getCol(recorrer);
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
+                                    }
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -1600,8 +1901,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                             indices.push_back(i);
                                         }
                                     }
-                                    for(int i=0; i< indices.size(); i++){
-                                        matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                                    int recorrer = 0;
+                                    while(recorrer<6) {
+                                        int ind = 0;
+                                        string Col = getCol(recorrer);
+                                        vector <string> toADD;
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                        while (ind < indices.size()) {
+                                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                            ind++;
+                                        }
+                                        matrix.push_back(toADD);
+                                        recorrer++;
                                     }
                                     return matrix;
                                 }
@@ -1616,8 +1927,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                             indices.push_back(i);
                                         }
                                     }
-                                    for(int i=0; i< indices.size(); i++){
-                                        matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                                    int recorrer = 0;
+                                    while(recorrer<6) {
+                                        int ind = 0;
+                                        string Col = getCol(recorrer);
+                                        vector <string> toADD;
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                        while (ind < indices.size()) {
+                                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                            ind++;
+                                        }
+                                        matrix.push_back(toADD);
+                                        recorrer++;
                                     }
                                     return matrix;
                                 }
@@ -1636,8 +1957,18 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         indices.push_back(i);
                                     }
                                 }
-                                for(int i=0; i< indices.size(); i++){
-                                    matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                                int recorrer = 0;
+                                while(recorrer<6) {
+                                    int ind = 0;
+                                    string Col = getCol(recorrer);
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
+                                    }
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -1813,30 +2144,29 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        vector <string> toShow;
-                        toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                        int c = 0;
-                        while (c < columns.size()) {
-                            if (columns[c].compare("NAME") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                            } else if (columns[c].compare("AUTHOR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                            } else if (columns[c].compare("YEAR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                            } else if (columns[c].compare("SIZE") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                            } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                            } else {
-                                cout << "No existe esa columna en la tabla" << endl;
-                                verify.push_back("0");
-                                matrix.push_back(verify);
-                                return matrix;
-                            }
-                            c++;
+
+                    int recorrer = 0;
+                    int ind = 0;
+                    string Col = "FILENAME";
+                    vector <string> toADD;
+                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                    while (ind < indices.size()) {
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                        ind++;
+                    }
+                    matrix.push_back(toADD);
+
+                    while(recorrer<columns.size()) {
+                        ind = 0;
+                        Col = columns[recorrer];
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
                         }
-                        matrix.push_back(toShow);
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -1914,30 +2244,29 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            vector <string> toShow;
-                            toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                            int c = 0;
-                            while (c < columns.size()) {
-                                if (columns[c].compare("NAME") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                } else if (columns[c].compare("AUTHOR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                } else if (columns[c].compare("YEAR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                } else if (columns[c].compare("SIZE") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                } else {
-                                    cout << "No existe esa columna en la tabla" << endl;
-                                    verify.push_back("0");
-                                    matrix.push_back(verify);
-                                    return matrix;
-                                }
-                                c++;
+
+                        int recorrer = 0;
+                        int ind = 0;
+                        string Col = "FILENAME";
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+
+                        while(recorrer<columns.size()) {
+                            ind = 0;
+                            Col = columns[recorrer];
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
                             }
-                            matrix.push_back(toShow);
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -1952,30 +2281,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        vector <string> toShow;
-                        toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                        int c = 0;
-                        while (c < columns.size()) {
-                            if (columns[c].compare("NAME") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                            } else if (columns[c].compare("AUTHOR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                            } else if (columns[c].compare("YEAR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                            } else if (columns[c].compare("SIZE") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                            } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                            } else {
-                                cout << "No existe esa columna en la tabla" << endl;
-                                verify.push_back("0");
-                                matrix.push_back(verify);
-                                return matrix;
-                            }
-                            c++;
+                    int recorrer = 0;
+                    int ind = 0;
+                    string Col = "FILENAME";
+                    vector <string> toADD;
+                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                    while (ind < indices.size()) {
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                        ind++;
+                    }
+                    matrix.push_back(toADD);
+
+                    while(recorrer<columns.size()) {
+                        ind = 0;
+                        Col = columns[recorrer];
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
                         }
-                        matrix.push_back(toShow);
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -2052,30 +2379,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            vector <string> toShow;
-                            toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                            int c = 0;
-                            while (c < columns.size()) {
-                                if (columns[c].compare("NAME") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                } else if (columns[c].compare("AUTHOR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                } else if (columns[c].compare("YEAR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                } else if (columns[c].compare("SIZE") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                } else {
-                                    cout << "No existe esa columna en la tabla" << endl;
-                                    verify.push_back("0");
-                                    matrix.push_back(verify);
-                                    return matrix;
-                                }
-                                c++;
+                        int recorrer = 0;
+                        int ind = 0;
+                        string Col = "FILENAME";
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+
+                        while(recorrer<columns.size()) {
+                            ind = 0;
+                            Col = columns[recorrer];
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
                             }
-                            matrix.push_back(toShow);
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -2090,8 +2415,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                    int recorrer = 0;
+                    int ind = 0;
+                    string Col = "FILENAME";
+                    vector <string> toADD;
+                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                    while (ind < indices.size()) {
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                        ind++;
+                    }
+                    matrix.push_back(toADD);
+
+                    while(recorrer<columns.size()) {
+                        ind = 0;
+                        Col = columns[recorrer];
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -2168,30 +2513,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            vector <string> toShow;
-                            toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                            int c = 0;
-                            while (c < columns.size()) {
-                                if (columns[c].compare("NAME") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                } else if (columns[c].compare("AUTHOR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                } else if (columns[c].compare("YEAR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                } else if (columns[c].compare("SIZE") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                } else {
-                                    cout << "No existe esa columna en la tabla" << endl;
-                                    verify.push_back("0");
-                                    matrix.push_back(verify);
-                                    return matrix;
-                                }
-                                c++;
+                        int recorrer = 0;
+                        int ind = 0;
+                        string Col = "FILENAME";
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+
+                        while(recorrer<columns.size()) {
+                            ind = 0;
+                            Col = columns[recorrer];
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
                             }
-                            matrix.push_back(toShow);
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -2206,30 +2549,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        vector <string> toShow;
-                        toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                        int c = 0;
-                        while (c < columns.size()) {
-                            if (columns[c].compare("NAME") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                            } else if (columns[c].compare("AUTHOR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                            } else if (columns[c].compare("YEAR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                            } else if (columns[c].compare("SIZE") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                            } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                            } else {
-                                cout << "No existe esa columna en la tabla" << endl;
-                                verify.push_back("0");
-                                matrix.push_back(verify);
-                                return matrix;
-                            }
-                            c++;
+                    int recorrer = 0;
+                    int ind = 0;
+                    string Col = "FILENAME";
+                    vector <string> toADD;
+                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                    while (ind < indices.size()) {
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                        ind++;
+                    }
+                    matrix.push_back(toADD);
+
+                    while(recorrer<columns.size()) {
+                        ind = 0;
+                        Col = columns[recorrer];
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
                         }
-                        matrix.push_back(toShow);
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -2306,30 +2647,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            vector <string> toShow;
-                            toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                            int c = 0;
-                            while (c < columns.size()) {
-                                if (columns[c].compare("NAME") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                } else if (columns[c].compare("AUTHOR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                } else if (columns[c].compare("YEAR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                } else if (columns[c].compare("SIZE") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                } else {
-                                    cout << "No existe esa columna en la tabla" << endl;
-                                    verify.push_back("0");
-                                    matrix.push_back(verify);
-                                    return matrix;
-                                }
-                                c++;
+                        int recorrer = 0;
+                        int ind = 0;
+                        string Col = "FILENAME";
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+
+                        while(recorrer<columns.size()) {
+                            ind = 0;
+                            Col = columns[recorrer];
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
                             }
-                            matrix.push_back(toShow);
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -2344,30 +2683,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        vector <string> toShow;
-                        toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                        int c = 0;
-                        while (c < columns.size()) {
-                            if (columns[c].compare("NAME") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                            } else if (columns[c].compare("AUTHOR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                            } else if (columns[c].compare("YEAR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                            } else if (columns[c].compare("SIZE") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                            } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                            } else {
-                                cout << "No existe esa columna en la tabla" << endl;
-                                verify.push_back("0");
-                                matrix.push_back(verify);
-                                return matrix;
-                            }
-                            c++;
+                    int recorrer = 0;
+                    int ind = 0;
+                    string Col = "FILENAME";
+                    vector <string> toADD;
+                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                    while (ind < indices.size()) {
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                        ind++;
+                    }
+                    matrix.push_back(toADD);
+
+                    while(recorrer<columns.size()) {
+                        ind = 0;
+                        Col = columns[recorrer];
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
                         }
-                        matrix.push_back(toShow);
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -2477,30 +2814,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         }
                                     }
                                 }
-                                for(int i=0; i< indices.size(); i++){
-                                    vector <string> toShow;
-                                    toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                                    int c = 0;
-                                    while (c < columns.size()) {
-                                        if (columns[c].compare("NAME") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                        } else if (columns[c].compare("AUTHOR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                        } else if (columns[c].compare("YEAR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                        } else if (columns[c].compare("SIZE") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                        } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                        } else {
-                                            cout << "No existe esa columna en la tabla" << endl;
-                                            verify.push_back("0");
-                                            matrix.push_back(verify);
-                                            return matrix;
-                                        }
-                                        c++;
+                                int recorrer = 0;
+                                int ind = 0;
+                                string Col = "FILENAME";
+                                vector <string> toADD;
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                while (ind < indices.size()) {
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                    ind++;
+                                }
+                                matrix.push_back(toADD);
+
+                                while(recorrer<columns.size()) {
+                                    ind = 0;
+                                    Col = columns[recorrer];
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
                                     }
-                                    matrix.push_back(toShow);
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -2519,30 +2854,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         }
                                     }
                                 }
-                                for(int i=0; i< indices.size(); i++){
-                                    vector <string> toShow;
-                                    toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                                    int c = 0;
-                                    while (c < columns.size()) {
-                                        if (columns[c].compare("NAME") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                        } else if (columns[c].compare("AUTHOR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                        } else if (columns[c].compare("YEAR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                        } else if (columns[c].compare("SIZE") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                        } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                        } else {
-                                            cout << "No existe esa columna en la tabla" << endl;
-                                            verify.push_back("0");
-                                            matrix.push_back(verify);
-                                            return matrix;
-                                        }
-                                        c++;
+                                int recorrer = 0;
+                                int ind = 0;
+                                string Col = "FILENAME";
+                                vector <string> toADD;
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                while (ind < indices.size()) {
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                    ind++;
+                                }
+                                matrix.push_back(toADD);
+
+                                while(recorrer<columns.size()) {
+                                    ind = 0;
+                                    Col = columns[recorrer];
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
                                     }
-                                    matrix.push_back(toShow);
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             } else {
@@ -2560,30 +2893,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         }
                                     }
                                 }
-                                for(int i=0; i< indices.size(); i++){
-                                    vector <string> toShow;
-                                    toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                                    int c = 0;
-                                    while (c < columns.size()) {
-                                        if (columns[c].compare("NAME") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                        } else if (columns[c].compare("AUTHOR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                        } else if (columns[c].compare("YEAR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                        } else if (columns[c].compare("SIZE") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                        } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                        } else {
-                                            cout << "No existe esa columna en la tabla" << endl;
-                                            verify.push_back("0");
-                                            matrix.push_back(verify);
-                                            return matrix;
-                                        }
-                                        c++;
+                                int recorrer = 0;
+                                int ind = 0;
+                                string Col = "FILENAME";
+                                vector <string> toADD;
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                while (ind < indices.size()) {
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                    ind++;
+                                }
+                                matrix.push_back(toADD);
+
+                                while(recorrer<columns.size()) {
+                                    ind = 0;
+                                    Col = columns[recorrer];
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
                                     }
-                                    matrix.push_back(toShow);
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -2648,30 +2979,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         }
                                     }
                                 }
-                                for(int i=0; i< indices.size(); i++){
-                                    vector <string> toShow;
-                                    toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                                    int c = 0;
-                                    while (c < columns.size()) {
-                                        if (columns[c].compare("NAME") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                        } else if (columns[c].compare("AUTHOR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                        } else if (columns[c].compare("YEAR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                        } else if (columns[c].compare("SIZE") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                        } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                        } else {
-                                            cout << "No existe esa columna en la tabla" << endl;
-                                            verify.push_back("0");
-                                            matrix.push_back(verify);
-                                            return matrix;
-                                        }
-                                        c++;
+                                int recorrer = 0;
+                                int ind = 0;
+                                string Col = "FILENAME";
+                                vector <string> toADD;
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                while (ind < indices.size()) {
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                    ind++;
+                                }
+                                matrix.push_back(toADD);
+
+                                while(recorrer<columns.size()) {
+                                    ind = 0;
+                                    Col = columns[recorrer];
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
                                     }
-                                    matrix.push_back(toShow);
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -2690,30 +3019,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         }
                                     }
                                 }
-                                for(int i=0; i< indices.size(); i++){
-                                    vector <string> toShow;
-                                    toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                                    int c = 0;
-                                    while (c < columns.size()) {
-                                        if (columns[c].compare("NAME") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                        } else if (columns[c].compare("AUTHOR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                        } else if (columns[c].compare("YEAR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                        } else if (columns[c].compare("SIZE") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                        } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                        } else {
-                                            cout << "No existe esa columna en la tabla" << endl;
-                                            verify.push_back("0");
-                                            matrix.push_back(verify);
-                                            return matrix;
-                                        }
-                                        c++;
+                                int recorrer = 0;
+                                int ind = 0;
+                                string Col = "FILENAME";
+                                vector <string> toADD;
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                while (ind < indices.size()) {
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                    ind++;
+                                }
+                                matrix.push_back(toADD);
+
+                                while(recorrer<columns.size()) {
+                                    ind = 0;
+                                    Col = columns[recorrer];
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
                                     }
-                                    matrix.push_back(toShow);
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             } else {
@@ -2731,30 +3058,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         }
                                     }
                                 }
-                                for(int i=0; i< indices.size(); i++){
-                                    vector <string> toShow;
-                                    toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                                    int c = 0;
-                                    while (c < columns.size()) {
-                                        if (columns[c].compare("NAME") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                        } else if (columns[c].compare("AUTHOR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                        } else if (columns[c].compare("YEAR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                        } else if (columns[c].compare("SIZE") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                        } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                        } else {
-                                            cout << "No existe esa columna en la tabla" << endl;
-                                            verify.push_back("0");
-                                            matrix.push_back(verify);
-                                            return matrix;
-                                        }
-                                        c++;
+                                int recorrer = 0;
+                                int ind = 0;
+                                string Col = "FILENAME";
+                                vector <string> toADD;
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                while (ind < indices.size()) {
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                    ind++;
+                                }
+                                matrix.push_back(toADD);
+
+                                while(recorrer<columns.size()) {
+                                    ind = 0;
+                                    Col = columns[recorrer];
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
                                     }
-                                    matrix.push_back(toShow);
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -2844,30 +3169,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             c1=0;
                             c2++;
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            vector <string> toShow;
-                            toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                            int c = 0;
-                            while (c < columns.size()) {
-                                if (columns[c].compare("NAME") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                } else if (columns[c].compare("AUTHOR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                } else if (columns[c].compare("YEAR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                } else if (columns[c].compare("SIZE") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                } else {
-                                    cout << "No existe esa columna en la tabla" << endl;
-                                    verify.push_back("0");
-                                    matrix.push_back(verify);
-                                    return matrix;
-                                }
-                                c++;
+                        int recorrer = 0;
+                        int ind = 0;
+                        string Col = "FILENAME";
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+
+                        while(recorrer<columns.size()) {
+                            ind = 0;
+                            Col = columns[recorrer];
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
                             }
-                            matrix.push_back(toShow);
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
 
@@ -2920,30 +3243,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        vector <string> toShow;
-                        toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                        int c = 0;
-                        while (c < columns.size()) {
-                            if (columns[c].compare("NAME") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                            } else if (columns[c].compare("AUTHOR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                            } else if (columns[c].compare("YEAR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                            } else if (columns[c].compare("SIZE") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                            } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                            } else {
-                                cout << "No existe esa columna en la tabla" << endl;
-                                verify.push_back("0");
-                                matrix.push_back(verify);
-                                return matrix;
-                            }
-                            c++;
+                    int recorrer = 0;
+                    int ind = 0;
+                    string Col = "FILENAME";
+                    vector <string> toADD;
+                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                    while (ind < indices.size()) {
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                        ind++;
+                    }
+                    matrix.push_back(toADD);
+
+                    while(recorrer<columns.size()) {
+                        ind = 0;
+                        Col = columns[recorrer];
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
                         }
-                        matrix.push_back(toShow);
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -3020,30 +3341,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            vector <string> toShow;
-                            toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                            int c = 0;
-                            while (c < columns.size()) {
-                                if (columns[c].compare("NAME") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                } else if (columns[c].compare("AUTHOR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                } else if (columns[c].compare("YEAR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                } else if (columns[c].compare("SIZE") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                } else {
-                                    cout << "No existe esa columna en la tabla" << endl;
-                                    verify.push_back("0");
-                                    matrix.push_back(verify);
-                                    return matrix;
-                                }
-                                c++;
+                        int recorrer = 0;
+                        int ind = 0;
+                        string Col = "FILENAME";
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+
+                        while(recorrer<columns.size()) {
+                            ind = 0;
+                            Col = columns[recorrer];
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
                             }
-                            matrix.push_back(toShow);
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -3058,30 +3377,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        vector <string> toShow;
-                        toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                        int c = 0;
-                        while (c < columns.size()) {
-                            if (columns[c].compare("NAME") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                            } else if (columns[c].compare("AUTHOR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                            } else if (columns[c].compare("YEAR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                            } else if (columns[c].compare("SIZE") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                            } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                            } else {
-                                cout << "No existe esa columna en la tabla" << endl;
-                                verify.push_back("0");
-                                matrix.push_back(verify);
-                                return matrix;
-                            }
-                            c++;
+                    int recorrer = 0;
+                    int ind = 0;
+                    string Col = "FILENAME";
+                    vector <string> toADD;
+                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                    while (ind < indices.size()) {
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                        ind++;
+                    }
+                    matrix.push_back(toADD);
+
+                    while(recorrer<columns.size()) {
+                        ind = 0;
+                        Col = columns[recorrer];
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
                         }
-                        matrix.push_back(toShow);
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -3158,30 +3475,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            vector <string> toShow;
-                            toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                            int c = 0;
-                            while (c < columns.size()) {
-                                if (columns[c].compare("NAME") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                } else if (columns[c].compare("AUTHOR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                } else if (columns[c].compare("YEAR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                } else if (columns[c].compare("SIZE") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                } else {
-                                    cout << "No existe esa columna en la tabla" << endl;
-                                    verify.push_back("0");
-                                    matrix.push_back(verify);
-                                    return matrix;
-                                }
-                                c++;
+                        int recorrer = 0;
+                        int ind = 0;
+                        string Col = "FILENAME";
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+
+                        while(recorrer<columns.size()) {
+                            ind = 0;
+                            Col = columns[recorrer];
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
                             }
-                            matrix.push_back(toShow);
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -3196,30 +3511,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        vector <string> toShow;
-                        toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                        int c = 0;
-                        while (c < columns.size()) {
-                            if (columns[c].compare("NAME") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                            } else if (columns[c].compare("AUTHOR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                            } else if (columns[c].compare("YEAR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                            } else if (columns[c].compare("SIZE") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                            } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                            } else {
-                                cout << "No existe esa columna en la tabla" << endl;
-                                verify.push_back("0");
-                                matrix.push_back(verify);
-                                return matrix;
-                            }
-                            c++;
+                    int recorrer = 0;
+                    int ind = 0;
+                    string Col = "FILENAME";
+                    vector <string> toADD;
+                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                    while (ind < indices.size()) {
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                        ind++;
+                    }
+                    matrix.push_back(toADD);
+
+                    while(recorrer<columns.size()) {
+                        ind = 0;
+                        Col = columns[recorrer];
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
                         }
-                        matrix.push_back(toShow);
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -3296,30 +3609,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            vector <string> toShow;
-                            toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                            int c = 0;
-                            while (c < columns.size()) {
-                                if (columns[c].compare("NAME") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                } else if (columns[c].compare("AUTHOR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                } else if (columns[c].compare("YEAR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                } else if (columns[c].compare("SIZE") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                } else {
-                                    cout << "No existe esa columna en la tabla" << endl;
-                                    verify.push_back("0");
-                                    matrix.push_back(verify);
-                                    return matrix;
-                                }
-                                c++;
+                        int recorrer = 0;
+                        int ind = 0;
+                        string Col = "FILENAME";
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+
+                        while(recorrer<columns.size()) {
+                            ind = 0;
+                            Col = columns[recorrer];
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
                             }
-                            matrix.push_back(toShow);
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -3334,30 +3645,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        vector <string> toShow;
-                        toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                        int c = 0;
-                        while (c < columns.size()) {
-                            if (columns[c].compare("NAME") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                            } else if (columns[c].compare("AUTHOR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                            } else if (columns[c].compare("YEAR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                            } else if (columns[c].compare("SIZE") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                            } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                            } else {
-                                cout << "No existe esa columna en la tabla" << endl;
-                                verify.push_back("0");
-                                matrix.push_back(verify);
-                                return matrix;
-                            }
-                            c++;
+                    int recorrer = 0;
+                    int ind = 0;
+                    string Col = "FILENAME";
+                    vector <string> toADD;
+                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                    while (ind < indices.size()) {
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                        ind++;
+                    }
+                    matrix.push_back(toADD);
+
+                    while(recorrer<columns.size()) {
+                        ind = 0;
+                        Col = columns[recorrer];
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
                         }
-                        matrix.push_back(toShow);
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -3434,8 +3743,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                        int recorrer = 0;
+                        int ind = 0;
+                        string Col = "FILENAME";
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+
+                        while(recorrer<columns.size()) {
+                            ind = 0;
+                            Col = columns[recorrer];
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
+                            }
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -3450,30 +3779,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             indices.push_back(i);
                         }
                     }
-                    for(int i=0; i< indices.size(); i++){
-                        vector <string> toShow;
-                        toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                        int c = 0;
-                        while (c < columns.size()) {
-                            if (columns[c].compare("NAME") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                            } else if (columns[c].compare("AUTHOR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                            } else if (columns[c].compare("YEAR") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                            } else if (columns[c].compare("SIZE") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                            } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                            } else {
-                                cout << "No existe esa columna en la tabla" << endl;
-                                verify.push_back("0");
-                                matrix.push_back(verify);
-                                return matrix;
-                            }
-                            c++;
+                    int recorrer = 0;
+                    int ind = 0;
+                    string Col = "FILENAME";
+                    vector <string> toADD;
+                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                    while (ind < indices.size()) {
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                        ind++;
+                    }
+                    matrix.push_back(toADD);
+
+                    while(recorrer<columns.size()) {
+                        ind = 0;
+                        Col = columns[recorrer];
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
                         }
-                        matrix.push_back(toShow);
+                        matrix.push_back(toADD);
+                        recorrer++;
                     }
                     return matrix;
                 }
@@ -3490,8 +3817,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            matrix.push_back(dataBase->getRow(tabla,indices[i]));
+                        int recorrer = 0;
+                        int ind = 0;
+                        string Col = "FILENAME";
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+
+                        while(recorrer<columns.size()) {
+                            ind = 0;
+                            Col = columns[recorrer];
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
+                            }
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -3501,30 +3848,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                 indices.push_back(i);
                             }
                         }
-                        for(int i=0; i< indices.size(); i++){
-                            vector <string> toShow;
-                            toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                            int c = 0;
-                            while (c < columns.size()) {
-                                if (columns[c].compare("NAME") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                } else if (columns[c].compare("AUTHOR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                } else if (columns[c].compare("YEAR") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                } else if (columns[c].compare("SIZE") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                    toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                } else {
-                                    cout << "No existe esa columna en la tabla" << endl;
-                                    verify.push_back("0");
-                                    matrix.push_back(verify);
-                                    return matrix;
-                                }
-                                c++;
+                        int recorrer = 0;
+                        int ind = 0;
+                        string Col = "FILENAME";
+                        vector <string> toADD;
+                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                        while (ind < indices.size()) {
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                            ind++;
+                        }
+                        matrix.push_back(toADD);
+
+                        while(recorrer<columns.size()) {
+                            ind = 0;
+                            Col = columns[recorrer];
+                            vector <string> toADD;
+                            toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                            while (ind < indices.size()) {
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                ind++;
                             }
-                            matrix.push_back(toShow);
+                            matrix.push_back(toADD);
+                            recorrer++;
                         }
                         return matrix;
                     }
@@ -3585,30 +3930,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         indices.push_back(i);
                                     }
                                 }
-                                for(int i=0; i< indices.size(); i++){
-                                    vector <string> toShow;
-                                    toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                                    int c = 0;
-                                    while (c < columns.size()) {
-                                        if (columns[c].compare("NAME") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                        } else if (columns[c].compare("AUTHOR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                        } else if (columns[c].compare("YEAR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                        } else if (columns[c].compare("SIZE") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                        } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                        } else {
-                                            cout << "No existe esa columna en la tabla" << endl;
-                                            verify.push_back("0");
-                                            matrix.push_back(verify);
-                                            return matrix;
-                                        }
-                                        c++;
+                                int recorrer = 0;
+                                int ind = 0;
+                                string Col = "FILENAME";
+                                vector <string> toADD;
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                while (ind < indices.size()) {
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                    ind++;
+                                }
+                                matrix.push_back(toADD);
+
+                                while(recorrer<columns.size()) {
+                                    ind = 0;
+                                    Col = columns[recorrer];
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
                                     }
-                                    matrix.push_back(toShow);
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -3623,30 +3966,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         indices.push_back(i);
                                     }
                                 }
-                                for(int i=0; i< indices.size(); i++){
-                                    vector <string> toShow;
-                                    toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                                    int c = 0;
-                                    while (c < columns.size()) {
-                                        if (columns[c].compare("NAME") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                        } else if (columns[c].compare("AUTHOR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                        } else if (columns[c].compare("YEAR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                        } else if (columns[c].compare("SIZE") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                        } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                        } else {
-                                            cout << "No existe esa columna en la tabla" << endl;
-                                            verify.push_back("0");
-                                            matrix.push_back(verify);
-                                            return matrix;
-                                        }
-                                        c++;
+                                int recorrer = 0;
+                                int ind = 0;
+                                string Col = "FILENAME";
+                                vector <string> toADD;
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                while (ind < indices.size()) {
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                    ind++;
+                                }
+                                matrix.push_back(toADD);
+
+                                while(recorrer<columns.size()) {
+                                    ind = 0;
+                                    Col = columns[recorrer];
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
                                     }
-                                    matrix.push_back(toShow);
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -3674,30 +4015,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         indices.push_back(i);
                                     }
                                 }
-                                for(int i=0; i< indices.size(); i++){
-                                    vector <string> toShow;
-                                    toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                                    int c = 0;
-                                    while (c < columns.size()) {
-                                        if (columns[c].compare("NAME") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                        } else if (columns[c].compare("AUTHOR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                        } else if (columns[c].compare("YEAR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                        } else if (columns[c].compare("SIZE") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                        } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                        } else {
-                                            cout << "No existe esa columna en la tabla" << endl;
-                                            verify.push_back("0");
-                                            matrix.push_back(verify);
-                                            return matrix;
-                                        }
-                                        c++;
+                                int recorrer = 0;
+                                int ind = 0;
+                                string Col = "FILENAME";
+                                vector <string> toADD;
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                while (ind < indices.size()) {
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                    ind++;
+                                }
+                                matrix.push_back(toADD);
+
+                                while(recorrer<columns.size()) {
+                                    ind = 0;
+                                    Col = columns[recorrer];
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
                                     }
-                                    matrix.push_back(toShow);
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -3732,30 +4071,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                             indices.push_back(i);
                                         }
                                     }
-                                    for(int i=0; i< indices.size(); i++){
-                                        vector <string> toShow;
-                                        toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                                        int c = 0;
-                                        while (c < columns.size()) {
-                                            if (columns[c].compare("NAME") == 0) {
-                                                toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                            } else if (columns[c].compare("AUTHOR") == 0) {
-                                                toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                            } else if (columns[c].compare("YEAR") == 0) {
-                                                toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                            } else if (columns[c].compare("SIZE") == 0) {
-                                                toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                            } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                                toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                            } else {
-                                                cout << "No existe esa columna en la tabla" << endl;
-                                                verify.push_back("0");
-                                                matrix.push_back(verify);
-                                                return matrix;
-                                            }
-                                            c++;
+                                    int recorrer = 0;
+                                    int ind = 0;
+                                    string Col = "FILENAME";
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
+                                    }
+                                    matrix.push_back(toADD);
+
+                                    while(recorrer<columns.size()) {
+                                        ind = 0;
+                                        Col = columns[recorrer];
+                                        vector <string> toADD;
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                        while (ind < indices.size()) {
+                                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                            ind++;
                                         }
-                                        matrix.push_back(toShow);
+                                        matrix.push_back(toADD);
+                                        recorrer++;
                                     }
                                     return matrix;
                                 }
@@ -3770,30 +4107,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                             indices.push_back(i);
                                         }
                                     }
-                                    for(int i=0; i< indices.size(); i++){
-                                        vector <string> toShow;
-                                        toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                                        int c = 0;
-                                        while (c < columns.size()) {
-                                            if (columns[c].compare("NAME") == 0) {
-                                                toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                            } else if (columns[c].compare("AUTHOR") == 0) {
-                                                toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                            } else if (columns[c].compare("YEAR") == 0) {
-                                                toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                            } else if (columns[c].compare("SIZE") == 0) {
-                                                toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                            } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                                toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                            } else {
-                                                cout << "No existe esa columna en la tabla" << endl;
-                                                verify.push_back("0");
-                                                matrix.push_back(verify);
-                                                return matrix;
-                                            }
-                                            c++;
+                                    int recorrer = 0;
+                                    int ind = 0;
+                                    string Col = "FILENAME";
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
+                                    }
+                                    matrix.push_back(toADD);
+
+                                    while(recorrer<columns.size()) {
+                                        ind = 0;
+                                        Col = columns[recorrer];
+                                        vector <string> toADD;
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                        while (ind < indices.size()) {
+                                            toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                            ind++;
                                         }
-                                        matrix.push_back(toShow);
+                                        matrix.push_back(toADD);
+                                        recorrer++;
                                     }
                                     return matrix;
                                 }
@@ -3812,30 +4147,28 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                                         indices.push_back(i);
                                     }
                                 }
-                                for(int i=0; i< indices.size(); i++){
-                                    vector <string> toShow;
-                                    toShow.push_back(dataBase->getRow(tabla,indices[i])[0]);
-                                    int c = 0;
-                                    while (c < columns.size()) {
-                                        if (columns[c].compare("NAME") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[1]);
-                                        } else if (columns[c].compare("AUTHOR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[2]);
-                                        } else if (columns[c].compare("YEAR") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[3]);
-                                        } else if (columns[c].compare("SIZE") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[4]);
-                                        } else if (columns[c].compare("DESCRIPTION") == 0) {
-                                            toShow.push_back(dataBase->getRow(tabla, indices[i])[5]);
-                                        } else {
-                                            cout << "No existe esa columna en la tabla" << endl;
-                                            verify.push_back("0");
-                                            matrix.push_back(verify);
-                                            return matrix;
-                                        }
-                                        c++;
+                                int recorrer = 0;
+                                int ind = 0;
+                                string Col = "FILENAME";
+                                vector <string> toADD;
+                                toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                while (ind < indices.size()) {
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                    ind++;
+                                }
+                                matrix.push_back(toADD);
+
+                                while(recorrer<columns.size()) {
+                                    ind = 0;
+                                    Col = columns[recorrer];
+                                    vector <string> toADD;
+                                    toADD.push_back(dataBase->getColumn(tabla, Col)[0]);
+                                    while (ind < indices.size()) {
+                                        toADD.push_back(dataBase->getColumn(tabla, Col)[indices[ind]]);
+                                        ind++;
                                     }
-                                    matrix.push_back(toShow);
+                                    matrix.push_back(toADD);
+                                    recorrer++;
                                 }
                                 return matrix;
                             }
@@ -7286,7 +7619,34 @@ vector<vector<string>> SQLController::makeFunction(string comando) {
 
 }
 
+string SQLController::getCol(int actual) {
+    if (actual == 0){
+        return "FILENAME";
 
+    }
+    else if (actual == 1){
+        return "NAME";
+
+    }
+    else if (actual == 2){
+        return "AUTHOR";
+
+    }
+    else if (actual == 3){
+        return "YEAR";
+
+    }
+    else if (actual == 4){
+        return "SIZE";
+
+    }
+    else if (actual == 5){
+        return "DESCRIPTION";
+    }
+    else{
+        return "ERROR";
+    }
+}
 
 ///Getters y Setters
 

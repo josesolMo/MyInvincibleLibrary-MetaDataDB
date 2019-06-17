@@ -43,6 +43,8 @@ public:
 
     vector<vector<string>> makeFunction(string comando);
 
+    string getCol(int actual);
+
     ///Getters & Setters
     DataBase* getDataBase();
     void setDataBase(DataBase* _dataBase);
