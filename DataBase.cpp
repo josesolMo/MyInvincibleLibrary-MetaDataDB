@@ -124,6 +124,8 @@ void DataBase::updateBackup() {
     file = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata_backup.json", "w");
 
     fputs(updatebuff, file);
+
+    fclose(file);
 }
 
 
@@ -1153,4 +1155,22 @@ vector<vector<string>> DataBase::getAllGalleries() {
     }
 
     return result;
+}
+
+void DataBase::restoreFromBackup() {
+    char updatebuff[20000];
+
+    FILE *file;
+
+    file = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata_backup.json", "r");
+
+    fread(updatebuff, 20000, 1, file);
+
+    fclose(file);
+
+    file = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json", "w");
+
+    fputs(updatebuff, file);
+
+    fclose(file);
 }

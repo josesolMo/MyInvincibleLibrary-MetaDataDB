@@ -156,6 +156,28 @@ string sendInitial(){
     return json_object_to_json_string(jobj);
 }
 
+string sendCommit() {
+    sqlController->getDataBase()->updateBackup();
+
+    json_object *jobj = json_object_new_object();
+    json_object *jstring;
+    jstring = json_object_new_string("1");
+    json_object_object_add(jobj, "COMMIT", jstring);
+
+    return json_object_to_json_string(jobj);
+}
+
+string sendRollback() {
+    sqlController->getDataBase()->restoreFromBackup();
+
+    json_object *jobj = json_object_new_object();
+    json_object *jstring;
+    jstring = json_object_new_string("1");
+    json_object_object_add(jobj, "ROLLBACK", jstring);
+
+    return json_object_to_json_string(jobj);
+}
+
 string sendFile(string gallery, string arrowIndex) {}
 
 string sendBinary(string gallery, string arrowIndex) {}
@@ -267,6 +289,20 @@ int runServer() {
             json_object *parsed_jsonInitial = json_tokener_parse(buff);
             json_object_object_get_ex(parsed_jsonInitial, "INITIAL", &tempInitial);
 
+            ///KEY: COMMIT
+            ///Obtiene el nombre de la galeria asociada a la direccion que se quiere acceder
+            struct json_object *tempCommit;
+            //cout<<"GALLERY"<<endl;
+            json_object *parsed_jsonCommit = json_tokener_parse(buff);
+            json_object_object_get_ex(parsed_jsonCommit, "COMMIT", &tempCommit);
+
+            ///KEY: ROLLBACK
+            ///Obtiene el nombre de la galeria asociada a la direccion que se quiere acceder
+            struct json_object *tempRollback;
+            //cout<<"GALLERY"<<endl;
+            json_object *parsed_jsonRollback = json_tokener_parse(buff);
+            json_object_object_get_ex(parsed_jsonRollback, "ROLLBACK", &tempRollback);
+
             /*
             ///KEY: TEMPLATE
             ///Obtiene un request para
@@ -333,6 +369,30 @@ int runServer() {
                 send(fd2, initial.c_str(), MAXDATASIZE, 0);
             }
 
+            ///Obtendra un request para obtener la galeria
+            ///Verifica que reciba los KEYS: COMMIT
+            if (json_object_get_string(tempCommit) != nullptr) {
+                ///JSON saliente del servidor
+                string commit = sendCommit();
+
+                cout << commit << endl;
+
+                ///Envio al cliente
+                send(fd2, commit.c_str(), MAXDATASIZE, 0);
+            }
+
+            ///Obtendra un request para obtener la galeria
+            ///Verifica que reciba los KEYS: ROLLBACK
+            if (json_object_get_string(tempRollback) != nullptr) {
+                ///JSON saliente del servidor
+                string rollback = sendRollback();
+
+                cout << rollback << endl;
+
+                ///Envio al cliente
+                send(fd2, rollback.c_str(), MAXDATASIZE, 0);
+            }
+
 
 
 
@@ -375,6 +435,8 @@ int main(){
 
     ///Corre el servidor
     runServer();
+
+    //sqlController->getDataBase()->restoreFromBackup();
 
 
     //huffman_helper *hh = new huffman_helper();

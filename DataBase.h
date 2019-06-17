@@ -37,6 +37,8 @@ public:
     void readJson();
     void restartDataBase();
     void updateBackup();
+    void restoreFromBackup();
+
 
     vector<string> getColumn(string _galleryName, string _columnId);
 
