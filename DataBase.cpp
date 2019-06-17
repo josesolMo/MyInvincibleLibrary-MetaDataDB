@@ -2,6 +2,7 @@
 // Created by jose on 05/06/19.
 //
 
+#include <sstream>
 #include "DataBase.h"
 
 
@@ -424,7 +425,7 @@ void DataBase::addMetadata(string _galleryName, string _imgId, string _imgName,s
     cerr<<"Error: The gallery "<<_galleryName<<" doesn't exist"<<endl;
 }
 
-void DataBase::deleteMetadata(string _galleryName, string _imgId) {
+vector<vector<string>> DataBase::deleteMetadata(string _galleryName, string _imgId) {
     FILE *fp;
 
     char readbuff[20000];
@@ -443,6 +444,14 @@ void DataBase::deleteMetadata(string _galleryName, string _imgId) {
 
     string evaluarGal;
     string evaluarImg;
+
+    vector<vector<string>> result;
+
+    vector<string> error;
+    error.push_back("-2");
+
+    vector<string> exito;
+    exito.push_back("2");
 
     fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json","r");
 
@@ -515,17 +524,22 @@ void DataBase::deleteMetadata(string _galleryName, string _imgId) {
                     fputs(writebuff, fp);
                     fclose(fp);
 
-                    return;
+                    result.push_back(exito);
+
+                    return result;
                 }
             }
             cerr<<"Error: The image "<<_imgId<<" doesn't exist"<<endl;
-            return;
+
+            result.push_back(error);
+
+            return result;
         }
     }
     cerr<<"Error: The gallery "<<_galleryName<<" doesn't exist"<<endl;
 }
 
-void DataBase::modifyMetadata(string _galleryName, string _imgId, string _metadataId, string _data) {
+vector<vector<string>> DataBase::modifyMetadata(string _galleryName, string _imgId, string _metadataId, string _data) {
 
     FILE *fp;
 
@@ -545,6 +559,16 @@ void DataBase::modifyMetadata(string _galleryName, string _imgId, string _metada
 
     string evaluarGal;
     string evaluarImg;
+
+
+    vector<vector<string>> result;
+
+    vector<string> error;
+    error.push_back("-2");
+
+    vector<string> exito;
+    exito.push_back("2");
+
 
     fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json", "r");
 
@@ -620,14 +644,24 @@ void DataBase::modifyMetadata(string _galleryName, string _imgId, string _metada
                     fputs(writebuff, fp);
                     fclose(fp);
 
-                    return;
+
+                    result.push_back(exito);
+
+                    return result;
                 }
             }
             cerr << "Error: The image " << _imgId << " doesn't exist" << endl;
-            return;
+
+            result.push_back(error);
+
+            return result;
         }
     }
     cerr << "Error: The gallery " << _galleryName << " doesn't exist" << endl;
+
+    result.push_back(error);
+
+    return result;
 }
 
 /**
@@ -870,11 +904,253 @@ vector<string> DataBase::getRow(string _galleryName, int index) {
 
             json_object_object_get_ex(image, "DESCRIPTION", &image_return);
             result.push_back(json_object_to_json_string(image_return));
-            
+
 
             return result;
         }
     }
     vector<string> error;
     return error;
+}
+
+vector<int> DataBase::getColumnYear(string _galleryName) {
+    FILE *fp;
+
+    char readbuff[20000];
+
+    struct json_object *parsed_json;
+    struct json_object *galleries;
+    struct  json_object *gallery;
+    struct  json_object *galleryName;
+    struct  json_object *images;
+    struct  json_object *image;
+    struct json_object *image_return;
+
+    int n_galleries;
+    int n_images;
+
+    string evaluarGal;
+    string fila_return;
+
+    vector<int> result;
+
+    fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json","r");
+
+    fread(readbuff, 20000, 1, fp);
+
+    fclose(fp);
+
+    parsed_json = json_tokener_parse(readbuff);
+
+    ///Ingresa a las GALERIAS
+    json_object_object_get_ex(parsed_json, "GALLERIES", &galleries);
+
+    ///Obtiene la cantidad de GALERIAS
+    n_galleries = json_object_array_length(galleries);
+
+
+    for (int i=0;i<n_galleries;i++) {
+
+        ///Elige una GALERIA para evaluar
+        gallery = json_object_array_get_idx(galleries, i);
+        ///Obtiene NOMBRE de la GALERIA
+        json_object_object_get_ex(gallery, "NAME", &galleryName);
+
+        evaluarGal = json_object_get_string(galleryName);
+
+        if (evaluarGal == _galleryName) {
+
+            json_object_object_get_ex(gallery, "IMAGES", &images);
+
+            ///Obtiene la cantidad de IMAGENES
+            n_images = json_object_array_length(images);
+
+            for (int j = 0; j < n_images; j++) {
+
+                image = json_object_array_get_idx(images, j);
+
+                json_object_object_get_ex(image, "YEAR", &image_return);
+
+                fila_return = json_object_get_string(image_return);
+
+                result.push_back(stoi(fila_return));
+            }
+
+            for(int x = 0; x<result.size();x++){
+                cout<<result[x]<<endl;
+            }
+
+            return result;
+        }
+    }
+    cerr<<"Error: The gallery "<<_galleryName<<" doesn't exist"<<endl;
+    vector<int> error;
+    return  error;
+}
+
+vector<int> DataBase::getColumnSize(string _galleryName) {
+    FILE *fp;
+
+    char readbuff[20000];
+
+    struct json_object *parsed_json;
+    struct json_object *galleries;
+    struct  json_object *gallery;
+    struct  json_object *galleryName;
+    struct  json_object *images;
+    struct  json_object *image;
+    struct json_object *image_return;
+
+    int n_galleries;
+    int n_images;
+
+    string evaluarGal;
+    string fila_return;
+
+    vector<int> result;
+
+    fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json","r");
+
+    fread(readbuff, 20000, 1, fp);
+
+    fclose(fp);
+
+    parsed_json = json_tokener_parse(readbuff);
+
+    ///Ingresa a las GALERIAS
+    json_object_object_get_ex(parsed_json, "GALLERIES", &galleries);
+
+    ///Obtiene la cantidad de GALERIAS
+    n_galleries = json_object_array_length(galleries);
+
+
+    for (int i=0;i<n_galleries;i++) {
+
+        ///Elige una GALERIA para evaluar
+        gallery = json_object_array_get_idx(galleries, i);
+        ///Obtiene NOMBRE de la GALERIA
+        json_object_object_get_ex(gallery, "NAME", &galleryName);
+
+        evaluarGal = json_object_get_string(galleryName);
+
+        if (evaluarGal == _galleryName) {
+
+            json_object_object_get_ex(gallery, "IMAGES", &images);
+
+            ///Obtiene la cantidad de IMAGENES
+            n_images = json_object_array_length(images);
+
+            for (int j = 0; j < n_images; j++) {
+
+                image = json_object_array_get_idx(images, j);
+
+                json_object_object_get_ex(image, "SIZE", &image_return);
+
+                fila_return = json_object_get_string(image_return);
+
+                size_t x=fila_return.find("x");
+
+//                if(fila_return.length()<x){
+//                    cout<<"Invalid size"<<endl;
+//                    result.push_back(0);
+//                }
+
+                string size1 = fila_return.substr(0,x);
+                string size2 = fila_return.substr(x+1);
+
+                stringstream toint1(size1);
+                int v1;
+                toint1 >> v1;
+
+                stringstream toint2(size2);
+                int v2;
+                toint2 >> v2;
+
+                int sizeM = v1*v2;
+
+                result.push_back(sizeM);
+            }
+
+            for(int x = 0; x<result.size();x++){
+                cout<<result[x]<<endl;
+            }
+
+            return result;
+        }
+    }
+    cerr<<"Error: The gallery "<<_galleryName<<" doesn't exist"<<endl;
+    vector<int> error;
+    return  error;
+}
+
+vector<vector<string>> DataBase::getAllGalleries() {
+    FILE *fp;
+
+    char readbuff[20000];
+
+    struct json_object *parsed_json;
+    struct json_object *galleries;
+    struct  json_object *gallery;
+    struct  json_object *galleryName;
+    struct json_object *images;
+    struct json_object *image;
+    struct json_object *image_return;
+
+    vector<vector<string>> result;
+
+    int n_galleries;
+    int n_images;
+
+    string evaluar;
+    string file_name;
+
+    fp = fopen("/home/jose/ProyectosGit/MyInvincibleLibrary-MetaDataDB/metadata/metadata.json","r");
+
+    fread(readbuff, 20000, 1, fp);
+
+    fclose(fp);
+
+    parsed_json = json_tokener_parse(readbuff);
+
+    ///Ingresa a las GALERIAS
+    json_object_object_get_ex(parsed_json, "GALLERIES", &galleries);
+
+    ///Obtiene la cantidad de GALERIAS
+    n_galleries = json_object_array_length(galleries);
+
+    for (int i=0;i<n_galleries;i++){
+        vector<string> galeria;
+        ///Elige una GALERIA para evaluar
+        gallery = json_object_array_get_idx(galleries,i);
+
+        ///Obtiene NOMBRE de la GALERIA
+        json_object_object_get_ex(gallery, "NAME", &galleryName);
+
+        evaluar = json_object_get_string(galleryName);
+
+        cout<<evaluar<<": "<<endl;
+
+        galeria.push_back(evaluar);
+
+        json_object_object_get_ex(gallery, "IMAGES", &images);
+
+        ///Obtiene la cantidad de IMAGENES
+        n_images = json_object_array_length(images);
+
+        for (int j = 0; j < n_images; j++) {
+
+            image = json_object_array_get_idx(images, j);
+
+            json_object_object_get_ex(image, "FILENAME", &image_return);
+
+            file_name = json_object_get_string(image_return);
+
+            cout<<"-"<<file_name<<endl;
+
+            galeria.push_back(file_name);
+        }
+        result.push_back(galeria);
+    }
+
+    return result;
 }
