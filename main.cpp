@@ -299,14 +299,14 @@ int runServer() {
             ///KEY: NEWIMAGE
             ///Obtiene el nombre de la nueva imagen para verificar si puede ser guardada.
             struct json_object *tempNewImage;
-            //cout<<"NEWIMAGE"<<endl;
+            cout<<"NEWIMAGE"<<endl;
             json_object *parsed_jsonNewImage = json_tokener_parse(buff);
             json_object_object_get_ex(parsed_jsonNewImage, "NEWIMAGE", &tempNewImage);
 
             ///KEY: GALLERY
             ///Obtiene el nombre de la galeria asociada a la direccion que se quiere acceder
             struct json_object *tempGallery;
-            //cout<<"GALLERY"<<endl;
+            cout<<"GALLERY"<<endl;
             json_object *parsed_jsonGallery = json_tokener_parse(buff);
             json_object_object_get_ex(parsed_jsonGallery, "GALLERY", &tempGallery);
 

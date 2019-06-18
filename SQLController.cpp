@@ -5822,7 +5822,7 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
     string subs = comando;
     size_t Set = subs.find("SET ");
 
-    if (3 < Set){
+    if (50 < Set){
         cout << "Syntax error" << endl;
         verify.push_back("0");
         matrix.push_back(verify);
@@ -5838,7 +5838,7 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
         tabla = tabla.substr(0, tabla.length()-1);
     }
 
-    subs = subs.substr(Set+4);
+    subs = subs.substr(Set+3);
     size_t pycoma = subs.find(";");
     if (subs.length()< pycoma){
         cout << "Syntax error" << endl;
@@ -5846,6 +5846,7 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
         matrix.push_back(verify);
         return matrix;
     }
+
     string evaluate = subs.substr(0, pycoma);
 
     size_t changeEnd = subs.find(";");
@@ -5855,8 +5856,10 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
         matrix.push_back(verify);
         return matrix;
     }
-    string values = subs.substr(1, changeEnd);
-    subs = subs.substr(changeEnd+1);
+
+
+    string values = subs.substr(1, pycoma);
+    subs = subs.substr(pycoma+1);
     cout << values << endl;
     vector<vector<string>> toChange;
     while (values.compare(";") != 0) {
@@ -5891,14 +5894,14 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
             }
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
-            size_t pycoma = current.find(",");
+            /*size_t pycoma = current.find(";");
             if (current.length() < pycoma) {
                 cout << "Syntax error" << endl;
                 verify.push_back("0");
                 matrix.push_back(verify);
                 return matrix;
-            }
-            string value = current.substr(0, pycoma);
+            }*/
+            string value = current.substr(comand);
             cout << value << endl;
             if (value[0] == ' ') {
                 value = value.substr(1);
