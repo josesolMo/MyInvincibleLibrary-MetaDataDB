@@ -17,6 +17,7 @@
 
 
 using namespace std;
+
 /**
  * Constructor
  */
@@ -26,6 +27,13 @@ SQLController::SQLController() {
 
 
 ///Metodos
+
+
+/**
+ * Metodo para agregar metadata a una imagen especifica en una galeria especifica por medio del usuario
+ * @param comando
+ * @return matrix
+ * */
 
 vector<vector<string>> SQLController::funcionInsert(string comando)
 {
@@ -44,6 +52,18 @@ vector<vector<string>> SQLController::funcionInsert(string comando)
         }
         string imagen = subs.substr(0, space);
         cout << imagen << endl;
+
+        size_t point = imagen.find(".");
+        if (imagen.length()< point){
+            cout << "Syntax error" << endl;
+            ///database.sendJSON("CONSOLE","0");
+            verify.push_back("0");
+            matrix.push_back(verify);
+            return matrix;
+        }
+        string tabla = imagen.substr(0,point);
+        imagen = imagen.substr(point+1);
+
         subs = subs.substr(space+1);
         vector <string> order;
         if((subs.substr(0,1)).compare("(") == 0){
@@ -155,7 +175,7 @@ vector<vector<string>> SQLController::funcionInsert(string comando)
                 }
                 //cout << current << endl;
                 //cout << columns << endl;
-                addToTable(order[c],current, imagen);
+                addToTable(order[c],current, imagen, tabla);
                 c++;
             }
             //ui->LineaCMD->clear();
@@ -177,6 +197,12 @@ vector<vector<string>> SQLController::funcionInsert(string comando)
         return matrix;
     }
 }
+
+/**
+ * Metodo para mostrar metadata de una imagen especifica en una galeria especifica por medio del usuario
+ * @param comando
+ * @return matrix
+ * */
 
 vector<vector<string>> SQLController::funcionSelect(string comando)
 {
@@ -304,7 +330,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -360,9 +386,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] >= sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
                         int recorrer = 0;
@@ -386,9 +412,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] >= v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -418,7 +444,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -474,9 +500,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] <= sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
                         int recorrer = 0;
@@ -500,9 +526,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] <= v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -532,7 +558,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -588,9 +614,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] < sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
                         int recorrer = 0;
@@ -614,9 +640,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] < v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -646,7 +672,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -702,9 +728,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] > sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
                         int recorrer = 0;
@@ -728,9 +754,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] > v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -766,8 +792,8 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     subs = subs.substr(comand+8);
                     size_t notCmd = column.find(" NOT ");
-                    bool notcmd;
-                    if (column.length()< notcmd){
+                    bool notcmd = false;
+                    if (column.length()< notCmd){
                         notcmd = false;
                     }
                     else{
@@ -776,7 +802,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     }
                     cout << column << endl;
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -826,7 +852,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         }
 
 
-                        if(column.compare("YEAR") == 0) {
+                        if(column.compare("YEAR ") == 0 || column.compare("YEAR") == 0) {
 
                             stringstream toint1(value1);
                             int v1;
@@ -842,18 +868,19 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             if(v1 == v2){
                                 vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                                 vector<int> indices;
-                                for (int i = 1; i < dataToVerify.size(); i++) {
+                                for (int i = 0; i < dataToVerify.size(); i++) {
                                     if(notcmd == false) {
                                         if (v2 == dataToVerify[i] ) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                     else{
                                         if (v2 != dataToVerify[i] ) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                 }
+
                                 int recorrer = 0;
                                 while(recorrer<6) {
                                     int ind = 0;
@@ -872,15 +899,15 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             else if (v1 > v2) {
                                 vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                                 vector<int> indices;
-                                for (int i = 1; i < dataToVerify.size(); i++) {
+                                for (int i = 0; i < dataToVerify.size(); i++) {
                                     if(notcmd == false) {
                                         if (v2 <= dataToVerify[i] <= v1) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                     else{
                                         if (v2 > dataToVerify[i] > v1) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                 }
@@ -901,18 +928,22 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             } else {
                                 vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                                 vector<int> indices;
-                                for (int i = 1; i < dataToVerify.size(); i++) {
-                                    if(notcmd == false) {
-                                        if (v1 <= dataToVerify[i] <= v2) {
-                                            indices.push_back(i);
+                                for (int i = 0; i < dataToVerify.size(); i++) {
+                                    cout << "verificando " << dataToVerify[i] << endl;
+                                    cout << "NOT :" << notcmd << endl;
+                                    if(notcmd == 0) {
+                                        if ((v1 <= dataToVerify[i]) && (dataToVerify[i]  <= v2)) {
+                                            indices.push_back(i+1);
                                         }
                                     }
                                     else{
-                                        if (v1 > dataToVerify[i] > v2) {
-                                            indices.push_back(i);
+                                        if (v1 >  dataToVerify[i] > v2) {
+                                            indices.push_back(i+1);
                                         }
                                     }
                                 }
+                                cout << "Indices size:" << indices.size() << endl;
+
                                 int recorrer = 0;
                                 while(recorrer<6) {
                                     int ind = 0;
@@ -977,15 +1008,15 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             if(v1 == v2){
                                 vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                                 vector<int> indices;
-                                for (int i = 1; i < dataToVerify.size(); i++) {
+                                for (int i = 0; i < dataToVerify.size(); i++) {
                                     if(notcmd == false) {
                                         if (v2 == dataToVerify[i] ) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                     else{
                                         if (v2 != dataToVerify[i] ) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                 }
@@ -1007,15 +1038,15 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             else if (v1 > v2) {
                                 vector<int> dataToVerify = dataBase->getColumnSize(tabla);
                                 vector<int> indices;
-                                for (int i = 1; i < dataToVerify.size(); i++) {
+                                for (int i = 0; i < dataToVerify.size(); i++) {
                                     if(notcmd == false) {
                                         if (v2 <= dataToVerify[i] <= v1) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                     else{
                                         if (v2 > dataToVerify[i] > v1) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                 }
@@ -1036,15 +1067,15 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             } else {
                                 vector<int> dataToVerify = dataBase->getColumnSize(tabla);
                                 vector<int> indices;
-                                for (int i = 1; i < dataToVerify.size(); i++) {
+                                for (int i = 0; i < dataToVerify.size(); i++) {
                                     if(notcmd == false) {
                                         if (v1 <= dataToVerify[i] <= v2) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                     else{
                                         if (v1 > dataToVerify[i] > v2) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                 }
@@ -1240,7 +1271,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -1296,9 +1327,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] < sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
                         int recorrer = 0;
@@ -1322,9 +1353,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] < v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -1354,7 +1385,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -1410,9 +1441,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] > sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
                         int recorrer = 0;
@@ -1436,9 +1467,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] > v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -1468,7 +1499,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -1524,9 +1555,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] >= sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
                         int recorrer = 0;
@@ -1550,9 +1581,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] >= v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -1582,7 +1613,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -1638,9 +1669,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] <= sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
                         int recorrer = 0;
@@ -1664,9 +1695,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] <= v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -1767,6 +1798,8 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     if (pattern[pattern.length()-1] == '"'){
                         pattern = pattern.substr(0, pattern.length()-1);
                     }
+
+                    cout << column << endl;
                     size_t operador = pattern.find("%");
                     if (pattern.length() < operador){
                         cout << "Syntax error" << endl;
@@ -1779,7 +1812,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             pattern = pattern.substr(1);
                             size_t spattern = pattern.find("%");
                             if (pattern.length() > spattern){
-                                pattern = pattern.substr(0,spattern-1);
+                                pattern = pattern.substr(0,spattern);
                                 cout << "Patron en cualquier pos: " + pattern << endl;
 
                                 vector <string> dataToVerify = dataBase->getColumn(tabla,column);
@@ -1842,7 +1875,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             }
                             size_t spattern = pattern.find("%");
                             if (pattern.length() > spattern){
-                                pattern = pattern.substr(0,spattern-1);
+                                pattern = pattern.substr(0,spattern);
                                 cout << "Patron : " + pattern + " luego de " ;
                                 cout << spaces;
                                 cout << " espacios" << endl;
@@ -1880,7 +1913,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         }
                         else{
                             if(pattern[pattern.length()-1] == '%'){
-                                pattern = pattern.substr(0,pattern.length()-1);
+                                pattern = pattern.substr(0,pattern.length());
                                 size_t spattern = pattern.find("_");
                                 if(pattern.length() > spattern){
                                     pattern = pattern.substr(0,spattern-1);
@@ -1945,7 +1978,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             }
                             size_t spattern = pattern.find("%");
                             if(pattern.length() > spattern){
-                                string inicio = pattern.substr(0,spattern-1);
+                                string inicio = pattern.substr(0,spattern);
                                 string fin = pattern.substr(spattern);
                                 cout << "Palabra que inicia con : " + inicio + " y termina con " + fin << endl;
 
@@ -1998,9 +2031,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
     else if(subs.find("FROM ") < subs.length()){ ///CAMBIAR EL GETROW PARA OBTENER SOLO COLUMNAS DESEADAS
 
 
-
         size_t From = subs.find("FROM ");
-        if (3 < From){
+
+        if (50 < From){
             cout << "Syntax error" << endl;
             verify.push_back("0");
             matrix.push_back(verify);
@@ -2009,7 +2042,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
         string columnas = subs.substr(0,From);
         vector <string> columns;
 
-        while (columnas.compare("") != 0 || columnas.compare(" ") != 0 ){
+        while (columnas.compare("") != 0 && columnas.compare(" ") != 0 ){
             size_t coma = columnas.find(",");
             string current;
             if (columnas.length()< coma){
@@ -2183,7 +2216,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -2239,9 +2272,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] >= sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
 
@@ -2276,9 +2309,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] >= v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -2318,7 +2351,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -2374,9 +2407,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] <= sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
                         int recorrer = 0;
@@ -2410,9 +2443,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] <= v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -2452,7 +2485,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -2508,9 +2541,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] < sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
                         int recorrer = 0;
@@ -2544,9 +2577,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] < v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -2586,7 +2619,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -2642,9 +2675,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] > sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
                         int recorrer = 0;
@@ -2678,9 +2711,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] > v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -2736,7 +2769,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     }
                     cout << column << endl;
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -2786,7 +2819,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         }
 
 
-                        if(column.compare("YEAR") == 0) {
+                        if(column.compare("YEAR ") == 0 || column.compare("YEAR") == 0) {
 
                             stringstream toint1(value1);
                             int v1;
@@ -2802,15 +2835,15 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             if(v1 == v2){
                                 vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                                 vector<int> indices;
-                                for (int i = 1; i < dataToVerify.size(); i++) {
+                                for (int i = 0; i < dataToVerify.size(); i++) {
                                     if(notcmd == false) {
                                         if (v2 == dataToVerify[i] ) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                     else{
                                         if (v2 != dataToVerify[i] ) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                 }
@@ -2842,15 +2875,15 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             else if (v1 > v2) {
                                 vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                                 vector<int> indices;
-                                for (int i = 1; i < dataToVerify.size(); i++) {
+                                for (int i = 0; i < dataToVerify.size(); i++) {
                                     if(notcmd == false) {
                                         if (v2 <= dataToVerify[i] <= v1) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                     else{
                                         if (v2 > dataToVerify[i] > v1) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                 }
@@ -2881,15 +2914,15 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             } else {
                                 vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                                 vector<int> indices;
-                                for (int i = 1; i < dataToVerify.size(); i++) {
+                                for (int i = 0; i < dataToVerify.size(); i++) {
                                     if(notcmd == false) {
                                         if (v1 <= dataToVerify[i] <= v2) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                     else{
                                         if (v1 > dataToVerify[i] > v2) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                 }
@@ -2967,15 +3000,15 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             if(v1 == v2){
                                 vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                                 vector<int> indices;
-                                for (int i = 1; i < dataToVerify.size(); i++) {
+                                for (int i = 0; i < dataToVerify.size(); i++) {
                                     if(notcmd == false) {
                                         if (v2 == dataToVerify[i] ) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                     else{
                                         if (v2 != dataToVerify[i] ) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                 }
@@ -3007,15 +3040,15 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             else if (v1 > v2) {
                                 vector<int> dataToVerify = dataBase->getColumnSize(tabla);
                                 vector<int> indices;
-                                for (int i = 1; i < dataToVerify.size(); i++) {
+                                for (int i = 0; i < dataToVerify.size(); i++) {
                                     if(notcmd == false) {
                                         if (v2 <= dataToVerify[i] <= v1) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                     else{
                                         if (v2 > dataToVerify[i] > v1) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                 }
@@ -3046,15 +3079,15 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                             } else {
                                 vector<int> dataToVerify = dataBase->getColumnSize(tabla);
                                 vector<int> indices;
-                                for (int i = 1; i < dataToVerify.size(); i++) {
+                                for (int i = 0; i < dataToVerify.size(); i++) {
                                     if(notcmd == false) {
                                         if (v1 <= dataToVerify[i] <= v2) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                     else{
                                         if (v1 > dataToVerify[i] > v2) {
-                                            indices.push_back(i);
+                                            indices.push_back(i+1);
                                         }
                                     }
                                 }
@@ -3280,7 +3313,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -3336,9 +3369,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] < sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
                         int recorrer = 0;
@@ -3372,9 +3405,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] < v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -3414,7 +3447,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -3470,9 +3503,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] > sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
                         int recorrer = 0;
@@ -3506,9 +3539,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] > v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -3548,7 +3581,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -3604,9 +3637,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] >= sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
                         int recorrer = 0;
@@ -3640,9 +3673,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] >= v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -3682,7 +3715,7 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 
                     cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-                    if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+                    if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                         verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                         matrix.push_back(verify);
                         return matrix;
@@ -3738,9 +3771,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                         int sizeM = v1*v2; /// VALOR A COMPARAR
                         vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector <int> indices;
-                        for(int i=1; i< dataToVerify.size(); i++){
+                        for(int i=0; i< dataToVerify.size(); i++){
                             if(dataToVerify[i] <= sizeM){
-                                indices.push_back(i);
+                                indices.push_back(i+1);
                             }
                         }
                         int recorrer = 0;
@@ -3774,9 +3807,9 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
                     toint1 >> v1;
                     vector <int> dataToVerify = dataBase->getColumnYear(tabla);
                     vector <int> indices;
-                    for(int i=1; i< dataToVerify.size(); i++){
+                    for(int i=0; i< dataToVerify.size(); i++){
                         if(dataToVerify[i] <= v1){
-                            indices.push_back(i);
+                            indices.push_back(i+1);
                         }
                     }
                     int recorrer = 0;
@@ -4206,7 +4239,11 @@ vector<vector<string>> SQLController::funcionSelect(string comando)
 }
 
 
-
+/**
+ * Metodo para borrar metadata de una imagen especifica en una galeria especifica por medio del usuario
+ * @param comando
+ * @return matrix
+ * */
 vector<vector<string>> SQLController::funcionDelete(string comando)
 {
     string subs = comando;
@@ -4308,7 +4345,7 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -4364,9 +4401,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] >= sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++){
@@ -4383,9 +4420,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] >= v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++){
@@ -4408,7 +4445,7 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -4464,9 +4501,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] <= sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++){
@@ -4483,9 +4520,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] <= v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++){
@@ -4508,7 +4545,7 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -4564,9 +4601,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] < sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++){
@@ -4583,9 +4620,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] < v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++){
@@ -4608,7 +4645,7 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -4664,9 +4701,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] > sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++){
@@ -4683,9 +4720,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] > v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++){
@@ -4724,7 +4761,7 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
             }
             cout << column << endl;
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -4790,15 +4827,15 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
                     if(v1 == v2){
                         vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                         vector<int> indices;
-                        for (int i = 1; i < dataToVerify.size(); i++) {
+                        for (int i = 0; i < dataToVerify.size(); i++) {
                             if(notcmd == false) {
                                 if (v2 == dataToVerify[i] ) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                             else{
                                 if (v2 != dataToVerify[i] ) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                         }
@@ -4813,15 +4850,15 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
                     else if (v1 > v2) {
                         vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                         vector<int> indices;
-                        for (int i = 1; i < dataToVerify.size(); i++) {
+                        for (int i = 0; i < dataToVerify.size(); i++) {
                             if(notcmd == false) {
                                 if (v2 <= dataToVerify[i] <= v1) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                             else{
                                 if (v2 > dataToVerify[i] > v1) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                         }
@@ -4835,15 +4872,15 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
                     } else {
                         vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                         vector<int> indices;
-                        for (int i = 1; i < dataToVerify.size(); i++) {
+                        for (int i = 0; i < dataToVerify.size(); i++) {
                             if(notcmd == false) {
                                 if (v1 <= dataToVerify[i] <= v2) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                             else{
                                 if (v1 > dataToVerify[i] > v2) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                         }
@@ -4904,15 +4941,15 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
                     if(v1 == v2){
                         vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                         vector<int> indices;
-                        for (int i = 1; i < dataToVerify.size(); i++) {
+                        for (int i = 0; i < dataToVerify.size(); i++) {
                             if(notcmd == false) {
                                 if (v2 == dataToVerify[i] ) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                             else{
                                 if (v2 != dataToVerify[i] ) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                         }
@@ -4927,15 +4964,15 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
                     else if (v1 > v2) {
                         vector<int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector<int> indices;
-                        for (int i = 1; i < dataToVerify.size(); i++) {
+                        for (int i = 0; i < dataToVerify.size(); i++) {
                             if(notcmd == false) {
                                 if (v2 <= dataToVerify[i] <= v1) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                             else{
                                 if (v2 > dataToVerify[i] > v1) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                         }
@@ -4949,15 +4986,15 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
                     } else {
                         vector<int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector<int> indices;
-                        for (int i = 1; i < dataToVerify.size(); i++) {
+                        for (int i = 0; i < dataToVerify.size(); i++) {
                             if(notcmd == false) {
                                 if (v1 <= dataToVerify[i] <= v2) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                             else{
                                 if (v1 > dataToVerify[i] > v2) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                         }
@@ -5132,7 +5169,7 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -5188,9 +5225,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] < sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++){
@@ -5207,9 +5244,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] < v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++){
@@ -5232,7 +5269,7 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -5288,9 +5325,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] > sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++){
@@ -5307,9 +5344,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] > v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++){
@@ -5332,7 +5369,7 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -5388,9 +5425,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] >= sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++){
@@ -5407,9 +5444,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] >= v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++){
@@ -5432,7 +5469,7 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -5488,9 +5525,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] <= sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++){
@@ -5507,9 +5544,9 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] <= v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++){
@@ -5773,6 +5810,11 @@ vector<vector<string>> SQLController::funcionDelete(string comando)
 
 }
 
+/**
+ * Metodo para actualizar metadata de una imagen especifica en una galeria especifica por medio del usuario
+ * @param comando
+ * @return matrix
+ * */
 vector<vector<string>> SQLController::funcionUpdate(string comando)
 {
     vector<vector<string>> matrix;
@@ -5965,7 +6007,7 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -6021,9 +6063,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] >= sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++) {
@@ -6043,9 +6085,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] >= v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++) {
@@ -6071,7 +6113,7 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -6127,9 +6169,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] <= sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++) {
@@ -6149,9 +6191,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] <= v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++) {
@@ -6177,7 +6219,7 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -6233,9 +6275,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] < sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++) {
@@ -6255,9 +6297,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] < v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++) {
@@ -6283,7 +6325,7 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -6339,9 +6381,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] > sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++) {
@@ -6361,9 +6403,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] > v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++) {
@@ -6405,7 +6447,7 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
             }
             cout << column << endl;
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -6471,15 +6513,15 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
                     if(v1 == v2){
                         vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                         vector<int> indices;
-                        for (int i = 1; i < dataToVerify.size(); i++) {
+                        for (int i = 0; i < dataToVerify.size(); i++) {
                             if(notcmd == false) {
                                 if (v2 == dataToVerify[i] ) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                             else{
                                 if (v2 != dataToVerify[i] ) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                         }
@@ -6497,15 +6539,15 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
                     else if (v1 > v2) {
                         vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                         vector<int> indices;
-                        for (int i = 1; i < dataToVerify.size(); i++) {
+                        for (int i = 0; i < dataToVerify.size(); i++) {
                             if(notcmd == false) {
                                 if (v2 <= dataToVerify[i] <= v1) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                             else{
                                 if (v2 > dataToVerify[i] > v1) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                         }
@@ -6522,15 +6564,15 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
                     } else {
                         vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                         vector<int> indices;
-                        for (int i = 1; i < dataToVerify.size(); i++) {
+                        for (int i = 0; i < dataToVerify.size(); i++) {
                             if(notcmd == false) {
                                 if (v1 <= dataToVerify[i] <= v2) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                             else{
                                 if (v1 > dataToVerify[i] > v2) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                         }
@@ -6594,15 +6636,15 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
                     if(v1 == v2){
                         vector<int> dataToVerify = dataBase->getColumnYear(tabla);
                         vector<int> indices;
-                        for (int i = 1; i < dataToVerify.size(); i++) {
+                        for (int i = 0; i < dataToVerify.size(); i++) {
                             if(notcmd == false) {
                                 if (v2 == dataToVerify[i] ) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                             else{
                                 if (v2 != dataToVerify[i] ) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                         }
@@ -6620,15 +6662,15 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
                     else if (v1 > v2) {
                         vector<int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector<int> indices;
-                        for (int i = 1; i < dataToVerify.size(); i++) {
+                        for (int i = 0; i < dataToVerify.size(); i++) {
                             if(notcmd == false) {
                                 if (v2 <= dataToVerify[i] <= v1) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                             else{
                                 if (v2 > dataToVerify[i] > v1) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                         }
@@ -6645,15 +6687,15 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
                     } else {
                         vector<int> dataToVerify = dataBase->getColumnSize(tabla);
                         vector<int> indices;
-                        for (int i = 1; i < dataToVerify.size(); i++) {
+                        for (int i = 0; i < dataToVerify.size(); i++) {
                             if(notcmd == false) {
                                 if (v1 <= dataToVerify[i] <= v2) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                             else{
                                 if (v1 > dataToVerify[i] > v2) {
-                                    indices.push_back(i);
+                                    indices.push_back(i+1);
                                 }
                             }
                         }
@@ -6837,7 +6879,7 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -6893,9 +6935,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] < sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++) {
@@ -6915,9 +6957,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] < v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++) {
@@ -6943,7 +6985,7 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -6999,9 +7041,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] > sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++) {
@@ -7021,9 +7063,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] > v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++) {
@@ -7049,7 +7091,7 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -7105,9 +7147,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] >= sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++) {
@@ -7127,9 +7169,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] >= v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++) {
@@ -7155,7 +7197,7 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
 
             cout << column << endl; ///SE OBTIENE LA COLUMNA A EVALUAR
 
-            if (column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
+            if (column.compare("YEAR ") != 0 && column.compare("SIZE ") != 0 && column.compare("YEAR") != 0 && column.compare("SIZE") != 0){ ///SE VERIFICA QUE SEA YEAR O SIZE LA COLUMNA
                 verify.push_back("-10"); /// -10 para indicar que no se puede aplicar el operador o no existe la columna
                 matrix.push_back(verify);
                 return matrix;
@@ -7211,9 +7253,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
                 int sizeM = v1*v2; /// VALOR A COMPARAR
                 vector <int> dataToVerify = dataBase->getColumnSize(tabla);
                 vector <int> indices;
-                for(int i=1; i< dataToVerify.size(); i++){
+                for(int i=0; i< dataToVerify.size(); i++){
                     if(dataToVerify[i] <= sizeM){
-                        indices.push_back(i);
+                        indices.push_back(i+1);
                     }
                 }
                 for(int i=0; i< indices.size(); i++) {
@@ -7233,9 +7275,9 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
             toint1 >> v1;
             vector <int> dataToVerify = dataBase->getColumnYear(tabla);
             vector <int> indices;
-            for(int i=1; i< dataToVerify.size(); i++){
+            for(int i=0; i< dataToVerify.size(); i++){
                 if(dataToVerify[i] <= v1){
-                    indices.push_back(i);
+                    indices.push_back(i+1);
                 }
             }
             for(int i=0; i< indices.size(); i++) {
@@ -7526,7 +7568,11 @@ vector<vector<string>> SQLController::funcionUpdate(string comando)
 
 }
 
-
+/**
+ * Devuelve una clave para guardar la columna enviada por el usuario
+ * @param evaluar
+ * @return string
+ * */
 string SQLController::columnaGET(string evaluar)
 {
     if(evaluar.compare("YEAR") == 0){
@@ -7554,36 +7600,51 @@ string SQLController::columnaGET(string evaluar)
     }
 }
 
-void SQLController::addToTable(string columna, string value, string imagen)
+/**
+ * Metodo para agregar metadata a una galeria especifica , complementaria de funcionInsert
+ * @param columna
+ * @param value
+ * @param imagen
+ * @param tabla
+ * */
+void SQLController::addToTable(string columna, string value, string imagen, string tabla)
 {
     if(columna.compare("A") == 0){
         //this->fecha = value;
-        dataBase->modifyMetadata("", imagen, "YEAR", value);
+        dataBase->modifyMetadata(tabla, imagen, "YEAR", value);
     }
     else if(columna.compare("B") == 0){
         //this->nombre = value;
-        dataBase->modifyMetadata("", imagen, "NAME", value);
+        dataBase->modifyMetadata(tabla, imagen, "NAME", value);
     }
     else if(columna.compare("C") == 0){
         //this->autor = value;
-        dataBase->modifyMetadata("", imagen, "AUTHOR", value);
+        dataBase->modifyMetadata(tabla, imagen, "AUTHOR", value);
     }
     else if(columna.compare("D") == 0){
         //this->size = value;
-        dataBase->modifyMetadata("", imagen, "SIZE", value);
+        dataBase->modifyMetadata(tabla, imagen, "SIZE", value);
     }
     else if(columna.compare("E") == 0){
         //this->descripcion = value;
-        dataBase->modifyMetadata("", imagen, "DESCRIPTION", value);
+        dataBase->modifyMetadata(tabla, imagen, "DESCRIPTION", value);
     }
 }
 
-
+/**
+ * Metodo para identificar funciones basicas de SQL ejecutadas por el server
+ * @param comando
+ * @return matrix
+ * */
 vector<vector<string>> SQLController::makeFunction(string comando) {
 
     if(comando.length() < 7){
         cout << "Syntax error" << endl;
-
+        vector<vector<string>> matrix;
+        vector <string> verify;
+        verify.push_back("0");
+        matrix.push_back(verify);
+        return matrix;
         ///dataBase.sendJSON("CONSOLE","-1");
     }
     else {
@@ -7619,6 +7680,11 @@ vector<vector<string>> SQLController::makeFunction(string comando) {
 
 }
 
+/**
+ * Metodo para obtener el nombre de una columna por medio de un codigo int
+ * @param actual
+ * @return string
+ * */
 string SQLController::getCol(int actual) {
     if (actual == 0){
         return "FILENAME";

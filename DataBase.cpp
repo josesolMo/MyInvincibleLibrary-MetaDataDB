@@ -273,7 +273,7 @@ bool DataBase::addImage(string _galleryName, string _imgId) {
             json_object *jImageFilename = json_object_new_string(_imgId.c_str());
             json_object *jImageName = json_object_new_string("NULL");
             json_object *jImageAuthor= json_object_new_string("NULL");
-            json_object *jImageYear = json_object_new_int(0);
+            json_object *jImageYear = json_object_new_string("NULL");
             json_object *jImageSize = json_object_new_string("NULL");
             json_object *jImageDescription = json_object_new_string("NULL");
 
@@ -432,6 +432,13 @@ vector<vector<string>> DataBase::deleteMetadata(string _galleryName, string _img
 
     char readbuff[20000];
     char writebuff[20000];
+
+    if(_imgId[0] == '"'){
+        _imgId = _imgId.substr(1);
+    }
+    if (_imgId[_imgId.length()-1] == '"'){
+        _imgId = _imgId.substr(0, _imgId.length()-1);
+    }
 
     struct json_object *parsed_json;
     struct json_object *galleries;
@@ -623,7 +630,7 @@ vector<vector<string>> DataBase::modifyMetadata(string _galleryName, string _img
                         json_object *jImageAuthor = json_object_new_string(_data.c_str());
                         json_object_object_add(image, "AUTHOR", jImageAuthor);
                     }else if(_metadataId=="YEAR"){
-                        json_object *jImageYear = json_object_new_int(stoi(_data));
+                        json_object *jImageYear = json_object_new_string(_data.c_str());
                         json_object_object_add(image, "YEAR", jImageYear);
                     }else if(_metadataId=="SIZE"){
                         json_object *jImageSize = json_object_new_string(_data.c_str());
@@ -817,10 +824,12 @@ vector<string> DataBase::getColumn(string _galleryName, string _columnId) {
                 fila_return = json_object_get_string(image_return);
 
                 result.push_back(fila_return);
+
+                cout<<"Fila_return: "<<fila_return<<endl;
             }
 
             for(int x = 0; x<result.size();x++){
-                cout<<result[x]<<endl;
+                cout<<"result: "<<result[x]<<endl;
             }
 
             return result;

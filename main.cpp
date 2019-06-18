@@ -63,43 +63,43 @@ string sendNewImage(string _galleryName, string _newImage){
 
 string sendConsole(string _console, string _key) {
 
-    //vector<vector<string>> matrix = sqlController->makeFunction(_console);
+    vector<vector<string>> matrix = sqlController->makeFunction(_console);
 
-    vector<vector<string>> matrix;
-
-    vector<string> test1;
-
-    for(int i=0;i<3;i++){
-        test1.push_back("");
-    }
-    for(int i=0;i<6;i++){
-        matrix.push_back(test1);
-    }
-
-    matrix[0][0]="FILE_ID";
-    matrix[1][0]="NAME";
-    matrix[2][0]="AUTHOR";
-    matrix[3][0]="YEAR";
-    matrix[4][0]="SIZE";
-    matrix[5][0]="DESCRIPTION";
-
-    matrix[0][1]="jiabsffbjas";
-    matrix[0][2]="fjbjjssjkjk";
-
-    matrix[1][1]="fotogay1";
-    matrix[1][2]="foto_orgia";
-
-    matrix[2][1]="Ruben";
-    matrix[2][2]="Jose";
-
-    matrix[3][1]="2018";
-    matrix[3][2]="2019";
-
-    matrix[4][1]="1080x720";
-    matrix[4][2]="720x480";
-
-    matrix[5][1]="Una foto muy gay";
-    matrix[5][2]="Una foto de un fiesta loca";
+//    vector<vector<string>> matrix;
+//
+//    vector<string> test1;
+//
+//    for(int i=0;i<3;i++){
+//        test1.push_back("");
+//    }
+//    for(int i=0;i<6;i++){
+//        matrix.push_back(test1);
+//    }
+//
+//    matrix[0][0]="FILE_ID";
+//    matrix[1][0]="NAME";
+//    matrix[2][0]="AUTHOR";
+//    matrix[3][0]="YEAR";
+//    matrix[4][0]="SIZE";
+//    matrix[5][0]="DESCRIPTION";
+//
+//    matrix[0][1]="jiabsffbjas";
+//    matrix[0][2]="fjbjjssjkjk";
+//
+//    matrix[1][1]="fotogay1";
+//    matrix[1][2]="foto_orgia";
+//
+//    matrix[2][1]="Ruben";
+//    matrix[2][2]="Jose";
+//
+//    matrix[3][1]="2018";
+//    matrix[3][2]="2019";
+//
+//    matrix[4][1]="1080x720";
+//    matrix[4][2]="720x480";
+//
+//    matrix[5][1]="Una foto muy gay";
+//    matrix[5][2]="Una foto de un fiesta loca";
 
 
     json_object *jobj = json_object_new_object();
@@ -459,6 +459,10 @@ int main(){
 
     ///Corre el servidor
     runServer();
+
+    //sqlController->getDataBase()->deleteMetadata("Carros", "DCMI178");
+
+    //sqlController->getDataBase()->getColumn("Carros", "DESCRIPTION");
 
     //sqlController->getDataBase()->restoreFromBackup();
 

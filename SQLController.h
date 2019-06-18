@@ -39,7 +39,7 @@ public:
 
     string columnaGET(string evaluar);
 
-    void addToTable(string columna, string value, string imagen);
+    void addToTable(string columna, string value, string imagen, string tabla);
 
     vector<vector<string>> makeFunction(string comando);
 
